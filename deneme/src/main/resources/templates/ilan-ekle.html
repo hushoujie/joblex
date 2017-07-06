@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="utf-8"/>
+        <title>İlan Ekle</title>
+        <script>
+            function wow() {
+                let ch = document.getElementById("status-checkbox");
+                let tx = document.getElementById("status-text");
+                if (ch.checked === true) {
+                    tx.innerHTML = "Aktif";
+                } else {
+                    tx.innerHTML = "Pasif";
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <form id="ilan-ekle" action="#" th:action="@{/ilan-ekle}" th:object="${ilan}" method="post">
+            <table>
+                <tr>
+                    <td>Kod:</td>
+                    <td><input type="number" th:field="*{kod}" /></td>
+                </tr>
+                <tr>
+                    <td>Status:</td>
+                    <td><input id="status-checkbox" type="checkbox" onclick="wow()" th:field="*{status}"/><p id="status-text"></p></td>
+                <script>wow();</script>
+                </tr>
+                <tr>
+                    <td>Başlık:</td>
+                    <td><textarea name="baslik" form="ilanEkle" th:field="*{baslik}" ></textarea></td>
+                    <td th:if="${#fields.hasErrors('baslik')}" th:errors="*{baslik}">Başlık Hatası</td>
+                </tr>
+                <tr>
+                    <td>Tanım:</td>
+                    <td><textarea name="tanim" form="ilanEkle" th:field="*{tanim}"></textarea></td>
+                    <td th:if="${#fields.hasErrors('tanim')}" th:errors="*{tanim}">Tanım Hatası</td>
+                </tr>
+                <tr>
+                    <td>Özellikler:</td>
+                    <td><textarea name="ozellikler" form="ilanEkle" th:field="*{ozellikler}"></textarea></td>
+                    <td th:if="${#fields.hasErrors('ozellikler')}" th:errors="*{ozellikler}">Özellik Hatası</td>
+                </tr>
+                <tr>
+                    <td>Aktivasyon:</td>
+                    <td><input type="datetime-local" th:field="*{aktivasyon}" /></td>
+                    <td th:if="${#fields.hasErrors('aktivasyon')}" th:errors="*{aktivasyon}">Aktivasyon Hatası</td>
+                </tr>
+                <tr>
+                    <td>Kapanma:</td>
+                    <td><input type="datetime-local" th:field="*{kapanma}" /></td>
+                    <td th:if="${#fields.hasErrors('kapanma')}" th:errors="*{kapanma}">Kapanma Hatası</td>
+                </tr>
+                <tr>
+                    <td><button type="submit">Yayınla</button></td>
+                    <td><button type="reset">Sıfırla</button></td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>
