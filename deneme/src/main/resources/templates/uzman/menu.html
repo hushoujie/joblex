@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Uzman</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <a href="/">Ana Sayfa</a>
+        <br />
+        <a href="/uzman/">Uzman Ana Sayfası</a>
+        <br />
+        <a href="/uzman/ilan/ekle">İlan Ekle</a>
+        <br />
+        <a href="/uzman/ilanlar">İlanlar</a>
+        <br />
+        <form th:action="@{/cikis}" method="post">
+            <input type="submit" value="Çıkış" />
+        </form>
+        <br />
+    </body>
+</html>

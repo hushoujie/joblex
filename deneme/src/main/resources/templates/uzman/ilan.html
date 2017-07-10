@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>İlan</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <div th:include="uzman/menu"></div>
+        <table>
+            <tr>
+                <td>Kod</td>
+                <td th:text="${ilan.kod}"></td>
+            </tr>
+            <tr>
+                <td>Durum</td>
+                <td th:text="${ilan.durum}? 'Aktif' : 'Pasif'"></td>
+            </tr>
+            <tr>
+                <td>Başlık</td>
+                <td th:text="${ilan.baslik}"></td>
+            </tr>
+            <tr>
+                <td>Tanım</td>
+                <td th:text="${ilan.tanim}"></td>
+            </tr>
+            <tr>
+                <td>Özellikler</td>
+                <td th:text="${ilan.ozellikler}"></td>
+            </tr>
+            <tr>
+                <td>Aktivasyon</td>
+                <td th:text="${#dates.format(ilan.aktivasyon,'dd/MM/yyyy HH:mm')}"></td>
+            </tr>
+            <tr>
+                <td>Kapanma</td>
+                <td th:text="${#dates.format(ilan.kapanma,'dd/MM/yyyy HH:mm')}"></td>
+            </tr>
+            <tr>
+                <td>Düzenle</td>
+                <td><a th:href="${'/uzman/ilan/duzenle/' + ilan.kod}">Düzenle</a></td>
+            </tr>
+            <tr>
+                <td>Sil</td>
+                <td><a th:href="${'/uzman/ilan/sil/' + ilan.kod}">Sil</a></td>
+            </tr>
+        </table>
+    </body>
+</html>
