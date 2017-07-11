@@ -22,7 +22,7 @@ public class Ilan implements Serializable {
 
     private boolean durum;
 
-    @Size(min=5, max=200, message="uzunluk 5 ile 200 arasında olmalı")
+    @Size(min=5, max=50, message="uzunluk 5 ile 50 arasında olmalı")
     private String baslik;
 
     @Size(min=5, max=200, message="uzunluk 5 ile 200 arasında olmalı")
