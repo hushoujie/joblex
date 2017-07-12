@@ -7,11 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Basvuru implements Serializable {
+public class Basvuru implements Serializable, Comparable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int kod;
+    private Integer kod;
 
     private String aday;
 
@@ -19,11 +19,16 @@ public class Basvuru implements Serializable {
 
     private int durum;
 
-    public int getKod() {
+    @Override
+    public int compareTo(Object o) {
+        return this.kod.compareTo(((Basvuru) o).getKod());
+    }
+
+    public Integer getKod() {
         return kod;
     }
 
-    public void setKod(int kod) {
+    public void setKod(Integer kod) {
         this.kod = kod;
     }
 
@@ -50,4 +55,5 @@ public class Basvuru implements Serializable {
     public void setDurum(int durum) {
         this.durum = durum;
     }
+
 }

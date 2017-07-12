@@ -44,7 +44,7 @@ public class IlanController {
         return "redirect:/uzman/ilan/" + ilan.getKod();
     }
 
-    @RequestMapping("/ilanlar")
+    @RequestMapping("/")
     public String tumIlanlar(Model model, Principal principal) {
         model.addAttribute("ilanlar", ilanService.tumIlanlar(principal.getName()));
         return "uzman/ilanlar";

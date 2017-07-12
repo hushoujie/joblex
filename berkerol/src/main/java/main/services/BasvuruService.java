@@ -27,7 +27,7 @@ public class BasvuruService {
         return basvuruRepository.findAllByIlan(ilan);
     }
 
-    public Basvuru basvuruBul(int id) {
+    public Basvuru basvuruBul(Integer id) {
         return basvuruRepository.findOne(id);
     }
 
@@ -35,7 +35,8 @@ public class BasvuruService {
         return basvuruRepository.save(basvuru);
     }
 
-    public void basvuruSil(int id) {
+    public void basvuruSil(Integer id) {
         basvuruRepository.delete(id);
     }
+
 }

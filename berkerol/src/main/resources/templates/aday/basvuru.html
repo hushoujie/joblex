@@ -9,6 +9,10 @@
         <div th:include="aday/menu"></div>
         <table>
             <tr>
+                <td>Başvuru Durumu</td>
+                <td th:text="${basvuru.durum == 0}? 'Beklemede' : (${basvuru.durum == 1}? 'İşleme Alındı' : (${basvuru.durum == 2}? 'Kabul Edildi' : 'Reddedildi'))"></td>
+            </tr>
+            <tr>
                 <td>Kod</td>
                 <td th:text="${ilan.kod}"></td>
             </tr>
@@ -41,15 +45,5 @@
                 <td th:text="${#dates.format(ilan.kapanma,'dd/MM/yyyy HH:mm')}"></td>
             </tr>
         </table>
-        <div th:if="${uyari}">Daha önceden başvurdunuz.</div>
-        <div th:if="${bilgi}">Başvurunuz iletildi.</div>
-        <div th:if="${baglan}">İlanlara başvurabilmek için ilk önce LinkedIn ile giriş yapmanız gerekiyor.
-            <form th:action="@{/connect/linkedin}" method="post">
-                <input type="submit" value="Bağlan" />
-            </form>
-        </div>
-        <form th:if="${basvur}" th:action="@{'/basvur/' + ${ilan.kod}}" method="post">
-            <input type="submit" value="Başvur" />
-        </form>
     </body>
 </html>

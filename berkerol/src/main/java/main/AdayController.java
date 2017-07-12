@@ -1,9 +1,11 @@
 package main;
 
 import java.util.Date;
+import java.util.TreeMap;
 import javax.inject.Inject;
 import main.domains.Aday;
 import main.domains.Basvuru;
+import main.domains.Ilan;
 import main.domains.Pozisyon;
 import main.services.AdayService;
 import main.services.BasvuruService;
@@ -13,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.linkedin.api.LinkedIn;
 import org.springframework.social.linkedin.api.LinkedInDate;
-import org.springframework.social.linkedin.api.LinkedInProfile;
 import org.springframework.social.linkedin.api.LinkedInProfileFull;
 import org.springframework.social.linkedin.api.Position;
 import org.springframework.stereotype.Controller;
@@ -94,7 +95,7 @@ public class AdayController {
         return "aday/ilan";
     }
 
-    @RequestMapping("/aday/basvur/{kod}")
+    @RequestMapping("/basvur/{kod}")
     public String basvur(@PathVariable int kod, Model model) {
         Basvuru basvuru = new Basvuru();
         basvuru.setAday(linkedIn.profileOperations().getProfileId());
@@ -105,24 +106,28 @@ public class AdayController {
     }
 
     @RequestMapping("/aday/")
-    public String anaSayfa(Model model) {
+    public String tumBasvurular(Model model) {
         if (connectionRepository.findPrimaryConnection(LinkedIn.class) == null) {
-            return "redirect:/connect/linkedin";
+            model.addAttribute("linkedin", false);
         }
-        LinkedInProfile profile = linkedIn.profileOperations().getUserProfile();
-        model.addAttribute("email", profile.getEmailAddress());
-        model.addAttribute("firstname", profile.getFirstName());
-        model.addAttribute("headline", profile.getHeadline());
-        model.addAttribute("id", profile.getId());
-        model.addAttribute("industry", profile.getIndustry());
-        model.addAttribute("lastname", profile.getLastName());
-        model.addAttribute("summary", profile.getSummary());
-        LinkedInProfileFull profileFull = linkedIn.profileOperations().getUserProfileFull();
-        model.addAttribute("location", profileFull.getLocation().getName());
-        model.addAttribute("country", profileFull.getLocation().getCountry());
-        model.addAttribute("positions", profileFull.getPositions());
-        linkedinKaydet(profileFull);
-        return "aday/linkedin";
+        else {
+            model.addAttribute("linkedin", true);
+            TreeMap<Basvuru, Ilan> basvurular = new TreeMap<>();
+            for (Basvuru basvuru : basvuruService.tumBasvurular(linkedIn.profileOperations().getProfileId())) {
+                basvurular.put(basvuru, ilanService.ilanBul(basvuru.getIlan()));
+            }
+            model.addAttribute("basvurular", basvurular);
+            linkedinKaydet(linkedIn.profileOperations().getUserProfileFull());
+        }
+        return "aday/basvurular";
+    }
+
+    @RequestMapping("/aday/basvuru/{kod}")
+    public String basvuruBul(@PathVariable Integer kod, Model model) {
+        Basvuru basvuru = basvuruService.basvuruBul(kod);
+        model.addAttribute("basvuru", basvuru);
+        model.addAttribute("ilan", ilanService.ilanBul(basvuru.getIlan()));
+        return "aday/basvuru";
     }
 
     private void linkedinKaydet(LinkedInProfileFull profileFull) {

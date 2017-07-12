@@ -18,7 +18,7 @@
                     <th>Özellikler</th>
                     <th>Aktivasyon</th>
                     <th>Kapanma</th>
-                    <th>Görüntüle</th>
+                    <th>Ayrıntılar</th>
                 </tr>
                 <tr th:each="ilan : ${ilanlar}">
                     <td th:text="${ilan.kod}"></td>
@@ -29,7 +29,7 @@
                     <td th:text="${ilan.ozellikler}"></td>
                     <td th:text="${#dates.format(ilan.aktivasyon,'dd/MM/yyyy HH:mm')}"></td>
                     <td th:text="${#dates.format(ilan.kapanma,'dd/MM/yyyy HH:mm')}"></td>
-                    <td><a th:href="${ '/ilan/' + ilan.kod}">Görüntüle</a></td>
+                    <td><a th:href="${'/ilan/' + ilan.kod}">Ayrıntılar</a></td>
                 </tr>
             </table>
         </div>

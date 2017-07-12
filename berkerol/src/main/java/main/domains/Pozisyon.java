@@ -82,4 +82,5 @@ public class Pozisyon implements Serializable {
     public void setCompany(String company) {
         this.company = company;
     }
+
 }
