@@ -4,7 +4,6 @@ import main.services.IlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -31,12 +30,6 @@ public class MainController {
     public String tumIlanlar(Model model) {
         model.addAttribute("ilanlar", ilanService.tumIlanlar());
         return "aday/ilanlar";
-    }
-
-    @RequestMapping("/ilan/{kod}")
-    public String ilanBul(@PathVariable int kod, Model model) {
-        model.addAttribute("ilan", ilanService.ilanBul(kod));
-        return "aday/ilan";
     }
 
 }

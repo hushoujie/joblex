@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>İlan</title>
+        <title th:text="${ilan.baslik}"></title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     </head>
@@ -41,5 +41,15 @@
                 <td th:text="${#dates.format(ilan.kapanma,'dd/MM/yyyy HH:mm')}"></td>
             </tr>
         </table>
+        <div th:if='${uyari}'>Daha önceden başvurdunuz.</div>
+        <div th:if='${bilgi}'>Başvurunuz iletildi.</div>
+        <div th:if='${baglan}'>İlanlara başvurabilmek için ilk önce LinkedIn ile giriş yapmanız gerekiyor.
+            <form th:action="@{/connect/linkedin}" method="post">
+                <input type="submit" value="Bağlan" />
+            </form>
+        </div>
+        <form th:if='${basvur}' th:action="@{'/aday/basvur/' + ${ilan.kod}}" method="post">
+            <input type="submit" value="Başvur" />
+        </form>
     </body>
 </html>
