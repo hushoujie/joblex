@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Başvurular</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <div th:include="uzman/menu"></div>
+        <div th:if="${#maps.isEmpty(basvurular)}">Bu ilana ait başvuru bulunmamaktadır.</div>
+        <table th:if="${not #maps.isEmpty(basvurular)}">
+            <tr>
+                <th>Başvuru Durumu</th>
+                <th>Ülke</th>
+                <th>Email</th>
+                <th>İsim</th>
+                <th>Headline</th>
+                <th>ID</th>
+                <th>Alan</th>
+                <th>Karaliste</th>
+                <th>Soyisim</th>
+                <th>Yer</th>
+                <th>Özet</th>
+                <th>Ayrıntılar</th>
+            </tr>
+            <tr th:each="basvuru : ${basvurular}">
+                <td th:text="${basvuru.key.durum == 0}? 'Beklemede' : (${basvuru.key.durum == 1}? 'İşleme Alındı' : (${basvuru.key.durum == 2}? 'Kabul Edildi' : 'Reddedildi'))"></td>
+                <td th:text="${basvuru.value.country}"></td>
+                <td th:text="${basvuru.value.email}"></td>
+                <td th:text="${basvuru.value.firstname}"></td>
+                <td th:text="${basvuru.value.headline}"></td>
+                <td th:text="${basvuru.value.id}"></td>
+                <td th:text="${basvuru.value.industry}"></td>
+                <td th:text="${basvuru.value.karaliste}? 'Aktif' : 'Pasif'"></td>
+                <td th:text="${basvuru.value.lastname}"></td>
+                <td th:text="${basvuru.value.location}"></td>
+                <td th:text="${basvuru.value.summary}"></td>
+                <td><a th:href="${'/uzman/basvuru/' + basvuru.key.kod}">Ayrıntılar</a></td>
+            </tr>
+        </table>
+    </body>
+</html>

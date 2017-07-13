@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title th:text="${aday.firstname + ' ' + aday.lastname}"></title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <div th:include="uzman/menu"></div>
+        <h2>Başvuru ve Aday Bilgileri</h2>
+        <table>
+            <tr>
+                <td>Başvuru Durumu</td>
+                <td th:text="${basvuru.durum == 0}? 'Beklemede' : (${basvuru.durum == 1}? 'İşleme Alındı' : (${basvuru.durum == 2}? 'Kabul Edildi' : 'Reddedildi'))"></td>
+            </tr>
+            <tr>
+                <td>Ülke</td>
+                <td th:text="${aday.country}"></td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td th:text="${aday.email}"></td>
+            </tr>
+            <tr>
+                <td>İsim</td>
+                <td th:text="${aday.firstname}"></td>
+            </tr>
+            <tr>
+                <td>Headline</td>
+                <td th:text="${aday.headline}"></td>
+            </tr>
+            <tr>
+                <td>ID</td>
+                <td th:text="${aday.id}"></td>
+            </tr>
+            <tr>
+                <td>Sektör</td>
+                <td th:text="${aday.industry}"></td>
+            </tr>
+            <tr>
+                <td>Karaliste</td>
+                <td th:text="${aday.karaliste}? 'Evet' : 'Hayır'"></td>
+            </tr>
+            <tr>
+                <td>Soyisim</td>
+                <td th:text="${aday.lastname}"></td>
+            </tr>
+            <tr>
+                <td>Yer</td>
+                <td th:text="${aday.location}"></td>
+            </tr>
+            <tr>
+                <td>Özet</td>
+                <td th:text="${aday.summary}"></td>
+            </tr>
+        </table>
+        <div th:if="${#lists.isEmpty(ilanlar)}">Adayın başvurduğu başka ilan bulunmamaktadır.</div>
+        <div th:if="${not #lists.isEmpty(ilanlar)}">
+            <h2>Adayın başvurduğu diğer ilanlar</h2>
+            <table>
+                <tr>
+                    <th>Kod</th>
+                    <th>Uzman</th>
+                    <th>Durum</th>
+                    <th>Başlık</th>
+                    <th>Tanım</th>
+                    <th>Özellikler</th>
+                    <th>Aktivasyon</th>
+                    <th>Kapanma</th>
+                    <th>Ayrıntılar</th>
+                </tr>
+                <tr th:each="ilan : ${ilanlar}">
+                    <td th:text="${ilan.kod}"></td>
+                    <td th:text="${ilan.uzman}"></td>
+                    <td th:text="${ilan.durum}? 'Aktif' : 'Pasif'"></td>
+                    <td th:text="${ilan.baslik}"></td>
+                    <td style="white-space: pre-wrap" th:text="${ilan.tanim}"></td>
+                    <td style="white-space: pre-wrap" th:text="${ilan.ozellikler}"></td>
+                    <td th:text="${#dates.format(ilan.aktivasyon,'dd/MM/yyyy HH:mm')}"></td>
+                    <td th:text="${#dates.format(ilan.kapanma,'dd/MM/yyyy HH:mm')}"></td>
+                    <td><a th:href="${'/ilan/' + ilan.kod}">Ayrıntılar</a></td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>

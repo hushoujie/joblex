@@ -18,7 +18,7 @@
     </head>
     <body>
         <div th:include="uzman/menu"></div>
-        <form id="ilan-ekle" th:object="${ilan}" th:action="@{/uzman/ilan/kaydet}" method="post">
+        <form id="ilan-kaydet" th:object="${ilan}" th:action="@{/uzman/ilan/kaydet}" method="post">
             <table>
                 <tr>
                     <td><label for="kod">Kod</label></td>
@@ -31,17 +31,17 @@
                 </tr>
                 <tr>
                     <td><label for="baslik">Başlık</label></td>
-                    <td><input type="text" id="baslik" th:field="*{baslik}" /></td>
+                    <td><input type="text" id="baslik" th:field="*{baslik}" size="50" /></td>
                     <td th:if="${#fields.hasErrors('baslik')}" th:errors="*{baslik}"></td>
                 </tr>
                 <tr>
                     <td><label for="tanim">Tanım</label></td>
-                    <td><input type="text" id="tanim" th:field="*{tanim}" /></td>
+                    <td><textarea id="tanim" form="ilan-kaydet" th:field="*{tanim}" rows="7" cols="70"></textarea></td>
                     <td th:if="${#fields.hasErrors('tanim')}" th:errors="*{tanim}"></td>
                 </tr>
                 <tr>
                     <td><label for="ozellikler">Özellikler</label></td>
-                    <td><input type="text" id="ozellikler" th:field="*{ozellikler}" /></td>
+                    <td><textarea id="ozellikler" form="ilan-kaydet" th:field="*{ozellikler}" rows="10" cols="70"></textarea></td>
                     <td th:if="${#fields.hasErrors('ozellikler')}" th:errors="*{ozellikler}"></td>
                 </tr>
                 <tr>

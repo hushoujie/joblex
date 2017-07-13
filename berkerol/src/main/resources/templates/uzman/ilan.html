@@ -37,6 +37,10 @@
                 <td th:text="${#dates.format(ilan.kapanma,'dd/MM/yyyy HH:mm')}"></td>
             </tr>
             <tr>
+                <td>Başvurular</td>
+                <td><a th:href="${'/uzman/basvurular/' + ilan.kod}">Başvurular</a></td>
+            </tr>
+            <tr>
                 <td>Düzenle</td>
                 <td><a th:href="${'/uzman/ilan/duzenle/' + ilan.kod}">Düzenle</a></td>
             </tr>

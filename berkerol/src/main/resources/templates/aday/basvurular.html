@@ -13,7 +13,7 @@
                 <input type="submit" value="Bağlan" />
             </form>
         </div>
-        <table th:if="${linkedin and not #lists.isEmpty(basvurular)}">
+        <table th:if="${linkedin and not #maps.isEmpty(basvurular)}">
             <tr>
                 <th>Başvuru Durumu</th>
                 <th>Kod</th>
