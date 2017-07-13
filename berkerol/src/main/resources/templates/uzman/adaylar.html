@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Adaylar</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <div th:include="uzman/menu"></div>
+        <table th:if="${not #maps.isEmpty(adaylar)}">
+            <tr>
+                <th>İsim</th>
+                <th>Soyisim</th>
+                <th>Pozisyon</th>
+                <th>Sektör</th>
+                <th>Yer</th>
+                <th>Ayrıntılar</th>
+            </tr>
+            <tr th:each="aday : ${adaylar}">
+                <td th:text="${aday.key.firstname}"></td>
+                <td th:text="${aday.key.lastname}"></td>
+                <td>
+                    <table th:each="pozisyon : ${aday.value}">
+                        <tr>
+                            <td th:text="${pozisyon.company + ' - ' + pozisyon.title}"></td>
+                        </tr>
+                    </table>
+                </td>
+                <td th:text="${aday.key.industry}"></td>
+                <td th:text="${aday.key.location}"></td>
+                <td><a th:href="${'/uzman/aday/' + aday.key.id}">Ayrıntılar</a></td>
+            </tr>
+        </table>
+    </body>
+</html>

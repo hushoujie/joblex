@@ -16,15 +16,20 @@ public class MainController {
         this.ilanService = ilanService;
     }
 
-    @RequestMapping("/giris")
-    public String giris() {
-        return "uzman/giris";
+    @RequestMapping("/")
+    public String anaSayfa(Model model) {
+        return "/aday/ana-sayfa";
     }
 
-    @RequestMapping("/")
+    @RequestMapping("/giris")
+    public String giris() {
+        return "/uzman/giris";
+    }
+
+    @RequestMapping("/ilanlar")
     public String tumIlanlar(Model model) {
         model.addAttribute("ilanlar", ilanService.tumIlanlar());
-        return "aday/ilanlar";
+        return "/aday/ilanlar";
     }
 
 }

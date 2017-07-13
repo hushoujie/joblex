@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class Aday implements Serializable {
+public class Aday implements Serializable, Comparable {
 
     private String country;
 
@@ -22,11 +22,18 @@ public class Aday implements Serializable {
 
     private boolean karaliste;
 
+    private String karalistesebebi;
+
     private String lastname;
 
     private String location;
 
     private String summary;
+
+    @Override
+    public int compareTo(Object o) {
+        return this.id.compareTo(((Aday) o).getId());
+    }
 
     public String getCountry() {
         return country;
@@ -82,6 +89,14 @@ public class Aday implements Serializable {
 
     public void setKaraliste(boolean karaliste) {
         this.karaliste = karaliste;
+    }
+
+    public String getKaralistesebebi() {
+        return karalistesebebi;
+    }
+
+    public void setKaralistesebebi(String karalistesebebi) {
+        this.karalistesebebi = karalistesebebi;
     }
 
     public String getLastname() {
