@@ -25,19 +25,19 @@ public class IlanController {
     @RequestMapping("/ilan/ekle")
     public String ilanEkle(Model model) {
         model.addAttribute("ilan", new Ilan());
-        return "ilan-ekle";
+        return "uzman/ilan-kaydet";
     }
 
     @RequestMapping("/ilan/duzenle/{kod}")
     public String ilanDuzenle(@PathVariable int kod, Model model) {
         model.addAttribute("ilan", ilanService.ilanBul(kod));
-        return "ilan-ekle";
+        return "uzman/ilan-kaydet";
     }
 
     @RequestMapping("/ilan/kaydet")
     public String ilanKaydet(@Valid Ilan ilan, BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) {
-            return "ilan-ekle";
+            return "uzman/ilan-kaydet";
         }
         ilan.setUzman(principal.getName());
         ilanService.ilanKaydet(ilan);
@@ -59,7 +59,7 @@ public class IlanController {
     @RequestMapping("/ilan/sil/{kod}")
     public String ilanSil(@PathVariable int kod) {
         ilanService.ilanSil(kod);
-        return "redirect:/uzman/ilanlar";
+        return "redirect:/uzman/";
     }
 
 }

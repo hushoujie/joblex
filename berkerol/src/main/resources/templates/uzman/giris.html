@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
     <head>
         <title>Uzman Giriş Sayfası</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     </head>
     <body>
+        <div th:include="uzman/menu"></div>
         <div th:if="${param.hata}">Kullanıcı adı veya şifre yanlış.</div>
         <div th:if="${param.cikis}">Başarıyla çıkış yaptınız.</div>
         <form th:action="@{/giris}" method="post" >
@@ -19,8 +20,8 @@
                     <td><input type="password" id="password" name="password" /></td>
                 </tr>
                 <tr>
-                    <td><input type="submit" name="submit" value="Giriş" /></td>
-                    <td><input type="reset" name="submit" value="Sıfırla" /></td>
+                    <td><input type="submit" value="Giriş" /></td>
+                    <td><input type="reset" value="Sıfırla" /></td>
                 </tr>
             </table>
         </form>

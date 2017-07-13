@@ -1,44 +1,43 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>İlanlar</title>
+        <title>Başvurular</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     </head>
     <body>
         <div th:include="aday/menu"></div>
-        <div th:if="${not linkedin}">Başvurularınızı görüntüleyebilmek için ilk önce LinkedIn ile giriş yapmanız gerekiyor.
+        <div th:if="${not linkedin}">
+            Başvurularınızı görüntüleyebilmek için ilk önce LinkedIn ile giriş yapmanız gerekiyor.
             <form th:action="@{/connect/linkedin}" method="post">
                 <input type="submit" value="Bağlan" />
             </form>
         </div>
-        <div th:if="${linkedin and not #lists.isEmpty(basvurular)}">
-            <table>
-                <tr>
-                    <th>Başvuru Durumu</th>
-                    <th>Kod</th>
-                    <th>Uzman</th>
-                    <th>Durum</th>
-                    <th>Başlık</th>
-                    <th>Tanım</th>
-                    <th>Özellikler</th>
-                    <th>Aktivasyon</th>
-                    <th>Kapanma</th>
-                    <th>Ayrıntılar</th>
-                </tr>
-                <tr th:each="basvuru : ${basvurular}">
-                    <td th:text="${basvuru.key.durum == 0}? 'Beklemede' : (${basvuru.key.durum == 1}? 'İşleme Alındı' : (${basvuru.key.durum == 2}? 'Kabul Edildi' : 'Reddedildi'))"></td>
-                    <td th:text="${basvuru.value.kod}"></td>
-                    <td th:text="${basvuru.value.uzman}"></td>
-                    <td th:text="${basvuru.value.durum}? 'Aktif' : 'Pasif'"></td>
-                    <td th:text="${basvuru.value.baslik}"></td>
-                    <td th:text="${basvuru.value.tanim}"></td>
-                    <td th:text="${basvuru.value.ozellikler}"></td>
-                    <td th:text="${#dates.format(basvuru.value.aktivasyon,'dd/MM/yyyy HH:mm')}"></td>
-                    <td th:text="${#dates.format(basvuru.value.kapanma,'dd/MM/yyyy HH:mm')}"></td>
-                    <td><a th:href="${'/aday/basvuru/' + basvuru.key.kod}">Ayrıntılar</a></td>
-                </tr>
-            </table>
-        </div>
+        <table th:if="${linkedin and not #lists.isEmpty(basvurular)}">
+            <tr>
+                <th>Başvuru Durumu</th>
+                <th>Kod</th>
+                <th>Uzman</th>
+                <th>Durum</th>
+                <th>Başlık</th>
+                <th>Tanım</th>
+                <th>Özellikler</th>
+                <th>Aktivasyon</th>
+                <th>Kapanma</th>
+                <th>Ayrıntılar</th>
+            </tr>
+            <tr th:each="basvuru : ${basvurular}">
+                <td th:text="${basvuru.key.durum == 0}? 'Beklemede' : (${basvuru.key.durum == 1}? 'İşleme Alındı' : (${basvuru.key.durum == 2}? 'Kabul Edildi' : 'Reddedildi'))"></td>
+                <td th:text="${basvuru.value.kod}"></td>
+                <td th:text="${basvuru.value.uzman}"></td>
+                <td th:text="${basvuru.value.durum}? 'Aktif' : 'Pasif'"></td>
+                <td th:text="${basvuru.value.baslik}"></td>
+                <td style="white-space: pre-wrap" th:text="${basvuru.value.tanim}"></td>
+                <td style="white-space: pre-wrap" th:text="${basvuru.value.ozellikler}"></td>
+                <td th:text="${#dates.format(basvuru.value.aktivasyon,'dd/MM/yyyy HH:mm')}"></td>
+                <td th:text="${#dates.format(basvuru.value.kapanma,'dd/MM/yyyy HH:mm')}"></td>
+                <td><a th:href="${'/aday/basvuru/' + basvuru.key.kod}">Ayrıntılar</a></td>
+            </tr>
+        </table>
     </body>
 </html>

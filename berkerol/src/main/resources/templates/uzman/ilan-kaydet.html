@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
     <head>
-        <title>İlanı Kaydet</title>
+        <title>İlan Kaydet</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <script>
@@ -26,7 +26,7 @@
                 </tr>
                 <tr>
                     <td><label for="durum">Durum</label></td>
-                    <td><input type="checkbox" id="durum" onclick="wow()" th:field="*{durum}" />&nbsp;<span id="durum-text"></span></td>
+                    <td><input type="checkbox" id="durum" th:field="*{durum}" onclick="wow()" />&nbsp;<span id="durum-text"></span></td>
                 <script>wow();</script>
                 </tr>
                 <tr>
@@ -55,8 +55,8 @@
                     <td th:if="${#fields.hasErrors('kapanma')}" th:errors="*{kapanma}"></td>
                 </tr>
                 <tr>
-                    <td><button type="submit">Kaydet</button></td>
-                    <td><button type="reset">Sıfırla</button></td>
+                    <td><input type="submit" value="Kaydet" /></td>
+                    <td><input type="reset" value="Sıfırla" /></td>
                 </tr>
             </table>
         </form>

@@ -14,7 +14,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests().antMatchers("/uzman/*").fullyAuthenticated().and()
+                .authorizeRequests().antMatchers("/uzman/**").fullyAuthenticated().and()
                 .authorizeRequests().anyRequest().permitAll().and()
                 .formLogin().loginPage("/giris").defaultSuccessUrl("/uzman/", true).failureUrl("/giris?hata").and()
                 .logout().logoutUrl("/cikis").logoutSuccessUrl("/giris?cikis");

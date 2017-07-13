@@ -18,7 +18,7 @@ public class MainController {
 
     @RequestMapping("/giris")
     public String giris() {
-        return "giris";
+        return "uzman/giris";
     }
 
     @RequestMapping("/")

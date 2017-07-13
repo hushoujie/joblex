@@ -7,31 +7,29 @@
     </head>
     <body>
         <div th:include="aday/menu"></div>
-        <div th:if="${not #lists.isEmpty(ilanlar)}">
-            <table>
-                <tr>
-                    <th>Kod</th>
-                    <th>Uzman</th>
-                    <th>Durum</th>
-                    <th>Başlık</th>
-                    <th>Tanım</th>
-                    <th>Özellikler</th>
-                    <th>Aktivasyon</th>
-                    <th>Kapanma</th>
-                    <th>Ayrıntılar</th>
-                </tr>
-                <tr th:each="ilan : ${ilanlar}">
-                    <td th:text="${ilan.kod}"></td>
-                    <td th:text="${ilan.uzman}"></td>
-                    <td th:text="${ilan.durum}? 'Aktif' : 'Pasif'"></td>
-                    <td th:text="${ilan.baslik}"></td>
-                    <td th:text="${ilan.tanim}"></td>
-                    <td th:text="${ilan.ozellikler}"></td>
-                    <td th:text="${#dates.format(ilan.aktivasyon,'dd/MM/yyyy HH:mm')}"></td>
-                    <td th:text="${#dates.format(ilan.kapanma,'dd/MM/yyyy HH:mm')}"></td>
-                    <td><a th:href="${'/ilan/' + ilan.kod}">Ayrıntılar</a></td>
-                </tr>
-            </table>
-        </div>
+        <table th:if="${not #lists.isEmpty(ilanlar)}">
+            <tr>
+                <th>Kod</th>
+                <th>Uzman</th>
+                <th>Durum</th>
+                <th>Başlık</th>
+                <th>Tanım</th>
+                <th>Özellikler</th>
+                <th>Aktivasyon</th>
+                <th>Kapanma</th>
+                <th>Ayrıntılar</th>
+            </tr>
+            <tr th:each="ilan : ${ilanlar}">
+                <td th:text="${ilan.kod}"></td>
+                <td th:text="${ilan.uzman}"></td>
+                <td th:text="${ilan.durum}? 'Aktif' : 'Pasif'"></td>
+                <td th:text="${ilan.baslik}"></td>
+                <td style="white-space: pre-wrap" th:text="${ilan.tanim}"></td>
+                <td style="white-space: pre-wrap" th:text="${ilan.ozellikler}"></td>
+                <td th:text="${#dates.format(ilan.aktivasyon,'dd/MM/yyyy HH:mm')}"></td>
+                <td th:text="${#dates.format(ilan.kapanma,'dd/MM/yyyy HH:mm')}"></td>
+                <td><a th:href="${'/ilan/' + ilan.kod}">Ayrıntılar</a></td>
+            </tr>
+        </table>
     </body>
 </html>
