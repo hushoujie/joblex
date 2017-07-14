@@ -13,6 +13,7 @@
                 <input type="submit" value="Bağlan" />
             </form>
         </div>
+        <div th:if="${linkedin and #lists.isEmpty(basvurular)}">Başvuru bulunmamaktadır.</div>
         <table th:if="${linkedin and not #lists.isEmpty(basvurular)}">
             <tr>
                 <th>Başvuru Durumu</th>

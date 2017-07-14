@@ -7,6 +7,7 @@
     </head>
     <body>
         <div th:include="aday/menu"></div>
+        <div th:if="${#lists.isEmpty(ilanlar)}">İlan bulunmamaktadır.</div>
         <table th:if="${not #lists.isEmpty(ilanlar)}">
             <tr>
                 <th>Kod</th>

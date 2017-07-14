@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/uzman")
@@ -74,6 +75,25 @@ public class UzmanController {
         Aday aday = basvuru.getAday();
         Email.send(aday.getEmail(), aday.getFirstname() + ' ' + aday.getLastname(), basvuru.getIlan().getBaslik(), basvuru.getDurum());
         return "redirect:/uzman/basvuru/" + basvuru.getKod();
+    }
+
+    @RequestMapping("/karaliste/ekle/{adayID}")
+    public String karaListeyeEkle(@PathVariable String adayID, @RequestParam String sebep, Model model) {
+        Aday aday = adayService.adayBul(adayID);
+        aday.setKaraliste(true);
+        aday.setKaralistesebebi(sebep);
+        adayService.adayKaydet(aday);
+        basvuruService.basvurulariSil(aday);
+        return "redirect:/uzman/aday/" + adayID;
+    }
+
+    @RequestMapping("/karaliste/cikar/{adayID}")
+    public String karaListedenCikar(@PathVariable String adayID, Model model) {
+        Aday aday = adayService.adayBul(adayID);
+        aday.setKaraliste(false);
+        aday.setKaralistesebebi(null);
+        adayService.adayKaydet(aday);
+        return "redirect:/uzman/aday/" + adayID;
     }
 
     @RequestMapping("/ilan/sil/{ilanKodu}")
@@ -144,9 +164,9 @@ public class UzmanController {
         return "/uzman/adaylar";
     }
 
-    @RequestMapping("/aday/{adayKodu}")
-    public String adayBul(@PathVariable String adayKodu, Model model) {
-        model.addAttribute("aday", adayService.adayBul(adayKodu));
+    @RequestMapping("/aday/{adayID}")
+    public String adayBul(@PathVariable String adayID, Model model) {
+        model.addAttribute("aday", adayService.adayBul(adayID));
         return "/uzman/aday";
     }
 

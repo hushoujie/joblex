@@ -51,17 +51,32 @@
                 <td th:text="${aday.summary}"></td>
             </tr>
             <tr>
-                <td>Karaliste</td>
+                <td>Kara Liste</td>
                 <td th:text="${aday.karaliste}? 'Evet' : 'Hayır'"></td>
             </tr>
             <tr th:if="${aday.karaliste}">
-                <td>Karaliste Sebebi</td>
+                <td>Kara Liste Sebebi</td>
                 <td th:text="${aday.karalistesebebi}"></td>
             </tr>
-            <tr th:object="${aday.basvurular}">
+            <tr>
+                <td>Kara Liste İşlemleri</td>
+                <td th:if="${not aday.karaliste}">
+                    <form id="kl" th:action="@{'/uzman/karaliste/ekle/' + ${aday.id}}" method="post">
+                        <textarea form="kl" name="sebep" rows="3" cols="30"></textarea>
+                        <br />
+                        <input type="submit" value="Kara Listeye Al" />
+                    </form>
+                </td>
+                <td th:if="${aday.karaliste}">
+                    <form th:action="@{'/uzman/karaliste/cikar/' + ${aday.id}}" method="post">
+                        <input type="submit" value="Kara Listeden Çıkar" />
+                    </form>
+                </td>
+            </tr>
+            <tr th:object="${#lists.size(aday.basvurular)}">
                 <td>Başvurduğu tüm ilanlar</td>
-                <td th:if="${#object != null}"><a th:text="${#lists.size(#object) + ' adet ilan'}" th:href="${'/uzman/ilanlar/' + aday.id}"></a></td>
-                <td th:if="${#object == null}">İlan bulunmamaktadır.</td>
+                <td th:if="${#object != 0}"><a th:text="${#object + ' adet ilan'}" th:href="${'/uzman/ilanlar/' + aday.id}"></a></td>
+                <td th:if="${#object == 0}">İlan bulunmamaktadır.</td>
             </tr>
         </table>
     </body>

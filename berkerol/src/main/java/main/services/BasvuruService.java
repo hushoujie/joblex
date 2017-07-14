@@ -1,5 +1,6 @@
 package main.services;
 
+import main.entities.Aday;
 import main.entities.Basvuru;
 import main.repositories.BasvuruRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,10 @@ public class BasvuruService {
 
     public void basvuruSil(Integer id) {
         basvuruRepository.delete(id);
+    }
+
+    public void basvurulariSil(Aday aday) {
+        basvuruRepository.delete(basvuruRepository.findAllByAday(aday));
     }
 
 }
