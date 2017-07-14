@@ -67,6 +67,12 @@ public class UzmanController {
         return "redirect:/uzman/ilan/" + ilan.getKod();
     }
 
+    @RequestMapping("/basvuru/kaydet")
+    public String basvuruKaydet(Basvuru basvuru) {
+        basvuruService.basvuruKaydet(basvuru);
+        return "redirect:/uzman/basvuru/" + basvuru.getKod();
+    }
+
     @RequestMapping("/ilan/sil/{ilanKodu}")
     public String ilanSil(@PathVariable int ilanKodu) {
         ilanService.ilanSil(ilanKodu);

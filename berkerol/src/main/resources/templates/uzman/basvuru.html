@@ -10,7 +10,19 @@
         <table>
             <tr>
                 <td>Başvuru Durumu</td>
-                <td th:text="${basvuru.durum == 0}? 'Beklemede' : (${basvuru.durum == 1}? 'İşleme Alındı' : (${basvuru.durum == 2}? 'Kabul Edildi' : 'Reddedildi'))"></td>
+                <td>
+                    <form id="basvuru" th:object="${basvuru}" th:action="@{/uzman/basvuru/kaydet}" method="post">
+                        <input type="hidden" th:field="*{kod}" />
+                        <input type="hidden" th:field="*{aday}" />
+                        <input type="hidden" th:field="*{ilan}" />
+                        <select name="durum" form="basvuru" onchange="this.form.submit()">
+                            <option th:value="0" th:selected="*{durum == 0}">Beklemede</option>
+                            <option th:value="1" th:selected="*{durum == 1}">İşleme Alındı</option>
+                            <option th:value="2" th:selected="*{durum == 2}">Kabul Edildi</option>
+                            <option th:value="3" th:selected="*{durum == 3}">Reddedildi</option>
+                        </select>
+                    </form>
+                </td>
             </tr>
             <tr>
                 <td>İsim</td>
