@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title th:text="${aday.firstname + ' ' + aday.lastname}"></title>
+        <title th:text="${basvuru.aday.firstname + ' ' + basvuru.aday.lastname} + ' | ' + ${basvuru.ilan.baslik}"></title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     </head>
@@ -14,16 +14,16 @@
             </tr>
             <tr>
                 <td>İsim</td>
-                <td th:text="${aday.firstname}"></td>
+                <td th:text="${basvuru.aday.firstname}"></td>
             </tr>
             <tr>
                 <td>Soyisim</td>
-                <td th:text="${aday.lastname}"></td>
+                <td th:text="${basvuru.aday.lastname}"></td>
             </tr>
             <tr>
                 <td>Pozisyon</td>
                 <td>
-                    <table th:each="pozisyon : ${pozisyonlar}">
+                    <table th:each="pozisyon : ${basvuru.aday.pozisyonlar}">
                         <tr>
                             <td th:text="${pozisyon.company + ' - ' + pozisyon.title}"></td>
                         </tr>
@@ -32,22 +32,20 @@
             </tr>
             <tr>
                 <td>Sektör</td>
-                <td th:text="${aday.industry}"></td>
+                <td th:text="${basvuru.aday.industry}"></td>
             </tr>
             <tr>
                 <td>Yer</td>
-                <td th:text="${aday.location}"></td>
+                <td th:text="${basvuru.aday.location}"></td>
             </tr>
             <tr>
                 <td>Profil</td>
-                <td><a th:href="${'/uzman/aday/' + basvuru.aday}">Profil</a></td>
+                <td><a th:href="${'/uzman/aday/' + basvuru.aday.id}">Profil</a></td>
             </tr>
-            <tr>
+            <tr th:object="${#lists.size(basvuru.aday.basvurular) - 1}">
                 <td>Başvurduğu diğer ilanlar</td>
-                <td>
-                    <a th:if="${ilanlar != 0}" th:text="${ilanlar}" th:href="${'/uzman/diger/' + basvuru.kod}"></a>
-                    <div th:if="${ilanlar == 0}">İlan bulunmamaktadır.</div>
-                </td>
+                <td th:if="${#object != 0}"><a th:text="${#object + ' adet ilan'}" th:href="${'/uzman/diger/' + basvuru.kod}"></a></td>
+                <td th:if="${#object == 0}">İlan bulunmamaktadır.</td>
             </tr>
         </table>
     </body>

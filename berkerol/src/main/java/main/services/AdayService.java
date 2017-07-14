@@ -1,6 +1,6 @@
 package main.services;
 
-import main.domains.Aday;
+import main.entities.Aday;
 import main.repositories.AdayRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

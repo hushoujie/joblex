@@ -1,8 +1,11 @@
-package main.domains;
+package main.entities;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Aday implements Serializable, Comparable {
@@ -29,6 +32,12 @@ public class Aday implements Serializable, Comparable {
     private String location;
 
     private String summary;
+
+    @OneToMany(mappedBy = "aday", cascade = CascadeType.ALL)
+    private List<Pozisyon> pozisyonlar;
+
+    @OneToMany(mappedBy = "aday", cascade = CascadeType.ALL)
+    private List<Basvuru> basvurular;
 
     @Override
     public int compareTo(Object o) {
@@ -121,6 +130,22 @@ public class Aday implements Serializable, Comparable {
 
     public void setSummary(String summary) {
         this.summary = summary;
+    }
+
+    public List<Pozisyon> getPozisyonlar() {
+        return pozisyonlar;
+    }
+
+    public void setPozisyonlar(List<Pozisyon> pozisyonlar) {
+        this.pozisyonlar = pozisyonlar;
+    }
+
+    public List<Basvuru> getBasvurular() {
+        return basvurular;
+    }
+
+    public void setBasvurular(List<Basvuru> basvurular) {
+        this.basvurular = basvurular;
     }
 
 }

@@ -19,7 +19,7 @@
             <tr>
                 <td>Pozisyon</td>
                 <td>
-                    <table th:each="pozisyon : ${pozisyonlar}">
+                    <table th:each="pozisyon : ${aday.pozisyonlar}">
                         <tr>
                             <td th:text="${pozisyon.company + ' - ' + pozisyon.title}"></td>
                         </tr>
@@ -57,6 +57,11 @@
             <tr th:if="${aday.karaliste}">
                 <td>Karaliste Sebebi</td>
                 <td th:text="${aday.karalistesebebi}"></td>
+            </tr>
+            <tr th:object="${aday.basvurular}">
+                <td>Başvurduğu tüm ilanlar</td>
+                <td th:if="${#object != null}"><a th:text="${#lists.size(#object) + ' adet ilan'}" th:href="${'/uzman/ilanlar/' + aday.id}"></a></td>
+                <td th:if="${#object == null}">İlan bulunmamaktadır.</td>
             </tr>
         </table>
     </body>

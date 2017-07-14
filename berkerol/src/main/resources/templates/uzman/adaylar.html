@@ -7,7 +7,7 @@
     </head>
     <body>
         <div th:include="uzman/menu"></div>
-        <table th:if="${not #maps.isEmpty(adaylar)}">
+        <table th:if="${not #lists.isEmpty(adaylar)}">
             <tr>
                 <th>İsim</th>
                 <th>Soyisim</th>
@@ -17,18 +17,18 @@
                 <th>Ayrıntılar</th>
             </tr>
             <tr th:each="aday : ${adaylar}">
-                <td th:text="${aday.key.firstname}"></td>
-                <td th:text="${aday.key.lastname}"></td>
+                <td th:text="${aday.firstname}"></td>
+                <td th:text="${aday.lastname}"></td>
                 <td>
-                    <table th:each="pozisyon : ${aday.value}">
+                    <table th:each="pozisyon : ${aday.pozisyonlar}">
                         <tr>
                             <td th:text="${pozisyon.company + ' - ' + pozisyon.title}"></td>
                         </tr>
                     </table>
                 </td>
-                <td th:text="${aday.key.industry}"></td>
-                <td th:text="${aday.key.location}"></td>
-                <td><a th:href="${'/uzman/aday/' + aday.key.id}">Ayrıntılar</a></td>
+                <td th:text="${aday.industry}"></td>
+                <td th:text="${aday.location}"></td>
+                <td><a th:href="${'/uzman/aday/' + aday.id}">Ayrıntılar</a></td>
             </tr>
         </table>
     </body>

@@ -42,16 +42,19 @@
             </tr>
         </table>
         <div th:if="${karaliste}">Kara Listede olduğunuz için hiçbir ilana başvuru hakkınız bulunmamaktadır.</div>
-        <div th:if="${uyari and not karaliste}">Daha önceden başvurdunuz.</div>
-        <div th:if="${bilgi and not karaliste}">Başvurunuz iletildi.</div>
+        <div th:if="${uyari and param.iletildi == null and not karaliste}">Daha önceden başvurdunuz.</div>
+        <div th:if="${param.iletildi != null and not karaliste}">Başvurunuz iletildi.</div>
         <div th:if="${baglan and not karaliste}">
             İlanlara başvurabilmek için ilk önce LinkedIn ile giriş yapmanız gerekiyor.
             <form th:action="@{/connect/linkedin}" method="post">
                 <input type="submit" value="Bağlan" />
             </form>
         </div>
-        <form th:if="${basvur and not karaliste}" th:action="@{'/basvur/' + ${ilan.kod}}" method="post">
-            <input type="submit" value="Başvur" />
-        </form>
+        <div th:if="${basvur and not karaliste}">
+            İlanlara LinkedIn hesabınızla başvurabilirsiniz.
+            <form th:action="@{'/basvur/' + ${ilan.kod}}" method="post">
+                <input type="submit" value="Başvur" />
+            </form>
+        </div>
     </body>
 </html>

@@ -1,10 +1,12 @@
-package main.domains;
+package main.entities;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Basvuru implements Serializable, Comparable {
@@ -13,9 +15,13 @@ public class Basvuru implements Serializable, Comparable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer kod;
 
-    private String aday;
+    @ManyToOne
+    @JoinColumn(name = "aday")
+    private Aday aday;
 
-    private int ilan;
+    @ManyToOne
+    @JoinColumn(name = "ilan")
+    private Ilan ilan;
 
     private int durum;
 
@@ -32,19 +38,19 @@ public class Basvuru implements Serializable, Comparable {
         this.kod = kod;
     }
 
-    public String getAday() {
+    public Aday getAday() {
         return aday;
     }
 
-    public void setAday(String aday) {
+    public void setAday(Aday aday) {
         this.aday = aday;
     }
 
-    public int getIlan() {
+    public Ilan getIlan() {
         return ilan;
     }
 
-    public void setIlan(int ilan) {
+    public void setIlan(Ilan ilan) {
         this.ilan = ilan;
     }
 

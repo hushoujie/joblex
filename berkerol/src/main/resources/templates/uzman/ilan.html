@@ -36,9 +36,10 @@
                 <td>Kapanma</td>
                 <td th:text="${#dates.format(ilan.kapanma,'dd/MM/yyyy HH:mm')}"></td>
             </tr>
-            <tr>
+            <tr th:object="${#lists.size(ilan.basvurular)}">
                 <td>Başvurular</td>
-                <td><a th:href="${'/uzman/basvurular/' + ilan.kod}">Başvurular</a></td>
+                <td th:if="${#object != 0}"><a th:text="${#object + ' adet başvuru'}" th:href="${'/uzman/basvurular/' + ilan.kod}"></a></td>
+                <td th:if="${#object == 0}">Başvuru bulunmamaktadır.</td>
             </tr>
             <tr>
                 <td>Düzenle</td>

@@ -7,8 +7,8 @@
     </head>
     <body>
         <div th:include="uzman/menu"></div>
-        <div th:if="${#maps.isEmpty(basvurular)}">Bu ilana ait başvuru bulunmamaktadır.</div>
-        <table th:if="${not #maps.isEmpty(basvurular)}">
+        <div th:if="${#lists.isEmpty(basvurular)}">Bu ilana ait başvuru bulunmamaktadır.</div>
+        <table th:if="${not #lists.isEmpty(basvurular)}">
             <tr>
                 <th>Başvuru Durumu</th>
                 <th>İsim</th>
@@ -19,19 +19,19 @@
                 <th>Ayrıntılar</th>
             </tr>
             <tr th:each="basvuru : ${basvurular}">
-                <td th:text="${basvuru.key.durum == 0}? 'Beklemede' : (${basvuru.key.durum == 1}? 'İşleme Alındı' : (${basvuru.key.durum == 2}? 'Kabul Edildi' : 'Reddedildi'))"></td>
-                <td th:text="${basvuru.value.firstname}"></td>
-                <td th:text="${basvuru.value.lastname}"></td>
+                <td th:text="${basvuru.durum == 0}? 'Beklemede' : (${basvuru.durum == 1}? 'İşleme Alındı' : (${basvuru.durum == 2}? 'Kabul Edildi' : 'Reddedildi'))"></td>
+                <td th:text="${basvuru.aday.firstname}"></td>
+                <td th:text="${basvuru.aday.lastname}"></td>
                 <td>
-                    <table th:each="pozisyon : ${pozisyonlar}">
+                    <table th:each="pozisyon : ${basvuru.aday.pozisyonlar}">
                         <tr>
                             <td th:text="${pozisyon.company + ' - ' + pozisyon.title}"></td>
                         </tr>
                     </table>
                 </td>
-                <td th:text="${basvuru.value.industry}"></td>
-                <td th:text="${basvuru.value.location}"></td>
-                <td><a th:href="${'/uzman/basvuru/' + basvuru.key.kod}">Ayrıntılar</a></td>
+                <td th:text="${basvuru.aday.industry}"></td>
+                <td th:text="${basvuru.aday.location}"></td>
+                <td><a th:href="${'/uzman/basvuru/' + basvuru.kod}">Ayrıntılar</a></td>
             </tr>
         </table>
     </body>

@@ -13,7 +13,7 @@
                 <input type="submit" value="Bağlan" />
             </form>
         </div>
-        <table th:if="${linkedin and not #maps.isEmpty(basvurular)}">
+        <table th:if="${linkedin and not #lists.isEmpty(basvurular)}">
             <tr>
                 <th>Başvuru Durumu</th>
                 <th>Kod</th>
@@ -27,16 +27,16 @@
                 <th>Ayrıntılar</th>
             </tr>
             <tr th:each="basvuru : ${basvurular}">
-                <td th:text="${basvuru.key.durum == 0}? 'Beklemede' : (${basvuru.key.durum == 1}? 'İşleme Alındı' : (${basvuru.key.durum == 2}? 'Kabul Edildi' : 'Reddedildi'))"></td>
-                <td th:text="${basvuru.value.kod}"></td>
-                <td th:text="${basvuru.value.uzman}"></td>
-                <td th:text="${basvuru.value.durum}? 'Aktif' : 'Pasif'"></td>
-                <td th:text="${basvuru.value.baslik}"></td>
-                <td style="white-space: pre-wrap" th:text="${basvuru.value.tanim}"></td>
-                <td style="white-space: pre-wrap" th:text="${basvuru.value.ozellikler}"></td>
-                <td th:text="${#dates.format(basvuru.value.aktivasyon,'dd/MM/yyyy HH:mm')}"></td>
-                <td th:text="${#dates.format(basvuru.value.kapanma,'dd/MM/yyyy HH:mm')}"></td>
-                <td><a th:href="${'/aday/basvuru/' + basvuru.key.kod}">Ayrıntılar</a></td>
+                <td th:text="${basvuru.durum == 0}? 'Beklemede' : (${basvuru.durum == 1}? 'İşleme Alındı' : (${basvuru.durum == 2}? 'Kabul Edildi' : 'Reddedildi'))"></td>
+                <td th:text="${basvuru.ilan.kod}"></td>
+                <td th:text="${basvuru.ilan.uzman}"></td>
+                <td th:text="${basvuru.ilan.durum}? 'Aktif' : 'Pasif'"></td>
+                <td th:text="${basvuru.ilan.baslik}"></td>
+                <td style="white-space: pre-wrap" th:text="${basvuru.ilan.tanim}"></td>
+                <td style="white-space: pre-wrap" th:text="${basvuru.ilan.ozellikler}"></td>
+                <td th:text="${#dates.format(basvuru.ilan.aktivasyon,'dd/MM/yyyy HH:mm')}"></td>
+                <td th:text="${#dates.format(basvuru.ilan.kapanma,'dd/MM/yyyy HH:mm')}"></td>
+                <td><a th:href="${'/aday/basvuru/' + basvuru.kod}">Ayrıntılar</a></td>
             </tr>
         </table>
     </body>

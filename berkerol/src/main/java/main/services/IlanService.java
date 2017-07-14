@@ -1,6 +1,6 @@
 package main.services;
 
-import main.domains.Ilan;
+import main.entities.Ilan;
 import main.repositories.IlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

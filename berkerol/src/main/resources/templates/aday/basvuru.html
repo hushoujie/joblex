@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title th:text="${ilan.baslik}"></title>
+        <title th:text="${basvuru.aday.firstname + ' ' + basvuru.aday.lastname} + ' | ' + ${basvuru.ilan.baslik}"></title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     </head>
@@ -14,35 +14,35 @@
             </tr>
             <tr>
                 <td>Kod</td>
-                <td th:text="${ilan.kod}"></td>
+                <td th:text="${basvuru.ilan.kod}"></td>
             </tr>
             <tr>
                 <td>Uzman</td>
-                <td th:text="${ilan.uzman}"></td>
+                <td th:text="${basvuru.ilan.uzman}"></td>
             </tr>
             <tr>
                 <td>Durum</td>
-                <td th:text="${ilan.durum}? 'Aktif' : 'Pasif'"></td>
+                <td th:text="${basvuru.ilan.durum}? 'Aktif' : 'Pasif'"></td>
             </tr>
             <tr>
                 <td>Başlık</td>
-                <td th:text="${ilan.baslik}"></td>
+                <td th:text="${basvuru.ilan.baslik}"></td>
             </tr>
             <tr>
                 <td>Tanım</td>
-                <td style="white-space: pre-wrap" th:text="${ilan.tanim}"></td>
+                <td style="white-space: pre-wrap" th:text="${basvuru.ilan.tanim}"></td>
             </tr>
             <tr>
                 <td>Özellikler</td>
-                <td style="white-space: pre-wrap" th:text="${ilan.ozellikler}"></td>
+                <td style="white-space: pre-wrap" th:text="${basvuru.ilan.ozellikler}"></td>
             </tr>
             <tr>
                 <td>Aktivasyon</td>
-                <td th:text="${#dates.format(ilan.aktivasyon,'dd/MM/yyyy HH:mm')}"></td>
+                <td th:text="${#dates.format(basvuru.ilan.aktivasyon,'dd/MM/yyyy HH:mm')}"></td>
             </tr>
             <tr>
                 <td>Kapanma</td>
-                <td th:text="${#dates.format(ilan.kapanma,'dd/MM/yyyy HH:mm')}"></td>
+                <td th:text="${#dates.format(basvuru.ilan.kapanma,'dd/MM/yyyy HH:mm')}"></td>
             </tr>
         </table>
     </body>

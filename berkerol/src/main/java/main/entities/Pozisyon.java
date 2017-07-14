@@ -1,9 +1,11 @@
-package main.domains;
+package main.entities;
 
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -13,7 +15,9 @@ public class Pozisyon implements Serializable {
     @Id
     private String id;
 
-    private String aday;
+    @ManyToOne
+    @JoinColumn(name = "aday")
+    private Aday aday;
 
     private String title;
 
@@ -35,11 +39,11 @@ public class Pozisyon implements Serializable {
         this.id = id;
     }
 
-    public String getAday() {
+    public Aday getAday() {
         return aday;
     }
 
-    public void setAday(String aday) {
+    public void setAday(Aday aday) {
         this.aday = aday;
     }
 

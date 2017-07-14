@@ -1,11 +1,14 @@
-package main.domains;
+package main.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.Size;
@@ -40,6 +43,9 @@ public class Ilan implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date kapanma;
+
+    @OneToMany(mappedBy = "ilan", cascade = CascadeType.ALL)
+    private List<Basvuru> basvurular;
 
     public int getKod() {
         return kod;
@@ -103,6 +109,14 @@ public class Ilan implements Serializable {
 
     public void setKapanma(Date kapanma) {
         this.kapanma = kapanma;
+    }
+
+    public List<Basvuru> getBasvurular() {
+        return basvurular;
+    }
+
+    public void setBasvurular(List<Basvuru> basvurular) {
+        this.basvurular = basvurular;
     }
 
 }

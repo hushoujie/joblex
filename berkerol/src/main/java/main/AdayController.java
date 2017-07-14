@@ -1,13 +1,10 @@
 package main;
 
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.TreeMap;
 import javax.inject.Inject;
-import main.domains.Aday;
-import main.domains.Basvuru;
-import main.domains.Ilan;
-import main.domains.Pozisyon;
+import main.entities.Aday;
+import main.entities.Basvuru;
+import main.entities.Pozisyon;
 import main.services.AdayService;
 import main.services.BasvuruService;
 import main.services.IlanService;
@@ -22,7 +19,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class AdayController {
@@ -65,38 +61,33 @@ public class AdayController {
         this.pozisyonService = pozisyonService;
     }
 
-    @RequestMapping("/ilan/{kod}")
-    public String ilanBul(@PathVariable int kod, @RequestParam(required = false, defaultValue = "false") boolean iletildi, Model model) {
+    @RequestMapping("/ilan/{ilanKodu}")
+    public String ilanBul(@PathVariable int ilanKodu, Model model) {
         if (connectionRepository.findPrimaryConnection(LinkedIn.class) != null) {
-            boolean karaliste = adayService.adayBul(linkedIn.profileOperations().getProfileId()).isKaraliste();
-            if (!iletildi) {
-                for (Basvuru basvuru : basvuruService.tumBasvurular(linkedIn.profileOperations().getProfileId())) {
-                    if (basvuru.getIlan() == kod) {
-                        model = setBasvuruAttributes(kod, true, false, false, false, karaliste, model);
-                        return "/aday/ilan";
-                    }
+            Aday aday = adayService.adayBul(linkedIn.profileOperations().getProfileId());
+            boolean karaliste = aday.isKaraliste();
+            for (Basvuru basvuru : aday.getBasvurular()) {
+                if (basvuru.getIlan().getKod() == ilanKodu) {
+                    model = setBasvuruAttributes(ilanKodu, true, false, false, karaliste, model);
+                    return "/aday/ilan";
                 }
-                model = setBasvuruAttributes(kod, false, false, false, true, karaliste, model);
-                return "/aday/ilan";
             }
-            else {
-                model = setBasvuruAttributes(kod, false, true, false, false, karaliste, model);
-                return "/aday/ilan";
-            }
+            model = setBasvuruAttributes(ilanKodu, false, false, true, karaliste, model);
+            return "/aday/ilan";
         }
-        model = setBasvuruAttributes(kod, false, false, true, false, false, model);
+        model = setBasvuruAttributes(ilanKodu, false, true, false, false, model);
         return "/aday/ilan";
     }
 
-    @RequestMapping("/basvur/{kod}")
-    public String basvur(@PathVariable int kod, Model model) {
+    @RequestMapping("/basvur/{ilanKodu}")
+    public String basvur(@PathVariable int ilanKodu, Model model) {
         Basvuru basvuru = new Basvuru();
-        basvuru.setAday(linkedIn.profileOperations().getProfileId());
-        basvuru.setIlan(kod);
+        basvuru.setAday(adayService.adayBul(linkedIn.profileOperations().getProfileId()));
+        basvuru.setIlan(ilanService.ilanBul(ilanKodu));
         basvuru.setDurum(0);
         basvuruService.basvuruKaydet(basvuru);
         linkedinKaydet(linkedIn.profileOperations().getUserProfileFull());
-        return "redirect:/ilan/" + kod + "?iletildi=true";
+        return "redirect:/ilan/" + ilanKodu + "?iletildi";
     }
 
     @RequestMapping("/aday/")
@@ -106,27 +97,20 @@ public class AdayController {
         }
         else {
             model.addAttribute("linkedin", true);
-            TreeMap<Basvuru, Ilan> basvurular = new TreeMap<>();
-            for (Basvuru basvuru : basvuruService.tumBasvurular(linkedIn.profileOperations().getProfileId())) {
-                basvurular.put(basvuru, ilanService.ilanBul(basvuru.getIlan()));
-            }
-            model.addAttribute("basvurular", basvurular);
+            model.addAttribute("basvurular", adayService.adayBul(linkedIn.profileOperations().getProfileId()).getBasvurular());
         }
         return "/aday/basvurular";
     }
 
-    @RequestMapping("/aday/basvuru/{kod}")
-    public String basvuruBul(@PathVariable Integer kod, Model model) {
-        Basvuru basvuru = basvuruService.basvuruBul(kod);
-        model.addAttribute("basvuru", basvuru);
-        model.addAttribute("ilan", ilanService.ilanBul(basvuru.getIlan()));
+    @RequestMapping("/aday/basvuru/{basvuruKodu}")
+    public String basvuruBul(@PathVariable Integer basvuruKodu, Model model) {
+        model.addAttribute("basvuru", basvuruService.basvuruBul(basvuruKodu));
         return "/aday/basvuru";
     }
 
-    private Model setBasvuruAttributes(int kod, boolean uyari, boolean bilgi, boolean baglan, boolean basvur, boolean karaliste, Model model) {
+    private Model setBasvuruAttributes(int kod, boolean uyari, boolean baglan, boolean basvur, boolean karaliste, Model model) {
         model.addAttribute("ilan", ilanService.ilanBul(kod));
         model.addAttribute("uyari", uyari);
-        model.addAttribute("bilgi", bilgi);
         model.addAttribute("baglan", baglan);
         model.addAttribute("basvur", basvur);
         model.addAttribute("karaliste", karaliste);
@@ -160,7 +144,7 @@ public class AdayController {
             else {
                 pozisyon = pozisyonService.pozisyonBul(position.getId());
             }
-            pozisyon.setAday(profileFull.getId());
+            pozisyon.setAday(adayService.adayBul(profileFull.getId()));
             pozisyon.setCompany(position.getCompany().getName());
             pozisyon.setId(position.getId());
             pozisyon.setIscurrent(position.getIsCurrent());
