@@ -61,6 +61,22 @@ public class AdayController {
         this.pozisyonService = pozisyonService;
     }
 
+    @RequestMapping("/")
+    public String anaSayfa(Model model) {
+        return "/aday/ana-sayfa";
+    }
+
+    @RequestMapping("/giris")
+    public String giris() {
+        return "/uzman/giris";
+    }
+
+    @RequestMapping("/ilanlar")
+    public String tumIlanlar(Model model) {
+        model.addAttribute("ilanlar", ilanService.tumIlanlar());
+        return "/aday/ilanlar";
+    }
+
     @RequestMapping("/ilan/{ilanKodu}")
     public String ilanBul(@PathVariable int ilanKodu, Model model) {
         if (connectionRepository.findPrimaryConnection(LinkedIn.class) != null) {
@@ -68,14 +84,14 @@ public class AdayController {
             boolean karaliste = aday.isKaraliste();
             for (Basvuru basvuru : aday.getBasvurular()) {
                 if (basvuru.getIlan().getKod() == ilanKodu) {
-                    model = setBasvuruAttributes(ilanKodu, true, false, false, karaliste, model);
+                    model = basvuruAyarlari(ilanKodu, true, false, false, karaliste, model);
                     return "/aday/ilan";
                 }
             }
-            model = setBasvuruAttributes(ilanKodu, false, false, true, karaliste, model);
+            model = basvuruAyarlari(ilanKodu, false, false, true, karaliste, model);
             return "/aday/ilan";
         }
-        model = setBasvuruAttributes(ilanKodu, false, true, false, false, model);
+        model = basvuruAyarlari(ilanKodu, false, true, false, false, model);
         return "/aday/ilan";
     }
 
@@ -108,7 +124,7 @@ public class AdayController {
         return "/aday/basvuru";
     }
 
-    private Model setBasvuruAttributes(int kod, boolean uyari, boolean baglan, boolean basvur, boolean karaliste, Model model) {
+    private Model basvuruAyarlari(int kod, boolean uyari, boolean baglan, boolean basvur, boolean karaliste, Model model) {
         model.addAttribute("ilan", ilanService.ilanBul(kod));
         model.addAttribute("uyari", uyari);
         model.addAttribute("baglan", baglan);

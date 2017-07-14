@@ -3,6 +3,7 @@ package main;
 import java.security.Principal;
 import java.util.LinkedList;
 import javax.validation.Valid;
+import main.entities.Aday;
 import main.entities.Basvuru;
 import main.entities.Ilan;
 import main.services.AdayService;
@@ -70,6 +71,8 @@ public class UzmanController {
     @RequestMapping("/basvuru/kaydet")
     public String basvuruKaydet(Basvuru basvuru) {
         basvuruService.basvuruKaydet(basvuru);
+        Aday aday = basvuru.getAday();
+        Email.send(aday.getEmail(), aday.getFirstname() + ' ' + aday.getLastname(), basvuru.getIlan().getBaslik(), basvuru.getDurum());
         return "redirect:/uzman/basvuru/" + basvuru.getKod();
     }
 
