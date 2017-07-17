@@ -1,49 +1,53 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title th:text="${application_.advert.title}"></title>
         <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title th:text="${application_.advert.title}"></title>
+        <link href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
     </head>
     <body>
         <div th:include="applicant/menu"></div>
-        <table>
-            <tr>
-                <td>Application Status</td>
-                <td th:text="${application_.status == 0}? 'Waiting' : (${application_.status == 1}? 'Processing' : (${application_.status == 2}? 'Accepted' : 'Rejected'))"></td>
-            </tr>
-            <tr>
-                <td>ID</td>
-                <td th:text="${application_.advert.id}"></td>
-            </tr>
-            <tr>
-                <td>HR</td>
-                <td th:text="${application_.advert.hr}"></td>
-            </tr>
-            <tr>
-                <td>Status</td>
-                <td th:text="${application_.advert.status}? 'Active' : 'Passive'"></td>
-            </tr>
-            <tr>
-                <td>Title</td>
-                <td th:text="${application_.advert.title}"></td>
-            </tr>
-            <tr>
-                <td>Description</td>
-                <td style="white-space: pre-wrap" th:text="${application_.advert.description}"></td>
-            </tr>
-            <tr>
-                <td>Properties</td>
-                <td style="white-space: pre-wrap" th:text="${application_.advert.properties}"></td>
-            </tr>
-            <tr>
-                <td>Activation</td>
-                <td th:text="${#dates.format(application_.advert.activation,'dd/MM/yyyy HH:mm')}"></td>
-            </tr>
-            <tr>
-                <td>Deactivation</td>
-                <td th:text="${#dates.format(application_.advert.deactivation,'dd/MM/yyyy HH:mm')}"></td>
-            </tr>
-        </table>
+        <div class="container">
+            <table class="table table-hover">
+                <tr>
+                    <td>Application Status</td>
+                    <td th:text="${application_.status == 0}? 'Waiting' : (${application_.status == 1}? 'Processing' : (${application_.status == 2}? 'Accepted' : 'Rejected'))"></td>
+                </tr>
+                <tr>
+                    <td>ID</td>
+                    <td th:text="${application_.advert.id}"></td>
+                </tr>
+                <tr>
+                    <td>HR</td>
+                    <td th:text="${application_.advert.hr}"></td>
+                </tr>
+                <tr>
+                    <td>Status</td>
+                    <td th:text="${application_.advert.status}? 'Active' : 'Passive'"></td>
+                </tr>
+                <tr>
+                    <td>Title</td>
+                    <td th:text="${application_.advert.title}"></td>
+                </tr>
+                <tr>
+                    <td>Description</td>
+                    <td style="white-space: pre-wrap" th:text="${application_.advert.description}"></td>
+                </tr>
+                <tr>
+                    <td>Properties</td>
+                    <td style="white-space: pre-wrap" th:text="${application_.advert.properties}"></td>
+                </tr>
+                <tr>
+                    <td>Activation</td>
+                    <td th:text="${#dates.format(application_.advert.activation,'dd/MM/yyyy HH:mm')}"></td>
+                </tr>
+                <tr>
+                    <td>Deactivation</td>
+                    <td th:text="${#dates.format(application_.advert.deactivation,'dd/MM/yyyy HH:mm')}"></td>
+                </tr>
+            </table>
+        </div>
     </body>
 </html>

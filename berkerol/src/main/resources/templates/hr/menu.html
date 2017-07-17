@@ -1,26 +1,32 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>HR</title>
         <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>HR</title>
+        <link href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="../../static/css/navbar-fixed-top.css" rel="stylesheet" />
     </head>
     <body>
-        <a href="/">Home</a>
-        <br />
-        <a href="/hr/">HR Home</a>
-        <br />
-        <a href="/hr/advert/add">Add Advert</a>
-        <br />
-        <a href="/hr/adverts">All Adverts</a>
-        <br />
-        <a href="/hr/applications">All Applications</a>
-        <br />
-        <a href="/hr/applicants">All Applicants</a>
-        <br />
-        <form th:action="@{/logout}" method="post">
-            <input type="submit" value="Log out" />
-        </form>
-        <br />
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">OBSS</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li><a href="/hr/">HR Home</a></li>
+                    <li><a href="/hr/advert/add">Add Advert</a></li>
+                    <li><a href="/hr/adverts">Adverts</a></li>
+                    <li><a href="/hr/applications">Applications</a></li>
+                    <li><a href="/hr/applicants">Applicants</a></li>
+                    <li>
+                        <form th:action="@{/logout}" method="post">
+                            <button class="btn btn-warning navbar-btn" type="submit">Log out</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </nav>
     </body>
 </html>

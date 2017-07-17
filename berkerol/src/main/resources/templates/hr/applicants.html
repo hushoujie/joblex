@@ -1,34 +1,38 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Applicants</title>
         <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Applicants</title>
+        <link href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
     </head>
     <body>
         <div th:include="hr/menu"></div>
-        <div th:if="${#lists.isEmpty(applicants)}">No applicant.</div>
-        <table th:if="${not #lists.isEmpty(applicants)}">
-            <tr>
-                <th>Name</th>
-                <th>Job</th>
-                <th>Industry</th>
-                <th>Location</th>
-                <th>Details</th>
-            </tr>
-            <tr th:each="applicant : ${applicants}">
-                <td th:text="${applicant.firstname + ' ' + applicant.lastname}"></td>
-                <td>
-                    <table th:each="job : ${applicant.jobs}">
-                        <tr>
-                            <td th:text="${job.company + ' - ' + job.title}"></td>
-                        </tr>
-                    </table>
-                </td>
-                <td th:text="${applicant.industry}"></td>
-                <td th:text="${applicant.location}"></td>
-                <td><a th:href="${'/hr/applicant/' + applicant.id}">Details</a></td>
-            </tr>
-        </table>
+        <div class="container">
+            <div th:if="${#lists.isEmpty(applicants)}">No applicant.</div>
+            <table class="table table-bordered table-striped" th:if="${not #lists.isEmpty(applicants)}">
+                <tr>
+                    <th>Name</th>
+                    <th>Job</th>
+                    <th>Industry</th>
+                    <th>Location</th>
+                    <th>Details</th>
+                </tr>
+                <tr th:each="applicant : ${applicants}">
+                    <td th:text="${applicant.firstname + ' ' + applicant.lastname}"></td>
+                    <td>
+                        <table th:each="job : ${applicant.jobs}">
+                            <tr>
+                                <td th:text="${job.company + ' - ' + job.title}"></td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td th:text="${applicant.industry}"></td>
+                    <td th:text="${applicant.location}"></td>
+                    <td><a th:href="${'/hr/applicant/' + applicant.id}">Details</a></td>
+                </tr>
+            </table>
+        </div>
     </body>
 </html>

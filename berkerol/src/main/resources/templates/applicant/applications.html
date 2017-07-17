@@ -1,43 +1,47 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Applications</title>
         <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Applications</title>
+        <link href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
     </head>
     <body>
         <div th:include="applicant/menu"></div>
-        <div th:if="${not linkedin}">
-            <form th:action="@{/connect/linkedin}" method="post">
-                <input type="submit" value="Connect with LinkedIn" />
-            </form>
+        <div class="container">
+            <div th:if="${not linkedin}">
+                <form th:action="@{/connect/linkedin}" method="post">
+                    <button class="btn btn-primary" type="submit">Connect with LinkedIn</button>
+                </form>
+            </div>
+            <div th:if="${linkedin and #lists.isEmpty(applications)}">No application.</div>
+            <table class="table table-bordered table-striped" th:if="${linkedin and not #lists.isEmpty(applications)}">
+                <tr>
+                    <th>Application Status</th>
+                    <th>ID</th>
+                    <th>HR</th>
+                    <th>Status</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Properties</th>
+                    <th>Activation</th>
+                    <th>Deactivation</th>
+                    <th>Details</th>
+                </tr>
+                <tr th:each="application : ${applications}">
+                    <td th:text="${application.status == 0}? 'Waiting' : (${application.status == 1}? 'Processing' : (${application.status == 2}? 'Accepted' : 'Rejected'))"></td>
+                    <td th:text="${application.advert.id}"></td>
+                    <td th:text="${application.advert.hr}"></td>
+                    <td th:text="${application.advert.status}? 'Active' : 'Passive'"></td>
+                    <td th:text="${application.advert.title}"></td>
+                    <td style="white-space: pre-wrap" th:text="${application.advert.description}"></td>
+                    <td style="white-space: pre-wrap" th:text="${application.advert.properties}"></td>
+                    <td th:text="${#dates.format(application.advert.activation,'dd/MM/yyyy HH:mm')}"></td>
+                    <td th:text="${#dates.format(application.advert.deactivation,'dd/MM/yyyy HH:mm')}"></td>
+                    <td><a th:href="${'/applicant/application/' + application.id}">Details</a></td>
+                </tr>
+            </table>
         </div>
-        <div th:if="${linkedin and #lists.isEmpty(applications)}">No application.</div>
-        <table th:if="${linkedin and not #lists.isEmpty(applications)}">
-            <tr>
-                <th>Application Status</th>
-                <th>ID</th>
-                <th>HR</th>
-                <th>Status</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Properties</th>
-                <th>Activation</th>
-                <th>Deactivation</th>
-                <th>Details</th>
-            </tr>
-            <tr th:each="application : ${applications}">
-                <td th:text="${application.status == 0}? 'Waiting' : (${application.status == 1}? 'Processing' : (${application.status == 2}? 'Accepted' : 'Rejected'))"></td>
-                <td th:text="${application.advert.id}"></td>
-                <td th:text="${application.advert.hr}"></td>
-                <td th:text="${application.advert.status}? 'Active' : 'Passive'"></td>
-                <td th:text="${application.advert.title}"></td>
-                <td style="white-space: pre-wrap" th:text="${application.advert.description}"></td>
-                <td style="white-space: pre-wrap" th:text="${application.advert.properties}"></td>
-                <td th:text="${#dates.format(application.advert.activation,'dd/MM/yyyy HH:mm')}"></td>
-                <td th:text="${#dates.format(application.advert.deactivation,'dd/MM/yyyy HH:mm')}"></td>
-                <td><a th:href="${'/applicant/application/' + application.id}">Details</a></td>
-            </tr>
-        </table>
     </body>
 </html>

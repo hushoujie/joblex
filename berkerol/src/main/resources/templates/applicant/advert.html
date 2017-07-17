@@ -1,58 +1,62 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title th:text="${advert.title}"></title>
         <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title th:text="${advert.title}"></title>
+        <link href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
     </head>
     <body>
         <div th:include="applicant/menu"></div>
-        <table>
-            <tr>
-                <td>ID</td>
-                <td th:text="${advert.id}"></td>
-            </tr>
-            <tr>
-                <td>HR</td>
-                <td th:text="${advert.hr}"></td>
-            </tr>
-            <tr>
-                <td>Status</td>
-                <td th:text="${advert.status}? 'Active' : 'Passive'"></td>
-            </tr>
-            <tr>
-                <td>Title</td>
-                <td th:text="${advert.title}"></td>
-            </tr>
-            <tr>
-                <td>Description</td>
-                <td style="white-space: pre-wrap" th:text="${advert.description}"></td>
-            </tr>
-            <tr>
-                <td>Properties</td>
-                <td style="white-space: pre-wrap" th:text="${advert.properties}"></td>
-            </tr>
-            <tr>
-                <td>Activation</td>
-                <td th:text="${#dates.format(advert.activation,'dd/MM/yyyy HH:mm')}"></td>
-            </tr>
-            <tr>
-                <td>Deactivation</td>
-                <td th:text="${#dates.format(advert.deactivation,'dd/MM/yyyy HH:mm')}"></td>
-            </tr>
-        </table>
-        <div th:if="${blacklist}">You are in blacklist.</div>
-        <div th:if="${already and param.sent == null and not blacklist}">You have already applied.</div>
-        <div th:if="${param.sent != null and not blacklist}">Your application is sent.</div>
-        <div th:if="${connect and not blacklist}">
-            <form th:action="@{/connect/linkedin}" method="post">
-                <input type="submit" value="Connect with LinkedIn" />
-            </form>
-        </div>
-        <div th:if="${apply and not blacklist}">
-            <form th:action="@{'/apply/' + ${advert.id}}" method="post">
-                <input type="submit" value="Apply with LinkedIn" />
-            </form>
+        <div class="container">
+            <table class="table table-hover">
+                <tr>
+                    <td>ID</td>
+                    <td th:text="${advert.id}"></td>
+                </tr>
+                <tr>
+                    <td>HR</td>
+                    <td th:text="${advert.hr}"></td>
+                </tr>
+                <tr>
+                    <td>Status</td>
+                    <td th:text="${advert.status}? 'Active' : 'Passive'"></td>
+                </tr>
+                <tr>
+                    <td>Title</td>
+                    <td th:text="${advert.title}"></td>
+                </tr>
+                <tr>
+                    <td>Description</td>
+                    <td style="white-space: pre-wrap" th:text="${advert.description}"></td>
+                </tr>
+                <tr>
+                    <td>Properties</td>
+                    <td style="white-space: pre-wrap" th:text="${advert.properties}"></td>
+                </tr>
+                <tr>
+                    <td>Activation</td>
+                    <td th:text="${#dates.format(advert.activation,'dd/MM/yyyy HH:mm')}"></td>
+                </tr>
+                <tr>
+                    <td>Deactivation</td>
+                    <td th:text="${#dates.format(advert.deactivation,'dd/MM/yyyy HH:mm')}"></td>
+                </tr>
+            </table>
+            <div th:if="${blacklist}">You are in blacklist.</div>
+            <div th:if="${already and param.sent == null and not blacklist}">You have already applied.</div>
+            <div th:if="${param.sent != null and not blacklist}">Your application is sent.</div>
+            <div th:if="${connect and not blacklist}">
+                <form th:action="@{/connect/linkedin}" method="post">
+                    <button class="btn btn-primary" type="submit">Connect with LinkedIn</button>
+                </form>
+            </div>
+            <div th:if="${apply and not blacklist}">
+                <form th:action="@{'/apply/' + ${advert.id}}" method="post">
+                    <button class="btn btn-primary" type="submit">Apply with LinkedIn</button>
+                </form>
+            </div>
         </div>
     </body>
 </html>

@@ -1,63 +1,67 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title th:text="${advert.title}"></title>
         <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title th:text="${advert.title}"></title>
+        <link href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
     </head>
     <body>
         <div th:include="hr/menu"></div>
-        <table>
-            <tr>
-                <td>ID</td>
-                <td th:text="${advert.id}"></td>
-            </tr>
-            <tr th:if="${other}">
-                <td>HR</td>
-                <td th:text="${advert.hr}"></td>
-            </tr>
-            <tr>
-                <td>Status</td>
-                <td th:text="${advert.status}? 'Active' : 'Passive'"></td>
-            </tr>
-            <tr>
-                <td>Title</td>
-                <td th:text="${advert.title}"></td>
-            </tr>
-            <tr>
-                <td>Description</td>
-                <td style="white-space: pre-wrap" th:text="${advert.description}"></td>
-            </tr>
-            <tr>
-                <td>Properties</td>
-                <td style="white-space: pre-wrap" th:text="${advert.properties}"></td>
-            </tr>
-            <tr>
-                <td>Activation</td>
-                <td th:text="${#dates.format(advert.activation,'dd/MM/yyyy HH:mm')}"></td>
-            </tr>
-            <tr>
-                <td>Deactivation</td>
-                <td th:text="${#dates.format(advert.deactivation,'dd/MM/yyyy HH:mm')}"></td>
-            </tr>
-            <tr th:if="${not other}" th:object="${#lists.size(advert.applications)}">
-                <td>Applications</td>
-                <td th:if="${#object != 0}"><a th:text="${#object}" th:href="${'/hr/applications/' + advert.id}"></a></td>
-                <td th:if="${#object == 0}">No application.</td>
-            </tr>
-            <tr th:if="${not other}" th:object="${#lists.size(applicants)}">
-                <td>Applicants</td>
-                <td th:if="${#object != 0}"><a th:text="${#object}" th:href="${'/hr/applicants/' + advert.id}"></a></td>
-                <td th:if="${#object == 0}">No applicant.</td>
-            </tr>
-            <tr th:if="${not other}">
-                <td>Edit</td>
-                <td><a th:href="${'/hr/advert/edit/' + advert.id}">Edit</a></td>
-            </tr>
-            <tr th:if="${not other}">
-                <td>Delete</td>
-                <td><a th:href="${'/hr/advert/delete/' + advert.id}">Delete</a></td>
-            </tr>
-        </table>
+        <div class="container">
+            <table class="table table-hover">
+                <tr>
+                    <td>ID</td>
+                    <td th:text="${advert.id}"></td>
+                </tr>
+                <tr th:if="${other}">
+                    <td>HR</td>
+                    <td th:text="${advert.hr}"></td>
+                </tr>
+                <tr>
+                    <td>Status</td>
+                    <td th:text="${advert.status}? 'Active' : 'Passive'"></td>
+                </tr>
+                <tr>
+                    <td>Title</td>
+                    <td th:text="${advert.title}"></td>
+                </tr>
+                <tr>
+                    <td>Description</td>
+                    <td style="white-space: pre-wrap" th:text="${advert.description}"></td>
+                </tr>
+                <tr>
+                    <td>Properties</td>
+                    <td style="white-space: pre-wrap" th:text="${advert.properties}"></td>
+                </tr>
+                <tr>
+                    <td>Activation</td>
+                    <td th:text="${#dates.format(advert.activation,'dd/MM/yyyy HH:mm')}"></td>
+                </tr>
+                <tr>
+                    <td>Deactivation</td>
+                    <td th:text="${#dates.format(advert.deactivation,'dd/MM/yyyy HH:mm')}"></td>
+                </tr>
+                <tr th:if="${not other}" th:object="${#lists.size(advert.applications)}">
+                    <td>Applications</td>
+                    <td th:if="${#object != 0}"><a th:text="${#object}" th:href="${'/hr/applications/' + advert.id}"></a></td>
+                    <td th:if="${#object == 0}">No application.</td>
+                </tr>
+                <tr th:if="${not other}" th:object="${#lists.size(applicants)}">
+                    <td>Applicants</td>
+                    <td th:if="${#object != 0}"><a th:text="${#object}" th:href="${'/hr/applicants/' + advert.id}"></a></td>
+                    <td th:if="${#object == 0}">No applicant.</td>
+                </tr>
+                <tr th:if="${not other}">
+                    <td>Edit</td>
+                    <td><a th:href="${'/hr/advert/edit/' + advert.id}">Edit</a></td>
+                </tr>
+                <tr th:if="${not other}">
+                    <td>Delete</td>
+                    <td><a th:href="${'/hr/advert/delete/' + advert.id}">Delete</a></td>
+                </tr>
+            </table>
+        </div>
     </body>
 </html>
