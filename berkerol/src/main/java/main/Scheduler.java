@@ -1,8 +1,8 @@
 package main;
 
 import java.util.Date;
-import main.entities.Ilan;
-import main.services.IlanService;
+import main.entities.Advert;
+import main.services.AdvertService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -10,25 +10,29 @@ import org.springframework.stereotype.Component;
 @Component
 public class Scheduler {
 
-    private IlanService ilanService;
+    private AdvertService advertService;
 
     @Autowired
-    public void setIlanService(IlanService ilanService) {
-        this.ilanService = ilanService;
+    public void setAdvertService(AdvertService advertService) {
+        this.advertService = advertService;
     }
 
-    @Scheduled(cron = "0/10 * * * * *")
-    public void ilanDurumlari() {
-        System.out.println("Ilan Durum Kontrolu");
+    @Scheduled(cron = "0 * * * * *")
+    public void setAdvertStatuses() {
         Date date = new Date();
-        for (Ilan ilan : ilanService.tumIlanlar()) {
-            if (ilan.getAktivasyon().before(date)) {
-                ilan.setDurum(true);
+        for (Advert advert : advertService.findAllAdverts()) {
+            boolean change = false;
+            if (advert.getActivation().before(date)) {
+                advert.setStatus(true);
+                change = true;
             }
-            if (ilan.getKapanma().before(date)) {
-                ilan.setDurum(false);
+            if (advert.getDeactivation().before(date)) {
+                advert.setStatus(false);
+                change = true;
             }
-            ilanService.ilanKaydet(ilan);
+            if (change) {
+                advertService.saveAdvert(advert);
+            }
         }
 
     }

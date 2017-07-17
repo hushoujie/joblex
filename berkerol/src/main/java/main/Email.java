@@ -12,21 +12,21 @@ import javax.mail.internet.MimeMessage;
 
 public class Email {
 
-    static String durum(int i) {
-        switch (i) {
+    static String getStatus(int status) {
+        switch (status) {
             case 0:
-                return "beklemededir";
+                return "waiting";
             case 1:
-                return "işleme alındı";
+                return "processing";
             case 2:
-                return "kabul edildi";
+                return "accepted";
             case 3:
-                return "reddedildi";
+                return "rejected";
         }
         return "";
     }
 
-    static void send(String to, String aday, String ilan, int durum) {
+    static void send(String to, String advert, String applicant, int status) {
         Properties properties = System.getProperties();
         properties.setProperty("mail.smtp.starttls.enable", "true");
         properties.setProperty("mail.smtp.auth", "true");
@@ -43,10 +43,10 @@ public class Email {
         try {
             message.setFrom(new InternetAddress("obss.ik.1@gmail.com"));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-            message.setSubject(ilan + " ilanına ait başvurunuz hakkında bilgilendirme", "utf-8");
-            message.setText("Sayın " + aday + ",\n"
-                    + ilan + " ilanına ait başvurunuz " + durum(durum) + ".\n"
-                    + "İlginiz için teşekkür ederiz.", "utf-8");
+            message.setSubject("Information about your application for the advert " + advert);
+            message.setText("Dear " + applicant + ",\n"
+                    + "Your application for the advert " + advert + " is " + getStatus(status) + ".\n"
+                    + "Thank you for your interest.");
             Transport.send(message);
         } catch (AddressException ex) {
             ex.printStackTrace();

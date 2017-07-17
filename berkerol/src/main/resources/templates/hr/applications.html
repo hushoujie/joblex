@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Applications</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <div th:include="hr/menu"></div>
+        <form th:action="@{${address}}" method="post">
+            <input type="checkbox" name="waiting" value="true" th:checked="${waiting == true}" />&nbsp;<span>Waiting</span>
+            <input type="checkbox" name="processing" value="true" th:checked="${processing == true}" />&nbsp;<span>Processing</span>
+            <input type="checkbox" name="accepted" value="true" th:checked="${accepted == true}" />&nbsp;<span>Accepted</span>
+            <input type="checkbox" name="rejected" value="true" th:checked="${rejected == true}" />&nbsp;<span>Rejected</span>
+            <input type="submit" value="Filter" />
+        </form>
+        <div th:if="${#lists.isEmpty(applications)}">No application.</div>
+        <table th:if="${not #lists.isEmpty(applications)}">
+            <tr>
+                <th>Application Status</th>
+                <th>Advert ID</th>
+                <th>Advert Title</th>
+                <th>Name</th>
+                <th>Job</th>
+                <th>Industry</th>
+                <th>Location</th>
+                <th>Details</th>
+            </tr>
+            <tr th:each="application : ${applications}">
+                <td th:text="${application.status == 0}? 'Waiting' : (${application.status == 1}? 'Processing' : (${application.status == 2}? 'Accepted' : 'Rejected'))"></td>
+                <td th:text="${application.advert.id}"></td>
+                <td th:text="${application.advert.title}"></td>
+                <td th:text="${application.applicant.firstname + ' ' + application.applicant.lastname}"></td>
+                <td>
+                    <table th:each="job : ${application.applicant.jobs}">
+                        <tr>
+                            <td th:text="${job.company + ' - ' + job.title}"></td>
+                        </tr>
+                    </table>
+                </td>
+                <td th:text="${application.applicant.industry}"></td>
+                <td th:text="${application.applicant.location}"></td>
+                <td><a th:href="${'/hr/application/' + application.id}">Details</a></td>
+            </tr>
+        </table>
+    </body>
+</html>

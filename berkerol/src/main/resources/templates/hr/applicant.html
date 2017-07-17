@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title th:text="${applicant.firstname + ' ' + applicant.lastname}"></title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <div th:include="hr/menu"></div>
+        <table>
+            <tr>
+                <td>Name</td>
+                <td th:text="${applicant.firstname + ' ' + applicant.lastname}"></td>
+            </tr>
+            <tr>
+                <td>Job</td>
+                <td>
+                    <table th:each="job : ${applicant.jobs}">
+                        <tr>
+                            <td th:text="${job.company + ' - ' + job.title}"></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>Industry</td>
+                <td th:text="${applicant.industry}"></td>
+            </tr>
+            <tr>
+                <td>Location</td>
+                <td th:text="${applicant.location}"></td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td th:text="${applicant.email}"></td>
+            </tr>
+            <tr>
+                <td>ID</td>
+                <td th:text="${applicant.id}"></td>
+            </tr>
+            <tr>
+                <td>Country</td>
+                <td th:text="${applicant.country}"></td>
+            </tr>
+            <tr>
+                <td>Headline</td>
+                <td th:text="${applicant.headline}"></td>
+            </tr>
+            <tr>
+                <td>Summary</td>
+                <td th:text="${applicant.summary}"></td>
+            </tr>
+            <tr>
+                <td>Blacklist</td>
+                <td th:text="${applicant.blacklist}? 'Yes' : 'No'"></td>
+            </tr>
+            <tr th:if="${applicant.blacklist}">
+                <td>Blacklist Reason</td>
+                <td th:text="${applicant.blreason}"></td>
+            </tr>
+            <tr>
+                <td>Blacklist Options</td>
+                <td th:if="${not applicant.blacklist}">
+                    <form id="blacklist_add" th:action="@{'/hr/blacklist/add/' + ${applicant.id}}" method="post">
+                        <textarea name="blreason" form="blacklist_add" rows="3" cols="30"></textarea>
+                        <br />
+                        <input type="submit" value="Add to Blacklist" />
+                    </form>
+                </td>
+                <td th:if="${applicant.blacklist}">
+                    <form th:action="@{'/hr/blacklist/delete/' + ${applicant.id}}" method="post">
+                        <input type="submit" value="Remove from Blacklist" />
+                    </form>
+                </td>
+            </tr>
+            <tr th:object="${#lists.size(applicant.applications)}">
+                <td>Adverts of all applications</td>
+                <td th:if="${#object != 0}"><a th:text="${#object}" th:href="${'/hr/adverts/' + applicant.id}"></a></td>
+                <td th:if="${#object == 0}">No application.</td>
+            </tr>
+        </table>
+    </body>
+</html>

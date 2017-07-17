@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Save Advert</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script>
+            function changeStatus() {
+                let check = document.getElementById("status");
+                let text = document.getElementById("status-text");
+                if (check.checked === true) {
+                    text.innerHTML = "Active";
+                } else {
+                    text.innerHTML = "Passive";
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <div th:include="hr/menu"></div>
+        <form id="save-advert" th:object="${advert}" th:action="@{/hr/advert/save}" method="post">
+            <table>
+                <tr>
+                    <td><label for="id">ID</label></td>
+                    <td><input type="number" id="id" th:field="*{id}" readonly="readonly" /></td>
+                </tr>
+                <tr>
+                    <td><label for="status">Status</label></td>
+                    <td><input type="checkbox" id="status" th:field="*{status}" onclick="changeStatus()" />&nbsp;<span id="status-text"></span></td>
+                <script>changeStatus();</script>
+                </tr>
+                <tr>
+                    <td><label for="title">Title</label></td>
+                    <td><input type="text" id="title" th:field="*{title}" size="50" /></td>
+                    <td th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></td>
+                </tr>
+                <tr>
+                    <td><label for="description">Description</label></td>
+                    <td><textarea id="description" form="save-advert" th:field="*{description}" rows="7" cols="70"></textarea></td>
+                    <td th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></td>
+                </tr>
+                <tr>
+                    <td><label for="properties">Properties</label></td>
+                    <td><textarea id="properties" form="save-advert" th:field="*{properties}" rows="10" cols="70"></textarea></td>
+                    <td th:if="${#fields.hasErrors('properties')}" th:errors="*{properties}"></td>
+                </tr>
+                <tr>
+                    <td><label for="activation">Activation</label></td>
+                    <td><input type="datetime-local" id="activation" th:field="*{activation}" /></td>
+                </tr>
+                <tr>
+                    <td><label for="deactivation">Deactivation</label></td>
+                    <td><input type="datetime-local" id="deactivation" th:field="*{deactivation}" /></td>
+                </tr>
+                <tr>
+                    <td><input type="submit" value="Save" /></td>
+                    <td><input type="reset" value="Reset" /></td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>

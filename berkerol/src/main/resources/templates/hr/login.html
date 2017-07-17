@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>HR Log In</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <div th:include="hr/menu"></div>
+        <div th:if="${param.error}">Username or password is wrong.</div>
+        <div th:if="${param.logout}">You have successfully logged out.</div>
+        <form th:action="@{/login}" method="post" >
+            <table>
+                <tr>
+                    <td><label for="username">Username</label></td>
+                    <td><input type="text" id="username" name="username" autofocus="autofocus" /></td>
+                </tr>
+                <tr>
+                    <td><label for="password">Password</label></td>
+                    <td><input type="password" id="password" name="password" /></td>
+                </tr>
+                <tr>
+                    <td><input type="submit" value="Log in" /></td>
+                    <td><input type="reset" value="Reset" /></td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>
