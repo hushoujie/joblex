@@ -6,82 +6,61 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title th:text="${applicant.firstname + ' ' + applicant.lastname}"></title>
         <link href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </head>
     <body>
         <div th:include="hr/menu"></div>
         <div class="container">
-            <table class="table table-hover">
-                <tr>
-                    <td>Name</td>
-                    <td th:text="${applicant.firstname + ' ' + applicant.lastname}"></td>
-                </tr>
-                <tr>
-                    <td>Job</td>
-                    <td>
-                        <table th:each="job : ${applicant.jobs}">
-                            <tr>
-                                <td th:text="${job.company + ' - ' + job.title}"></td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Industry</td>
-                    <td th:text="${applicant.industry}"></td>
-                </tr>
-                <tr>
-                    <td>Location</td>
-                    <td th:text="${applicant.location}"></td>
-                </tr>
-                <tr>
-                    <td>Email</td>
-                    <td th:text="${applicant.email}"></td>
-                </tr>
-                <tr>
-                    <td>ID</td>
-                    <td th:text="${applicant.id}"></td>
-                </tr>
-                <tr>
-                    <td>Country</td>
-                    <td th:text="${applicant.country}"></td>
-                </tr>
-                <tr>
-                    <td>Headline</td>
-                    <td th:text="${applicant.headline}"></td>
-                </tr>
-                <tr>
-                    <td>Summary</td>
-                    <td th:text="${applicant.summary}"></td>
-                </tr>
-                <tr>
-                    <td>Blacklist</td>
-                    <td th:text="${applicant.blacklist}? 'Yes' : 'No'"></td>
-                </tr>
-                <tr th:if="${applicant.blacklist}">
-                    <td>Blacklist Reason</td>
-                    <td th:text="${applicant.blreason}"></td>
-                </tr>
-                <tr>
-                    <td>Blacklist Options</td>
-                    <td th:if="${not applicant.blacklist}">
-                        <form id="blacklist_add" th:action="@{'/hr/blacklist/add/' + ${applicant.id}}" method="post">
-                            <textarea name="blreason" form="blacklist_add" class="form-control" rows="3"></textarea>
-                            <br />
-                            <button class="btn btn-danger" type="submit">Add to Blacklist</button>
-                        </form>
-                    </td>
-                    <td th:if="${applicant.blacklist}">
-                        <form th:action="@{'/hr/blacklist/delete/' + ${applicant.id}}" method="post">
-                            <button class="btn btn-success" type="submit">Remove From Blacklist</button>
-                        </form>
-                    </td>
-                </tr>
-                <tr th:object="${#lists.size(applicant.applications)}">
-                    <td>Adverts of all applications</td>
-                    <td th:if="${#object != 0}"><a th:text="${#object}" th:href="${'/hr/adverts/' + applicant.id}"></a></td>
-                    <td th:if="${#object == 0}">No application.</td>
-                </tr>
-            </table>
+            <dl class="dl-horizontal">
+                <dt>Name</dt>
+                <dd th:text="${applicant.firstname + ' ' + applicant.lastname}"></dd>
+                <dt>Job</dt>
+                <dd>
+                    <table th:each="job : ${applicant.jobs}">
+                        <tr>
+                            <td th:text="${job.company + ' - ' + job.title}"></td>
+                        </tr>
+                    </table>
+                </dd>
+                <dt>Industry</dt>
+                <dd th:text="${applicant.industry}"></dd>
+                <dt>Location</dt>
+                <dd th:text="${applicant.location}"></dd>
+                <dt>Email</dt>
+                <dd th:text="${applicant.email}"></dd>
+                <dt>ID</dt>
+                <dd th:text="${applicant.id}"></dd>
+                <dt>Country</dt>
+                <dd th:text="${applicant.country}"></dd>
+                <dt>Headline</dt>
+                <dd th:text="${applicant.headline}"></dd>
+                <dt>Summary</dt>
+                <dd th:text="${applicant.summary}"></dd>
+                <dt>Blacklist</dt>
+                <dd th:text="${applicant.blacklist}? 'Yes' : 'No'"></dd>
+                <div th:if="${applicant.blacklist}">
+                    <dt>Blacklist Reason</dt>
+                    <dd th:text="${applicant.blreason}"></dd>
+                </div>
+            </dl>
+            <div>
+                <button class="btn btn-lg btn-warning" data-toggle="collapse" data-target="#blacklist">Blacklist Options</button>
+                <a class="btn btn-lg btn-success" th:object="${#lists.size(applicant.applications)}" 
+                   th:href="${'/hr/adverts/' + applicant.id}">Adverts of all applications&nbsp;<span class="badge" th:text="${#object}"></span></a>
+            </div>
+            <div th:if="${not applicant.blacklist}" id="blacklist" class="collapse row col-xs-4">
+                <form id="blacklist_add" th:action="@{'/hr/blacklist/add/' + ${applicant.id}}" method="post">
+                    <textarea name="blreason" form="blacklist_add" class="form-control" rows="3"></textarea>
+                    <br />
+                    <button class="btn btn-danger" type="submit">Add to Blacklist</button>
+                </form>
+            </div>
+            <div th:if="${applicant.blacklist}" id="blacklist" class="collapse">
+                <form th:action="@{'/hr/blacklist/delete/' + ${applicant.id}}" method="post">
+                    <button class="btn btn-success" type="submit">Remove From Blacklist</button>
+                </form>
+            </div>
         </div>
     </body>
 </html>

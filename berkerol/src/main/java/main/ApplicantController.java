@@ -105,6 +105,12 @@ public class ApplicantController {
         return "redirect:/advert/" + advertId + "?sent";
     }
 
+    @RequestMapping("/application/cancel/{applicationId}")
+    public String cancelApplication(@PathVariable int applicationId, Model model) {
+        applicationService.deleteApplication(applicationId);
+        return "redirect:/applicant/";
+    }
+
     @RequestMapping("/applicant/")
     public String findAllApplications(Model model) {
         if (connectionRepository.findPrimaryConnection(LinkedIn.class) == null) {
@@ -147,7 +153,6 @@ public class ApplicantController {
         applicant.setCountry(profileFull.getLocation().getCountry());
         applicant.setHeadline(profileFull.getHeadline());
         applicant.setSummary(profileFull.getSummary());
-        applicant.setBlacklist(false);
         applicantService.saveApplicant(applicant);
         for (Position position : profileFull.getPositions()) {
             LinkedInDate startdate = position.getStartDate();

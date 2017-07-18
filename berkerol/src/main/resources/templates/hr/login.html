@@ -9,15 +9,15 @@
         <link href="../../static/css/signin.css" rel="stylesheet" />
     </head>
     <body>
-        <div th:if="${param.error}" class="alert alert-warning" role="alert">
-            Username or password is wrong.
-        </div>
-        <div th:if="${param.logout}" class="container alert alert-info" role="alert">
-            You have successfully logged out.
-        </div>
         <div class="container">
+            <div th:if="${param.error}" class="alert alert-warning" role="alert">
+                Username or password is wrong.
+            </div>
+            <div th:if="${param.logout}" class="alert alert-info" role="alert">
+                You have successfully logged out.
+            </div>
             <form class="form-signin" th:action="@{/login}" method="post" >
-                <h2 class="form-signin-heading">Log in</h2>
+                <h2 class="form-signin-heading">HR Log In</h2>
                 <label for="username" class="sr-only">Username</label>
                 <input type="text" id="username" name="username" class="form-control" placeholder="Username" required="required" autofocus="autofocus" />
                 <label for="password" class="sr-only">Password</label>

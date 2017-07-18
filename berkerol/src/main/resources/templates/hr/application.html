@@ -10,10 +10,10 @@
     <body>
         <div th:include="hr/menu"></div>
         <div class="container">
-            <table class="table table-hover">
-                <tr>
-                    <td>Application Status</td>
-                    <td>
+            <dl class="dl-horizontal">
+                <dt>Application Status</dt>
+                <dd>
+                    <div class="row col-xs-2">
                         <form id="application" th:action="@{'/hr/application/change/' + ${application_.id}}" method="post">
                             <select name="status" form="application" class="form-control" onchange="this.form.submit()">
                                 <option th:value="0" th:selected="${application_.status == 0}">Waiting</option>
@@ -22,48 +22,31 @@
                                 <option th:value="3" th:selected="${application_.status == 3}">Rejected</option>
                             </select>
                         </form>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Advert Title</td>
-                    <td th:text="${application_.advert.title}"></td>
-                </tr>
-                <tr>
-                    <td>Name</td>
-                    <td th:text="${application_.applicant.firstname + ' ' + application_.applicant.lastname}"></td>
-                </tr>
-                <tr>
-                    <td>Job</td>
-                    <td>
-                        <table th:each="job : ${application_.applicant.jobs}">
-                            <tr>
-                                <td th:text="${job.company + ' - ' + job.title}"></td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Industry</td>
-                    <td th:text="${application_.applicant.industry}"></td>
-                </tr>
-                <tr>
-                    <td>Location</td>
-                    <td th:text="${application_.applicant.location}"></td>
-                </tr>
-                <tr>
-                    <td>Advert</td>
-                    <td><a th:href="${'/hr/advert/' + application_.advert.id}">Advert</a></td>
-                </tr>
-                <tr>
-                    <td>Applicant</td>
-                    <td><a th:href="${'/hr/applicant/' + application_.applicant.id}">Applicant</a></td>
-                </tr>
-                <tr th:object="${#lists.size(application_.applicant.applications) - 1}">
-                    <td>Adverts of other applications</td>
-                    <td th:if="${#object != 0}"><a th:text="${#object}" th:href="${'/hr/others/' + application_.id}"></a></td>
-                    <td th:if="${#object == 0}">No advert.</td>
-                </tr>
-            </table>
+                    </div>
+                </dd>
+                <dt>Advert ID</dt>
+                <dd th:text="${application_.advert.id}"></dd>
+                <dt>Advert Title</dt>
+                <dd th:text="${application_.advert.title}"></dd>
+                <dt>Name</dt>
+                <dd th:text="${application_.applicant.firstname + ' ' + application_.applicant.lastname}"></dd>
+                <dt>Job</dt>
+                <dd>
+                    <table th:each="job : ${application_.applicant.jobs}">
+                        <tr>
+                            <td th:text="${job.company + ' - ' + job.title}"></td>
+                        </tr>
+                    </table>
+                </dd>
+                <dt>Industry</dt>
+                <dd th:text="${application_.applicant.industry}"></dd>
+                <dt>Location</dt>
+                <dd th:text="${application_.applicant.location}"></dd>
+            </dl>
+            <a class="btn btn-lg btn-success" th:href="${'/hr/advert/' + application_.advert.id}">Advert</a>
+            <a class="btn btn-lg btn-info" th:href="${'/hr/applicant/' + application_.applicant.id}">Applicant</a>
+            <a class="btn btn-lg btn-warning" th:object="${#lists.size(application_.applicant.applications) - 1}"
+               th:href="${'/hr/others/' + application_.id}">Adverts of other applications&nbsp;<span class="badge" th:text="${#object}"></span></a>
         </div>
     </body>
 </html>

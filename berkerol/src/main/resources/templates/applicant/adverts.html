@@ -11,29 +11,33 @@
         <div th:include="applicant/menu"></div>
         <div class="container">
             <div th:if="${#lists.isEmpty(adverts)}">No advert.</div>
-            <table class="table table-bordered table-striped" th:if="${not #lists.isEmpty(adverts)}">
-                <tr>
-                    <th>ID</th>
-                    <th>HR</th>
-                    <th>Status</th>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Properties</th>
-                    <th>Activation</th>
-                    <th>Deactivation</th>
-                    <th>Details</th>
-                </tr>
-                <tr th:each="advert : ${adverts}">
-                    <td th:text="${advert.id}"></td>
-                    <td th:text="${advert.hr}"></td>
-                    <td th:text="${advert.status}? 'Active' : 'Passive'"></td>
-                    <td th:text="${advert.title}"></td>
-                    <td style="white-space: pre-wrap" th:text="${advert.description}"></td>
-                    <td style="white-space: pre-wrap" th:text="${advert.properties}"></td>
-                    <td th:text="${#dates.format(advert.activation,'dd/MM/yyyy HH:mm')}"></td>
-                    <td th:text="${#dates.format(advert.deactivation,'dd/MM/yyyy HH:mm')}"></td>
-                    <td><a th:href="${'/advert/' + advert.id}">Details</a></td>
-                </tr>
+            <table class="table table-bordered table-hover" th:if="${not #lists.isEmpty(adverts)}">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>HR</th>
+                        <th>Status</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Properties</th>
+                        <th>Activation</th>
+                        <th>Deactivation</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="advert : ${adverts}" th:class="${advert.status}? info : warning">
+                        <td th:text="${advert.id}"></td>
+                        <td th:text="${advert.hr}"></td>
+                        <td th:text="${advert.status}? 'Active' : 'Passive'"></td>
+                        <td th:text="${advert.title}"></td>
+                        <td style="white-space: pre-wrap" th:text="${advert.description}"></td>
+                        <td style="white-space: pre-wrap" th:text="${advert.properties}"></td>
+                        <td th:text="${#dates.format(advert.activation,'dd/MM/yyyy HH:mm')}"></td>
+                        <td th:text="${#dates.format(advert.deactivation,'dd/MM/yyyy HH:mm')}"></td>
+                        <td><a th:href="${'/advert/' + advert.id}">Details</a></td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </body>

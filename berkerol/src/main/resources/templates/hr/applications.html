@@ -11,14 +11,15 @@
         <div th:include="hr/menu"></div>
         <div class="container">
             <form class="form-inline" th:action="@{${address}}" method="post">
-                <label class="checkbox-inline"><input type="checkbox" name="waiting" value="true" th:checked="${waiting == true}" />&nbsp;Waiting</label>
-                <label class="checkbox-inline"><input type="checkbox" name="processing" value="true" th:checked="${processing == true}" />&nbsp;Processing</label>
-                <label class="checkbox-inline"><input type="checkbox" name="accepted" value="true" th:checked="${accepted == true}" />&nbsp;Accepted</label>
-                <label class="checkbox-inline"><input type="checkbox" name="rejected" value="true" th:checked="${rejected == true}" />&nbsp;Rejected</label>
+                <label class="checkbox-inline"><input type="checkbox" name="waiting" value="true" th:checked="${waiting == true}" />&nbsp;<span class="label label-info">Waiting</span></label>
+                <label class="checkbox-inline"><input type="checkbox" name="processing" value="true" th:checked="${processing == true}" />&nbsp;<span class="label label-warning">Processing</span></label>
+                <label class="checkbox-inline"><input type="checkbox" name="accepted" value="true" th:checked="${accepted == true}" />&nbsp;<span class="label label-success">Accepted</span></label>
+                <label class="checkbox-inline"><input type="checkbox" name="rejected" value="true" th:checked="${rejected == true}" />&nbsp;<span class="label label-danger">Rejected</span></label>
+                <span style="margin-left: 20px;"></span>
                 <button class="btn btn-primary" type="submit">Filter</button>
             </form>
             <div th:if="${#lists.isEmpty(applications)}">No application.</div>
-            <table class="table table-bordered table-striped" th:if="${not #lists.isEmpty(applications)}">
+            <table class="table table-bordered table-hover" th:if="${not #lists.isEmpty(applications)}">
                 <thead>
                     <tr>
                         <th>Application Status</th>
@@ -32,7 +33,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="application : ${applications}">
+                    <tr th:each="application : ${applications}" th:class="${application.status == 0}? info : (${application.status == 1}? warning : (${application.status == 2}? success : danger))">
                         <td th:text="${application.status == 0}? 'Waiting' : (${application.status == 1}? 'Processing' : (${application.status == 2}? 'Accepted' : 'Rejected'))"></td>
                         <td th:text="${application.advert.id}"></td>
                         <td th:text="${application.advert.title}"></td>

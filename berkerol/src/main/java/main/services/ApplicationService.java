@@ -27,4 +27,8 @@ public class ApplicationService {
         return applicationRepository.save(application);
     }
 
+    public void deleteApplication(int id) {
+        applicationRepository.delete(id);
+    }
+
 }
