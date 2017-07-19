@@ -1,62 +1,93 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Save Advert</title>
-        <meta charset="utf-8" />
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Save Advert</title>
         <script>
             function changeStatus() {
                 let check = document.getElementById("status");
                 let text = document.getElementById("status-text");
                 if (check.checked === true) {
                     text.innerHTML = "Active";
+                    text.setAttribute("class", "label label-info");
                 } else {
                     text.innerHTML = "Passive";
+                    text.setAttribute("class", "label label-warning");
                 }
             }
         </script>
     </head>
     <body>
         <div th:include="hr/menu"></div>
-        <form id="save-advert" th:object="${advert}" th:action="@{/hr/advert/save}" method="post">
-            <table>
-                <tr>
-                    <td><label for="id">ID</label></td>
-                    <td><input type="number" id="id" th:field="*{id}" readonly="readonly" /></td>
-                </tr>
-                <tr>
-                    <td><label for="status">Status</label></td>
-                    <td><input type="checkbox" id="status" th:field="*{status}" onclick="changeStatus()" />&nbsp;<span id="status-text"></span></td>
-                <script>changeStatus();</script>
-                </tr>
-                <tr>
-                    <td><label for="title">Title</label></td>
-                    <td><input type="text" id="title" th:field="*{title}" size="50" /></td>
-                    <td th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></td>
-                </tr>
-                <tr>
-                    <td><label for="description">Description</label></td>
-                    <td><textarea id="description" form="save-advert" th:field="*{description}" rows="7" cols="70"></textarea></td>
-                    <td th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></td>
-                </tr>
-                <tr>
-                    <td><label for="properties">Properties</label></td>
-                    <td><textarea id="properties" form="save-advert" th:field="*{properties}" rows="10" cols="70"></textarea></td>
-                    <td th:if="${#fields.hasErrors('properties')}" th:errors="*{properties}"></td>
-                </tr>
-                <tr>
-                    <td><label for="activation">Activation</label></td>
-                    <td><input type="datetime-local" id="activation" th:field="*{activation}" /></td>
-                </tr>
-                <tr>
-                    <td><label for="deactivation">Deactivation</label></td>
-                    <td><input type="datetime-local" id="deactivation" th:field="*{deactivation}" /></td>
-                </tr>
-                <tr>
-                    <td><input type="submit" value="Save" /></td>
-                    <td><input type="reset" value="Reset" /></td>
-                </tr>
-            </table>
-        </form>
+        <div class="container">
+            <form id="save-advert" th:object="${advert}" th:action="@{/hr/advert/save}" method="post" >
+                <h2 class="form-heading">Save Advert</h2>
+                <div class="row form-group">
+                    <label class="control-label col-sm-2" for="id">ID</label>
+                    <div class="col-md-2">
+                        <input type="number" id="id" th:field="*{id}" class="form-control" readonly="readonly" />
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="control-label col-sm-2" for="status">Status</label>
+                    <div class="checkbox">
+                        <label for="status">
+                            <input type="checkbox" id="status" th:field="*{status}" onclick="changeStatus();" />
+                            <h3 style="display: inline;"><span id="status-text"></span></h3>
+                            <script>changeStatus();</script>
+                        </label>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="control-label col-sm-2" for="title">Title</label>
+                    <div class="col-md-6">
+                        <input type="text" id="title" th:field="*{title}" class="form-control" placeholder="Title" required="required" autofocus="autofocus" />
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="control-label col-sm-2" for="description">Description</label>
+                    <div class="col-md-8">
+                        <textarea id="description" form="save-advert" th:field="*{description}" class="form-control" rows="7" placeholder="Description" required="required"></textarea>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="control-label col-sm-2" for="properties">Properties</label>
+                    <div class="col-md-8">
+                        <textarea id="properties" form="save-advert" th:field="*{properties}" class="form-control" rows="10" placeholder="Properties" required="required"></textarea>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="control-label col-sm-2" for="activation">Activation</label>
+                    <div class="col-md-4 input-group date" id="activation-select">
+                        <input type="text" id="activation" th:field="*{activation}" class="form-control" required="required" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="control-label col-sm-2" for="deactivation">Deactivation</label>
+                    <div class="col-md-4 input-group date" id="deactivation-select">
+                        <input type="text" id="deactivation" th:field="*{deactivation}" class="form-control" required="required" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+                <script>
+                    $(function () {
+                        $('#activation-select').datetimepicker();
+                        $('#deactivation-select').datetimepicker();
+                    });
+                </script>
+                <div class="form-group">
+                    <button class="btn btn-lg btn-primary" type="submit">Save</button>
+                    <span style="margin-left: 20px;"></span>
+                    <button class="btn btn-lg btn-info" type="reset">Reset</button>
+                </div>
+            </form>
+        </div>
     </body>
 </html>

@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
-import javax.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -24,20 +23,17 @@ public class Advert implements Serializable {
 
     private boolean status;
 
-    @Size(min = 5, max = 50, message = "length should be between 5 and 50")
     private String title;
 
-    @Size(min = 5, max = 200, message = "length should be between 5 and 200")
     private String description;
 
-    @Size(min = 5, max = 200, message = "length should be between 5 and 200")
     private String properties;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @DateTimeFormat(pattern = "MM/dd/yyyy HH:mm")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date activation;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @DateTimeFormat(pattern = "MM/dd/yyyy HH:mm")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date deactivation;
 

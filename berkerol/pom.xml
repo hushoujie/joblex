@@ -19,7 +19,7 @@
         <version>1.5.4.RELEASE</version>
         <relativePath></relativePath>
     </parent>
-
+    
     <build>
         <plugins>
             <plugin>
@@ -90,16 +90,6 @@
             <artifactId>javaee-web-api</artifactId>
             <version>7.0</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>bootstrap</artifactId>
-            <version>3.3.7</version>
-        </dependency>
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>font-awesome</artifactId>
-            <version>4.7.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>

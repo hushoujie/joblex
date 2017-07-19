@@ -3,7 +3,6 @@ package main;
 import java.security.Principal;
 import java.util.LinkedList;
 import java.util.List;
-import javax.validation.Valid;
 import main.entities.Advert;
 import main.entities.Applicant;
 import main.entities.Application;
@@ -13,7 +12,6 @@ import main.services.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -64,11 +62,7 @@ public class HRController {
     }
 
     @RequestMapping("/advert/save")
-    public String saveAdvert(@Valid Advert advert, BindingResult bindingResult, Model model, Principal principal) {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("hrname", principal.getName());
-            return "/hr/advert-save";
-        }
+    public String saveAdvert(Advert advert, Principal principal) {
         advert.setHr(principal.getName());
         advertService.saveAdvert(advert);
         return "redirect:/hr/advert/" + advert.getId();
