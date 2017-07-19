@@ -21,7 +21,7 @@
                         <th>Application Status</th>
                         <th>ID</th>
                         <th>HR</th>
-                        <th>Status</th>
+                        <th class="filter-select filter-exact">Status</th>
                         <th>Title</th>
                         <th>Description</th>
                         <th>Properties</th>
@@ -30,6 +30,39 @@
                         <th>Details</th>
                     </tr>
                 </thead>
+                <tfoot>
+                    <tr>
+                        <th>Application Status</th>
+                        <th>ID</th>
+                        <th>HR</th>
+                        <th>Status</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Properties</th>
+                        <th>Activation</th>
+                        <th>Deactivation</th>
+                        <th>Details</th>
+                    </tr>
+                    <tr>
+                        <th colspan="10" class="ts-pager form-inline">
+                            <div class="btn-group btn-group-sm" role="group">
+                                <button type="button" class="btn btn-default first"><span class="glyphicon glyphicon-step-backward"></span></button>
+                                <button type="button" class="btn btn-default prev"><span class="glyphicon glyphicon-backward"></span></button>
+                            </div>
+                            <span class="pagedisplay"></span>
+                            <div class="btn-group btn-group-sm" role="group">
+                                <button type="button" class="btn btn-default next"><span class="glyphicon glyphicon-forward"></span></button>
+                                <button type="button" class="btn btn-default last"><span class="glyphicon glyphicon-step-forward"></span></button>
+                            </div>
+                            <select class="form-control input-sm pagesize" title="Select page size">
+                                <option selected="selected" value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="all">All Rows</option>
+                            </select>
+                            <select class="form-control input-sm pagenum" title="Select page number"></select>
+                        </th>
+                    </tr>
+                </tfoot>
                 <tbody>
                     <tr th:each="application : ${applications}" th:class="${application.status == 0}? info : (${application.status == 1}? warning : (${application.status == 2}? success : danger))">
                         <td th:text="${application.status == 0}? 'Waiting' : (${application.status == 1}? 'Processing' : (${application.status == 2}? 'Accepted' : 'Rejected'))"></td>
