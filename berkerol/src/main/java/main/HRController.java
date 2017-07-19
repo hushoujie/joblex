@@ -116,7 +116,7 @@ public class HRController {
     @RequestMapping("/adverts")
     public String findAllAdverts(Model model, Principal principal) {
         model.addAttribute("hrname", principal.getName());
-        model = setAdvertOptions(advertService.findAllAdverts(principal.getName()), false, principal.getName(), model);
+        model.addAttribute("adverts", advertService.findAllAdverts());
         return "/hr/adverts";
     }
 
@@ -127,7 +127,7 @@ public class HRController {
         for (Application application : applicantService.findApplicant(applicantId).getApplications()) {
             adverts.add(application.getAdvert());
         }
-        model = setAdvertOptions(adverts, true, principal.getName(), model);
+        model.addAttribute("adverts", adverts);
         return "/hr/adverts";
     }
 
@@ -137,18 +137,11 @@ public class HRController {
         Application application = applicationService.findApplication(applicationId);
         LinkedList<Advert> adverts = new LinkedList<>();
         for (Application app : application.getApplicant().getApplications()) {
-            adverts.add(advertService.findAdvert(app.getAdvert().getId()));
+            adverts.add(app.getAdvert());
         }
-        adverts.remove(advertService.findAdvert(application.getAdvert().getId()));
-        model = setAdvertOptions(adverts, true, principal.getName(), model);
-        return "/hr/adverts";
-    }
-
-    private Model setAdvertOptions(Iterable<Advert> adverts, boolean other, String hr, Model model) {
+        adverts.remove(application.getAdvert());
         model.addAttribute("adverts", adverts);
-        model.addAttribute("other", other);
-        model.addAttribute("hr", hr);
-        return model;
+        return "/hr/adverts";
     }
 
     @RequestMapping("/advert/{advertId}")
@@ -161,15 +154,6 @@ public class HRController {
         }
         model.addAttribute("applicants", applicants);
         model.addAttribute("advert", advert);
-        model.addAttribute("other", false);
-        return "/hr/advert";
-    }
-
-    @RequestMapping("/other/{advertId}")
-    public String findOtherAdvert(@PathVariable int advertId, Model model, Principal principal) {
-        model.addAttribute("hrname", principal.getName());
-        model.addAttribute("advert", advertService.findAdvert(advertId));
-        model.addAttribute("other", true);
         return "/hr/advert";
     }
 
@@ -179,7 +163,7 @@ public class HRController {
             @RequestParam(required = false, defaultValue = "false") boolean rejected, Model model, Principal principal) {
         model.addAttribute("hrname", principal.getName());
         LinkedList<Application> applications = new LinkedList<>();
-        for (Advert advert : advertService.findAllAdverts(principal.getName())) {
+        for (Advert advert : advertService.findAllAdverts()) {
             applications.addAll(advert.getApplications());
         }
         model = filterApplications(waiting, processing, accepted, rejected, applications, model);

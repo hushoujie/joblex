@@ -5,7 +5,6 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Adverts</title>
-        <link href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
     </head>
     <body>
         <div th:include="hr/menu"></div>
@@ -15,7 +14,7 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th th:if="${other}">HR</th>
+                        <th>HR</th>
                         <th>Status</th>
                         <th>Title</th>
                         <th>Description</th>
@@ -28,17 +27,14 @@
                 <tbody>
                     <tr th:each="advert : ${adverts}" th:class="${advert.status}? info : warning">
                         <td th:text="${advert.id}"></td>
-                        <td th:if="${other}" th:text="${advert.hr}"></td>
+                        <td th:text="${advert.hr}"></td>
                         <td th:text="${advert.status}? 'Active' : 'Passive'"></td>
                         <td th:text="${advert.title}"></td>
                         <td style="white-space: pre-wrap" th:text="${advert.description}"></td>
                         <td style="white-space: pre-wrap" th:text="${advert.properties}"></td>
                         <td th:text="${#dates.format(advert.activation,'dd/MM/yyyy HH:mm')}"></td>
                         <td th:text="${#dates.format(advert.deactivation,'dd/MM/yyyy HH:mm')}"></td>
-                        <td>
-                            <a th:if="${hr == advert.hr}" th:href="${'/hr/advert/' + advert.id}">Details</a>
-                            <a th:if="${hr != advert.hr}" th:href="${'/hr/other/' + advert.id}">Details</a>
-                        </td>
+                        <td><a class="btn btn-primary" th:href="${'/hr/advert/' + advert.id}">Details</a></td>
                     </tr>
                 </tbody>
             </table>

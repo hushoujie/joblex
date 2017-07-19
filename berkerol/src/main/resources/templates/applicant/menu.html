@@ -4,14 +4,20 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Applicant</title>
         <link href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('.nav > li > a[href="' + window.location.pathname + '"]').parent().addClass('active');
+            });
+        </script>
     </head>
     <body style="padding-top: 70px;">
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="/">OBSS</a>
+                    <a class="navbar-brand" href="/"><img alt="Brand" src="../../static/images/obss.png" /></a>
                 </div>
                 <ul class="nav navbar-nav">
                     <li><a href="/adverts">Adverts</a></li>

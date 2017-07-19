@@ -19,10 +19,6 @@ public class AdvertService {
         return advertRepository.findAll();
     }
 
-    public Iterable<Advert> findAllAdverts(String hr) {
-        return advertRepository.findAllByHr(hr);
-    }
-
     public Advert findAdvert(int id) {
         return advertRepository.findOne(id);
     }

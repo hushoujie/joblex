@@ -5,19 +5,24 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Applications</title>
-        <link href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+        <style>
+            h4 {
+                display: inline;
+            }
+        </style>
     </head>
     <body>
         <div th:include="hr/menu"></div>
         <div class="container">
             <form class="form-inline" th:action="@{${address}}" method="post">
-                <label class="checkbox-inline"><input type="checkbox" name="waiting" value="true" th:checked="${waiting == true}" />&nbsp;<span class="label label-info">Waiting</span></label>
-                <label class="checkbox-inline"><input type="checkbox" name="processing" value="true" th:checked="${processing == true}" />&nbsp;<span class="label label-warning">Processing</span></label>
-                <label class="checkbox-inline"><input type="checkbox" name="accepted" value="true" th:checked="${accepted == true}" />&nbsp;<span class="label label-success">Accepted</span></label>
-                <label class="checkbox-inline"><input type="checkbox" name="rejected" value="true" th:checked="${rejected == true}" />&nbsp;<span class="label label-danger">Rejected</span></label>
+                <label class="checkbox-inline"><input type="checkbox" name="waiting" value="true" th:checked="${waiting == true}" />&nbsp;<h4><span class="label label-info">Waiting</span></h4></label>
+                <label class="checkbox-inline"><input type="checkbox" name="processing" value="true" th:checked="${processing == true}" />&nbsp;<h4><span class="label label-warning">Processing</span></h4></label>
+                <label class="checkbox-inline"><input type="checkbox" name="accepted" value="true" th:checked="${accepted == true}" />&nbsp;<h4><span class="label label-success">Accepted</span></h4></label>
+                <label class="checkbox-inline"><input type="checkbox" name="rejected" value="true" th:checked="${rejected == true}" />&nbsp;<h4><span class="label label-danger">Rejected</span></h4></label>
                 <span style="margin-left: 20px;"></span>
                 <button class="btn btn-primary" type="submit">Filter</button>
             </form>
+            <div style="margin-top: 20px;"></div>
             <div th:if="${#lists.isEmpty(applications)}">No application.</div>
             <table class="table table-bordered table-hover" th:if="${not #lists.isEmpty(applications)}">
                 <thead>
@@ -47,7 +52,7 @@
                         </td>
                         <td th:text="${application.applicant.industry}"></td>
                         <td th:text="${application.applicant.location}"></td>
-                        <td><a th:href="${'/hr/application/' + application.id}">Details</a></td>
+                        <td><a class="btn btn-primary" th:href="${'/hr/application/' + application.id}">Details</a></td>
                     </tr>
                 </tbody>
             </table>

@@ -5,7 +5,6 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Adverts</title>
-        <link href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
     </head>
     <body>
         <div th:include="applicant/menu"></div>
@@ -35,7 +34,7 @@
                         <td style="white-space: pre-wrap" th:text="${advert.properties}"></td>
                         <td th:text="${#dates.format(advert.activation,'dd/MM/yyyy HH:mm')}"></td>
                         <td th:text="${#dates.format(advert.deactivation,'dd/MM/yyyy HH:mm')}"></td>
-                        <td><a th:href="${'/advert/' + advert.id}">Details</a></td>
+                        <td><a class="btn btn-primary" th:href="${'/advert/' + advert.id}">Details</a></td>
                     </tr>
                 </tbody>
             </table>

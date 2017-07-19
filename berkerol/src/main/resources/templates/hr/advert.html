@@ -5,18 +5,15 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title th:text="${advert.title}"></title>
-        <link href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
     </head>
     <body>
         <div th:include="hr/menu"></div>
-        <div class="container">
+        <div class="jumbotron container">
             <dl class="dl-horizontal">
                 <dt>ID</dt>
                 <dd th:text="${advert.id}"></dd>
-                <div th:if="${other}">
-                    <dt>HR</dt>
-                    <dd th:text="${advert.hr}"></dd>
-                </div>
+                <dt>HR</dt>
+                <dd th:text="${advert.hr}"></dd>
                 <dt>Status</dt>
                 <dd th:text="${advert.status}? 'Active' : 'Passive'"></dd>
                 <dt>Title</dt>
@@ -30,12 +27,12 @@
                 <dt>Deactivation</dt>
                 <dd th:text="${#dates.format(advert.deactivation,'dd/MM/yyyy HH:mm')}"></dd>
             </dl>
-            <a class="btn btn-lg btn-success" th:if="${not other}" th:object="${#lists.size(advert.applications)}" 
+            <a class="btn btn-lg btn-success" th:object="${#lists.size(advert.applications)}" 
                th:href="${'/hr/applications/' + advert.id}">Applications&nbsp;<span class="badge" th:text="${#object}"></span></a>
-            <a class="btn btn-lg btn-info" th:if="${not other}" th:object="${#lists.size(applicants)}" 
+            <a class="btn btn-lg btn-info" th:object="${#lists.size(applicants)}" 
                th:href="${'/hr/applicants/' + advert.id}">Applicants&nbsp;<span class="badge" th:text="${#object}"></span></a>
-            <a class="btn btn-lg btn-warning" th:if="${not other}" th:href="${'/hr/advert/edit/' + advert.id}">Edit</a>
-            <a class="btn btn-lg btn-danger" th:if="${not other}" th:href="${'/hr/advert/delete/' + advert.id}">Delete</a>
+            <a class="btn btn-lg btn-warning" th:href="${'/hr/advert/edit/' + advert.id}">Edit</a>
+            <a class="btn btn-lg btn-danger" th:href="${'/hr/advert/delete/' + advert.id}">Delete</a>
         </div>
     </body>
 </html>
