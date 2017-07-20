@@ -14,6 +14,14 @@
                     <button class="btn btn-lg btn-primary" type="submit">Connect with LinkedIn</button>
                 </form>
             </div>
+            <form th:if="${linkedin}" class="form-inline" action="javascript:void(0);">
+                <div class="input-group col-md-4">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                    <input type="text" class="form-control search" data-column="any" placeholder="search table" />
+                </div>
+                <button class="btn btn-primary reset_filter">Reset Filters</button>
+                <button class="btn btn-info reset_sort">Reset Sort</button>
+            </form>
             <div th:if="${linkedin and #lists.isEmpty(applications)}">No application.</div>
             <table class="table table-bordered table-hover" th:if="${linkedin and not #lists.isEmpty(applications)}">
                 <thead>
@@ -60,6 +68,7 @@
                                 <option value="all">All Applications</option>
                             </select>
                             <select class="form-control input-sm gotoPage" title="Select page number"></select>
+                            <button class="btn btn-success print">Print Table</button>
                         </th>
                     </tr>
                 </tfoot>

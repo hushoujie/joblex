@@ -9,6 +9,14 @@
     <body>
         <div th:include="applicant/menu"></div>
         <div class="container">
+            <form class="form-inline" action="javascript:void(0);">
+                <div class="input-group col-md-4">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                    <input type="text" class="form-control search" data-column="any" placeholder="search table" />
+                </div>
+                <button class="btn btn-primary reset_filter">Reset Filters</button>
+                <button class="btn btn-info reset_sort">Reset Sort</button>
+            </form>
             <div th:if="${#lists.isEmpty(adverts)}">No advert.</div>
             <table class="table table-bordered table-hover" th:if="${not #lists.isEmpty(adverts)}">
                 <thead>
@@ -53,6 +61,7 @@
                                 <option value="all">All Adverts</option>
                             </select>
                             <select class="form-control input-sm gotoPage" title="Select page number"></select>
+                            <button class="btn btn-success print">Print Table</button>
                         </th>
                     </tr>
                 </tfoot>
