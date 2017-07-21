@@ -12,6 +12,10 @@
             <dl class="dl-horizontal">
                 <dt>Advert ID</dt>
                 <dd th:text="${application_.advert.id}"></dd>
+                <dt>Advert HR</dt>
+                <dd th:text="${application_.advert.hr}"></dd>
+                <dt>Advert Status</dt>
+                <dd th:text="${application_.advert.status}? 'Active' : 'Passive'"></dd>
                 <dt>Advert Title</dt>
                 <dd th:text="${application_.advert.title}"></dd>
                 <dt>Name</dt>

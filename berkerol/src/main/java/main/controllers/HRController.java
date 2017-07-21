@@ -1,7 +1,9 @@
 package main.controllers;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.LinkedList;
+import java.util.List;
 import main.components.Email;
 import main.entities.Advert;
 import main.entities.Applicant;
@@ -9,6 +11,12 @@ import main.entities.Application;
 import main.services.AdvertService;
 import main.services.ApplicantService;
 import main.services.ApplicationService;
+import main.solr.Item;
+import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.apache.solr.client.solrj.response.QueryResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,21 +50,18 @@ public class HRController {
     }
 
     @RequestMapping("/")
-    public String home(Model model, Principal principal) {
-        model.addAttribute("hrname", principal.getName());
+    public String home() {
         return "/hr/home";
     }
 
     @RequestMapping("/advert/add")
-    public String addAdvert(Model model, Principal principal) {
-        model.addAttribute("hrname", principal.getName());
+    public String addAdvert(Model model) {
         model.addAttribute("advert", new Advert());
         return "/hr/advert-save";
     }
 
     @RequestMapping("/advert/edit/{advertId}")
-    public String editAdvert(@PathVariable int advertId, Model model, Principal principal) {
-        model.addAttribute("hrname", principal.getName());
+    public String editAdvert(@PathVariable int advertId, Model model) {
         model.addAttribute("advert", advertService.findAdvert(advertId));
         return "/hr/advert-save";
     }
@@ -79,7 +84,7 @@ public class HRController {
     }
 
     @RequestMapping("/blacklist/add/{applicantId}")
-    public String addBlacklist(@PathVariable String applicantId, @RequestParam String blreason, Model model) {
+    public String addBlacklist(@PathVariable String applicantId, @RequestParam String blreason) {
         Applicant applicant = applicantService.findApplicant(applicantId);
         applicant.setBlacklist(true);
         applicant.setBlreason(blreason);
@@ -93,7 +98,7 @@ public class HRController {
     }
 
     @RequestMapping("/blacklist/delete/{applicantId}")
-    public String deleteBlacklist(@PathVariable String applicantId, Model model) {
+    public String deleteBlacklist(@PathVariable String applicantId) {
         Applicant applicant = applicantService.findApplicant(applicantId);
         applicant.setBlacklist(false);
         applicant.setBlreason(null);
@@ -108,15 +113,13 @@ public class HRController {
     }
 
     @RequestMapping("/adverts")
-    public String findAllAdverts(Model model, Principal principal) {
-        model.addAttribute("hrname", principal.getName());
+    public String findAllAdverts(Model model) {
         model.addAttribute("adverts", advertService.findAllAdverts());
         return "/hr/adverts";
     }
 
     @RequestMapping("/adverts/{applicantId}")
-    public String findAllAdverts(@PathVariable String applicantId, Model model, Principal principal) {
-        model.addAttribute("hrname", principal.getName());
+    public String findAllAdverts(@PathVariable String applicantId, Model model) {
         LinkedList<Advert> adverts = new LinkedList<>();
         for (Application application : applicantService.findApplicant(applicantId).getApplications()) {
             adverts.add(application.getAdvert());
@@ -126,8 +129,7 @@ public class HRController {
     }
 
     @RequestMapping("/others/{applicationId}")
-    public String findOtherAdverts(@PathVariable int applicationId, Model model, Principal principal) {
-        model.addAttribute("hrname", principal.getName());
+    public String findOtherAdverts(@PathVariable int applicationId, Model model) {
         Application application = applicationService.findApplication(applicationId);
         LinkedList<Advert> adverts = new LinkedList<>();
         for (Application app : application.getApplicant().getApplications()) {
@@ -139,8 +141,7 @@ public class HRController {
     }
 
     @RequestMapping("/advert/{advertId}")
-    public String findAdvert(@PathVariable int advertId, Model model, Principal principal) {
-        model.addAttribute("hrname", principal.getName());
+    public String findAdvert(@PathVariable int advertId, Model model) {
         Advert advert = advertService.findAdvert(advertId);
         LinkedList<Applicant> applicants = new LinkedList<>();
         for (Application application : advert.getApplications()) {
@@ -152,8 +153,7 @@ public class HRController {
     }
 
     @RequestMapping("/applications")
-    public String findAllApplications(Model model, Principal principal) {
-        model.addAttribute("hrname", principal.getName());
+    public String findAllApplications(Model model) {
         LinkedList<Application> applications = new LinkedList<>();
         for (Advert advert : advertService.findAllAdverts()) {
             applications.addAll(advert.getApplications());
@@ -163,29 +163,25 @@ public class HRController {
     }
 
     @RequestMapping("/applications/{advertId}")
-    public String findAllApplications(@PathVariable int advertId, Model model, Principal principal) {
-        model.addAttribute("hrname", principal.getName());
+    public String findAllApplications(@PathVariable int advertId, Model model) {
         model.addAttribute("applications", advertService.findAdvert(advertId).getApplications());
         return "/hr/applications";
     }
 
     @RequestMapping("/application/{applicationId}")
-    public String findApplication(@PathVariable int applicationId, Model model, Principal principal) {
-        model.addAttribute("hrname", principal.getName());
+    public String findApplication(@PathVariable int applicationId, Model model) {
         model.addAttribute("application_", applicationService.findApplication(applicationId));
         return "/hr/application";
     }
 
     @RequestMapping("/applicants")
-    public String findAllApplicants(Model model, Principal principal) {
-        model.addAttribute("hrname", principal.getName());
+    public String findAllApplicants(Model model) {
         model.addAttribute("applicants", applicantService.findAllApplicants());
         return "/hr/applicants";
     }
 
     @RequestMapping("/applicants/{advertId}")
-    public String findAllApplicants(@PathVariable int advertId, Model model, Principal principal) {
-        model.addAttribute("hrname", principal.getName());
+    public String findAllApplicants(@PathVariable int advertId, Model model) {
         LinkedList<Applicant> applicants = new LinkedList<>();
         for (Application application : advertService.findAdvert(advertId).getApplications()) {
             applicants.add(application.getApplicant());
@@ -195,10 +191,29 @@ public class HRController {
     }
 
     @RequestMapping("/applicant/{applicantId}")
-    public String findApplicant(@PathVariable String applicantId, Model model, Principal principal) {
-        model.addAttribute("hrname", principal.getName());
+    public String findApplicant(@PathVariable String applicantId, Model model) {
         model.addAttribute("applicant", applicantService.findApplicant(applicantId));
         return "/hr/applicant";
+    }
+
+    @RequestMapping("/search")
+    public String search() {
+        return "/hr/search";
+    }
+
+    @RequestMapping("/search/{text}")
+    public String search(@RequestParam String text, Model model) throws SolrServerException, IOException {
+        SolrClient solrClient = new HttpSolrClient.Builder("http://localhost:8983/solr/applicants").build();
+        SolrQuery query = new SolrQuery();
+        query.setQuery("*" + text + "*");
+        query.setHighlight(true);
+        query.addHighlightField("category");
+        query.setHighlightSimplePre("<strong>");
+        query.setHighlightSimplePost("</strong>");
+        QueryResponse response = solrClient.query(query);
+        List<Item> items = response.getBeans(Item.class);
+        model.addAttribute("items", items);
+        return "/hr/search";
     }
 
 }

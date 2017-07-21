@@ -44,9 +44,10 @@
                     <li><a href="/hr/adverts">Adverts</a></li>
                     <li><a href="/hr/applications">Applications</a></li>
                     <li><a href="/hr/applicants">Applicants</a></li>
+                    <li><a href="/hr/search">Applicant Search</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><p class="navbar-text" th:text="${'Logged in as ' + hrname}"></p></li>
+                    <li><p class="navbar-text" th:text="${'Logged in as ' + #authentication.name}"></p></li>
                     <li>
                         <form th:action="@{/logout}" method="post">
                             <button class="btn btn-warning navbar-btn" type="submit">Log out</button>
