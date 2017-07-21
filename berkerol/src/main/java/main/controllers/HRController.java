@@ -1,7 +1,8 @@
-package main;
+package main.controllers;
 
 import java.security.Principal;
 import java.util.LinkedList;
+import main.components.Email;
 import main.entities.Advert;
 import main.entities.Applicant;
 import main.entities.Application;

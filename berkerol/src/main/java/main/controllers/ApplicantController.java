@@ -1,4 +1,4 @@
-package main;
+package main.controllers;
 
 import java.util.Date;
 import javax.inject.Inject;

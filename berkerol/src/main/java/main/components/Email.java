@@ -1,4 +1,4 @@
-package main;
+package main.components;
 
 import java.util.Properties;
 import javax.mail.Message;
@@ -12,7 +12,7 @@ import javax.mail.internet.MimeMessage;
 
 public class Email {
 
-    static String getStatus(int status) {
+    private static String getStatus(int status) {
         switch (status) {
             case 0:
                 return "waiting";
@@ -26,7 +26,7 @@ public class Email {
         return "";
     }
 
-    static void send(String to, String advert, String applicant, int status) {
+    public static void send(String to, String advert, String applicant, int status) {
         Properties properties = System.getProperties();
         properties.setProperty("mail.smtp.starttls.enable", "true");
         properties.setProperty("mail.smtp.auth", "true");
