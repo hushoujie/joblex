@@ -11,25 +11,29 @@
         <div class="container">
             <form class="form-inline" action="javascript:void(0);">
                 <div class="input-group col-md-4">
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
                     <input type="text" class="form-control search" data-column="any" placeholder="search table" />
                 </div>
                 <button class="btn btn-primary reset_filter">Reset Filters</button>
                 <button class="btn btn-info reset_sort">Reset Sort</button>
+                <button class="btn btn-warning" id="popover">Select Columns</button>
+                <div class="hidden">
+                    <div id="popover-target"></div>
+                </div>
             </form>
             <div th:if="${#lists.isEmpty(adverts)}">No advert.</div>
             <table class="table table-bordered table-hover" th:if="${not #lists.isEmpty(adverts)}">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>HR</th>
-                        <th class="filter-select filter-exact filter-onlyAvail" data-value="Active">Status</th>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th>Properties</th>
-                        <th>Activation</th>
-                        <th>Deactivation</th>
-                        <th>Details</th>
+                        <th data-priority="1">ID</th>
+                        <th data-priority="2">HR</th>
+                        <th data-priority="1" class="filter-select filter-exact filter-onlyAvail" data-value="Active">Status</th>
+                        <th data-priority="1">Title</th>
+                        <th data-priority="3" class="columnSelector-false">Description</th>
+                        <th data-priority="3" class="columnSelector-false">Properties</th>
+                        <th data-priority="2">Activation</th>
+                        <th data-priority="2">Deactivation</th>
+                        <th data-priority="1">Details</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -58,6 +62,10 @@
                             <select class="form-control input-sm pagesize" title="Select page size">
                                 <option selected="selected" value="5">5</option>
                                 <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
                                 <option value="all">All Adverts</option>
                             </select>
                             <select class="form-control input-sm gotoPage" title="Select page number"></select>

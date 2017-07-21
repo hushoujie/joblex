@@ -11,31 +11,39 @@
         <div class="container">
             <form class="form-inline" action="javascript:void(0);">
                 <div class="input-group col-md-4">
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
                     <input type="text" class="form-control search" data-column="any" placeholder="search table" />
                 </div>
                 <button class="btn btn-primary reset_filter">Reset Filters</button>
                 <button class="btn btn-info reset_sort">Reset Sort</button>
+                <button class="btn btn-warning" id="popover">Select Columns</button>
+                <div class="hidden">
+                    <div id="popover-target"></div>
+                </div>
             </form>
             <div th:if="${#lists.isEmpty(applications)}">No application.</div>
             <table class="table table-bordered table-hover" th:if="${not #lists.isEmpty(applications)}">
                 <thead>
                     <tr>
-                        <th class="filter-select filter-exact filter-onlyAvail">Application Status</th>
-                        <th>Advert ID</th>
-                        <th>Advert Title</th>
-                        <th>Name</th>
-                        <th>Educations</th>
-                        <th>Experiences</th>
-                        <th>Industry</th>
-                        <th>Location</th>
-                        <th>Details</th>
+                        <th data-priority="1" class="filter-select filter-exact filter-onlyAvail">Application Status</th>
+                        <th data-priority="1">Advert ID</th>
+                        <th data-priority="2">Advert HR</th>
+                        <th data-priority="1">Advert Status</th>
+                        <th data-priority="1">Advert Title</th>
+                        <th data-priority="1">Name</th>
+                        <th data-priority="3" class="columnSelector-false">Educations</th>
+                        <th data-priority="2">Experiences</th>
+                        <th data-priority="2">Industry</th>
+                        <th data-priority="2">Location</th>
+                        <th data-priority="1">Details</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
                         <th>Application Status</th>
                         <th>Advert ID</th>
+                        <th>Advert HR</th>
+                        <th>Advert Status</th>
                         <th>Advert Title</th>
                         <th>Name</th>
                         <th>Educations</th>
@@ -45,7 +53,7 @@
                         <th>Details</th>
                     </tr>
                     <tr>
-                        <th colspan="9" class="ts-pager form-inline">
+                        <th colspan="11" class="ts-pager form-inline">
                             <div class="btn-group btn-group-sm" role="group">
                                 <button type="button" class="btn btn-default first"><span class="glyphicon glyphicon-step-backward"></span></button>
                                 <button type="button" class="btn btn-default prev"><span class="glyphicon glyphicon-backward"></span></button>
@@ -58,6 +66,10 @@
                             <select class="form-control input-sm pagesize" title="Select page size">
                                 <option selected="selected" value="5">5</option>
                                 <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
                                 <option value="all">All Applications</option>
                             </select>
                             <select class="form-control input-sm gotoPage" title="Select page number"></select>
@@ -69,6 +81,8 @@
                     <tr th:each="application : ${applications}" th:class="${application.status == 0}? info : (${application.status == 1}? warning : (${application.status == 2}? success : danger))">
                         <td th:text="${application.status == 0}? 'Waiting' : (${application.status == 1}? 'Processing' : (${application.status == 2}? 'Accepted' : 'Rejected'))"></td>
                         <td th:text="${application.advert.id}"></td>
+                        <td th:text="${application.advert.hr}"></td>
+                        <td th:text="${application.advert.status}? 'Active' : 'Passive'"></td>
                         <td th:text="${application.advert.title}"></td>
                         <td th:text="${application.applicant.firstname + ' ' + application.applicant.lastname}"></td>
                         <td>

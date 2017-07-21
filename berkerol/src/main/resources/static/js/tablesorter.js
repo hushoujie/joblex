@@ -3,14 +3,16 @@ $(function () {
         theme: "bootstrap",
         sortReset: true,
         headerTemplate: '{content} {icon}',
-        widgets: ["uitheme", "saveSort", "resizable", "filter", "mark", "print", "stickyHeaders"],
+        widgets: ["uitheme", "saveSort", "resizable", "filter", "mark", "print", "columnSelector", "stickyHeaders"],
         widgetOptions: {
-            stickyHeaders_offset: '.navbar-fixed-top',
             filter_cssFilter: "form-control",
             filter_external: '.search',
             filter_reset: '.reset_filter',
             filter_saveFilters: true,
-            print_styleSheet: '../static/css/theme.bootstrap.css'
+            print_styleSheet: '../static/css/theme.bootstrap.css',
+            columnSelector_container: '#popover-target',
+            columnSelector_mediaqueryState: false,
+            stickyHeaders_offset: '.navbar-fixed-top'
         }
     })
             .tablesorterPager({
@@ -19,6 +21,11 @@ $(function () {
                 // possible variables: {page}, {totalPages}, {filteredPages}, {startRow}, {endRow}, {filteredRows} and {totalRows}
                 output: '{startRow} - {endRow} / {filteredRows} ({totalRows})'
             });
+    $('#popover').popover({
+        placement: 'right',
+        html: true,
+        content: $('#popover-target')
+    });
     $('.reset_sort').click(function () {
         $('table').trigger('saveSortReset').trigger("sortReset");
         return false;

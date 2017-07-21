@@ -11,22 +11,27 @@
         <div class="container">
             <form class="form-inline" action="javascript:void(0);">
                 <div class="input-group col-md-4">
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
                     <input type="text" class="form-control search" data-column="any" placeholder="search table" />
                 </div>
                 <button class="btn btn-primary reset_filter">Reset Filters</button>
                 <button class="btn btn-info reset_sort">Reset Sort</button>
+                <button class="btn btn-warning" id="popover">Select Columns</button>
+                <div class="hidden">
+                    <div id="popover-target"></div>
+                </div>
             </form>
             <div th:if="${#lists.isEmpty(applicants)}">No applicant.</div>
             <table class="table table-bordered table-striped" th:if="${not #lists.isEmpty(applicants)}">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Educations</th>
-                        <th>Experiences</th>
-                        <th>Industry</th>
-                        <th>Location</th>
-                        <th>Details</th>
+                        <th data-priority="1">Name</th>
+                        <th data-priority="3" class="columnSelector-false">Educations</th>
+                        <th data-priority="2">Experiences</th>
+                        <th data-priority="2">Industry</th>
+                        <th data-priority="2">Location</th>
+                        <th data-priority="2">Blacklist</th>
+                        <th data-priority="1">Details</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -36,10 +41,11 @@
                         <th>Experiences</th>
                         <th>Industry</th>
                         <th>Location</th>
+                        <th>Blacklist</th>
                         <th>Details</th>
                     </tr>
                     <tr>
-                        <th colspan="6" class="ts-pager form-inline">
+                        <th colspan="7" class="ts-pager form-inline">
                             <div class="btn-group btn-group-sm" role="group">
                                 <button type="button" class="btn btn-default first"><span class="glyphicon glyphicon-step-backward"></span></button>
                                 <button type="button" class="btn btn-default prev"><span class="glyphicon glyphicon-backward"></span></button>
@@ -52,6 +58,10 @@
                             <select class="form-control input-sm pagesize" title="Select page size">
                                 <option selected="selected" value="5">5</option>
                                 <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
                                 <option value="all">All Applicants</option>
                             </select>
                             <select class="form-control input-sm gotoPage" title="Select page number"></select>
@@ -78,6 +88,7 @@
                         </td>
                         <td th:text="${applicant.industry}"></td>
                         <td th:text="${applicant.location}"></td>
+                        <td  th:text="${applicant.blacklist}? 'Yes' : 'No'"></td>
                         <td><a class="btn btn-primary" th:href="${'/hr/applicant/' + applicant.id}">Details</a></td>
                     </tr>
                 </tbody>
