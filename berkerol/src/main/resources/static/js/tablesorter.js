@@ -33,4 +33,7 @@ $(function () {
     $('.print').click(function () {
         $('table').trigger('printTable');
     });
+    $(document).ready(function () {
+        $('.nav > li > a[href="' + window.location.pathname + '"]').parent().addClass('active');
+    });
 });
