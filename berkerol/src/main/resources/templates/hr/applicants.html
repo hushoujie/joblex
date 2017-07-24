@@ -14,6 +14,7 @@
             <table class="table table-bordered table-striped" th:if="${not #lists.isEmpty(applicants)}">
                 <thead>
                     <tr>
+                        <th data-priority="2" class="sorter-false filter-false">Photo</th>
                         <th data-priority="1">Name</th>
                         <th data-priority="3" class="columnSelector-false">Educations</th>
                         <th data-priority="2">Experiences</th>
@@ -25,6 +26,7 @@
                 </thead>
                 <tfoot>
                     <tr>
+                        <th>Photo</th>
                         <th>Name</th>
                         <th>Educations</th>
                         <th>Experiences</th>
@@ -34,13 +36,14 @@
                         <th>Details</th>
                     </tr>
                     <tr>
-                        <th colspan="7" class="ts-pager form-inline">
+                        <th colspan="8" class="ts-pager form-inline">
                             <div th:include="table/pager"></div>
                         </th>
                     </tr>
                 </tfoot>
                 <tbody>
                     <tr th:each="applicant : ${applicants}">
+                        <td><img th:src="${applicant.photo}" alt="profile picture" width="80" height="80" /></td>
                         <td th:text="${applicant.firstname + ' ' + applicant.lastname}"></td>
                         <td>
                             <table th:each="education : ${applicant.educations}">

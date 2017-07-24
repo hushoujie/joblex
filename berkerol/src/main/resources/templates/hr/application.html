@@ -40,6 +40,8 @@
                 <dd th:text="${application_.applicant.industry}"></dd>
                 <dt>Location</dt>
                 <dd th:text="${application_.applicant.location}"></dd>
+                <dt>Cover Letter</dt>
+                <dd th:text="${application_.coverletter}"></dd>
             </dl>
             <div class="row col-xs-2">
                 <form id="application" th:action="@{'/hr/application/change/' + ${application_.id}}" method="post">

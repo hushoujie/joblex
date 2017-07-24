@@ -25,6 +25,8 @@ public class Application implements Serializable {
 
     private int status;
 
+    private String coverletter;
+
     public int getId() {
         return id;
     }
@@ -55,6 +57,14 @@ public class Application implements Serializable {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getCoverletter() {
+        return coverletter;
+    }
+
+    public void setCoverletter(String coverletter) {
+        this.coverletter = coverletter;
     }
 
 }

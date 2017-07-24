@@ -19,7 +19,7 @@
                         <th data-priority="1" class="filter-select filter-exact filter-onlyAvail mark-ignore">Status</th>
                         <th data-priority="1">Title</th>
                         <th data-priority="3" class="columnSelector-false">Description</th>
-                        <th data-priority="3" class="columnSelector-false">Properties</th>
+                        <th data-priority="3" class="columnSelector-false">Qualifications</th>
                         <th data-priority="2">Activation</th>
                         <th data-priority="2">Deactivation</th>
                         <th data-priority="1">Details</th>
@@ -32,7 +32,7 @@
                         <th>Status</th>
                         <th>Title</th>
                         <th>Description</th>
-                        <th>Properties</th>
+                        <th>Qualifications</th>
                         <th>Activation</th>
                         <th>Deactivation</th>
                         <th>Details</th>
@@ -50,7 +50,7 @@
                         <td th:text="${advert.status}? 'Active' : 'Passive'"></td>
                         <td th:text="${advert.title}"></td>
                         <td style="white-space: pre-wrap" th:text="${advert.description}"></td>
-                        <td style="white-space: pre-wrap" th:text="${advert.properties}"></td>
+                        <td style="white-space: pre-wrap" th:text="${advert.qualifications}"></td>
                         <td th:text="${#dates.format(advert.activation,'dd/MM/yyyy HH:mm')}"></td>
                         <td th:text="${#dates.format(advert.deactivation,'dd/MM/yyyy HH:mm')}"></td>
                         <td><a class="btn btn-primary" th:href="${'/hr/advert/' + advert.id}">Details</a></td>

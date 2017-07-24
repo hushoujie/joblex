@@ -10,6 +10,8 @@ import javax.persistence.OneToMany;
 @Entity
 public class Applicant implements Serializable {
 
+    private String photo;
+
     private String firstname;
 
     private String lastname;
@@ -47,6 +49,14 @@ public class Applicant implements Serializable {
 
     @OneToMany(mappedBy = "applicant", cascade = CascadeType.ALL)
     private List<Experience> experiences;
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
 
     public String getFirstname() {
         return firstname;

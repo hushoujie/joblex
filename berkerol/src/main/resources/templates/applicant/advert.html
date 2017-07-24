@@ -20,8 +20,8 @@
                 <dd th:text="${advert.title}"></dd>
                 <dt>Description</dt>
                 <dd style="white-space: pre-wrap" th:text="${advert.description}"></dd>
-                <dt>Properties</dt>
-                <dd style="white-space: pre-wrap" th:text="${advert.properties}"></dd>
+                <dt>Qualifications</dt>
+                <dd style="white-space: pre-wrap" th:text="${advert.qualifications}"></dd>
                 <dt>Activation</dt>
                 <dd th:text="${#dates.format(advert.activation,'dd/MM/yyyy HH:mm')}"></dd>
                 <dt>Deactivation</dt>
@@ -40,14 +40,23 @@
                 You have already applied.
             </div>
             <div th:if="${connect and param.sent == null and advert.status and not blacklist}">
+                <div class="alert alert-warning" role="alert">
+                    You should be connected with LinkedIn to apply jobs.
+                </div>
                 <form th:action="@{/connect/linkedin}" method="post">
                     <button class="btn btn-lg btn-primary" type="submit">Connect with LinkedIn</button>
                 </form>
             </div>
             <div th:if="${apply and param.sent == null and advert.status and not blacklist}">
-                <form th:action="@{'/apply/' + ${advert.id}}" method="post">
-                    <button class="btn btn-lg btn-primary" type="submit">Apply with LinkedIn</button>
-                </form>
+                <button class="btn btn-lg btn-primary" data-toggle="collapse" data-target="#apply">Apply to this Job</button>
+                <div style="margin-top: 20px;"></div>
+                <div id="apply" class="collapse row col-md-6">
+                    <form id="letter" th:action="@{'/apply/' + ${advert.id}}" method="post">
+                        <textarea name="coverletter" form="letter" class="form-control" rows="5" placeholder="Your cover letter goes here..."></textarea>
+                        <br />
+                        <button class="btn btn-lg btn-primary" type="submit">Apply with LinkedIn</button>
+                    </form>
+                </div>
             </div>
         </div>
     </body>

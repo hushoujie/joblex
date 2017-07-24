@@ -10,6 +10,9 @@
         <div th:include="hr/menu"></div>
         <div class="jumbotron container">
             <dl class="dl-horizontal">
+                <dt>Photo</dt>
+                <dd th:if="${applicant.photo != null}"><img th:src="${applicant.photo}" alt="profile picture" width="200" height="200" /></dd>
+                <dd th:if="${applicant.photo == null}">No photo</dd>
                 <dt>Name</dt>
                 <dd th:text="${applicant.firstname + ' ' + applicant.lastname}"></dd>
                 <dt>Educations</dt>
@@ -27,8 +30,8 @@
                             <td th:text="${education.school}"></td>
                             <td th:text="${education.field}"></td>
                             <td th:text="${education.degree}"></td>
-                            <td th:text="${education.startdate}"></td>
-                            <td th:text="${education.enddate}"></td>
+                            <td th:text="${#dates.format(education.startdate,'dd/MM/yyyy')}"></td>
+                            <td th:text="${#dates.format(education.enddate,'dd/MM/yyyy')}"></td>
                             <td th:text="${education.summary}"></td>
                         </tr>
                     </table>
@@ -46,8 +49,8 @@
                         <tr th:each="experience : ${applicant.experiences}">
                             <td th:text="${experience.company}"></td>
                             <td th:text="${experience.position}"></td>
-                            <td th:text="${experience.startdate}"></td>
-                            <td th:text="${experience.enddate}"></td>
+                            <td th:text="${#dates.format(experience.startdate,'dd/MM/yyyy')}"></td>
+                            <td th:text="${#dates.format(experience.enddate,'dd/MM/yyyy')}"></td>
                             <td th:text="${experience.summary}"></td>
                         </tr>
                     </table>
@@ -87,7 +90,7 @@
             <div style="margin-top: 20px;"></div>
             <div th:if="${not applicant.blacklist}" id="blacklist" class="collapse row col-xs-4">
                 <form id="blacklist_add" th:action="@{'/hr/blacklist/add/' + ${applicant.id}}" method="post">
-                    <textarea name="blreason" form="blacklist_add" class="form-control" rows="3"></textarea>
+                    <textarea name="blreason" form="blacklist_add" class="form-control" rows="3" placeholder="Reason of blacklist goes here..."></textarea>
                     <br />
                     <button class="btn btn-danger" type="submit">Add to Blacklist</button>
                 </form>

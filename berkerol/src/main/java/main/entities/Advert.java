@@ -27,7 +27,7 @@ public class Advert implements Serializable {
 
     private String description;
 
-    private String properties;
+    private String qualifications;
 
     @DateTimeFormat(pattern = "MM/dd/yyyy HH:mm")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
@@ -80,12 +80,12 @@ public class Advert implements Serializable {
         this.description = description;
     }
 
-    public String getProperties() {
-        return properties;
+    public String getQualifications() {
+        return qualifications;
     }
 
-    public void setProperties(String properties) {
-        this.properties = properties;
+    public void setQualifications(String qualifications) {
+        this.qualifications = qualifications;
     }
 
     public Date getActivation() {

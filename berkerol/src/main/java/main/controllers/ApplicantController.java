@@ -1,7 +1,12 @@
 package main.controllers;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.LinkedList;
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
+import main.entities.Advert;
 import main.entities.Applicant;
 import main.entities.Application;
 import main.entities.Experience;
@@ -19,6 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ApplicantController {
@@ -77,8 +83,40 @@ public class ApplicantController {
         return "/applicant/adverts";
     }
 
+    @RequestMapping("/adverts/top")
+    public String findTopAdverts(Model model) {
+        LinkedList<Advert> adverts = new LinkedList<>();
+        for (Advert advert : advertService.findAllAdverts()) {
+            adverts.add(advert);
+        }
+        Collections.sort(adverts, new Comparator<Advert>() {
+            @Override
+            public int compare(Advert a1, Advert a2) {
+                return -Integer.compare(a1.getApplications().size(), a2.getApplications().size());
+            }
+        });
+        model.addAttribute("adverts", adverts);
+        return "/applicant/adverts";
+    }
+
+    @RequestMapping("/adverts/new")
+    public String findNewAdverts(Model model) {
+        LinkedList<Advert> adverts = new LinkedList<>();
+        for (Advert advert : advertService.findAllAdverts()) {
+            adverts.add(advert);
+        }
+        Collections.sort(adverts, new Comparator<Advert>() {
+            @Override
+            public int compare(Advert a1, Advert a2) {
+                return -Integer.compare(a1.getId(), a2.getId());
+            }
+        });
+        model.addAttribute("adverts", adverts);
+        return "/applicant/adverts";
+    }
+
     @RequestMapping("/advert/{advertId}")
-    public String findAdvert(@PathVariable int advertId, Model model) {
+    public String findAdvert(@PathVariable int advertId, HttpSession session, Model model) {
         if (connectionRepository.findPrimaryConnection(LinkedIn.class) != null) {
             saveLinkedIn(linkedIn.profileOperations().getUserProfileFull());
             Applicant applicant = applicantService.findApplicant(linkedIn.profileOperations().getProfileId());
@@ -91,16 +129,18 @@ public class ApplicantController {
             model = setApplicationOptions(advertId, false, true, false, applicant.isBlacklist(), model);
             return "/applicant/advert";
         }
+        session.setAttribute("advert", advertId);
         model = setApplicationOptions(advertId, false, false, true, false, model);
         return "/applicant/advert";
     }
 
     @RequestMapping("/apply/{advertId}")
-    public String apply(@PathVariable int advertId, Model model) {
+    public String apply(@PathVariable int advertId, @RequestParam String coverletter, Model model) {
         Application application = new Application();
-        application.setApplicant(applicantService.findApplicant(linkedIn.profileOperations().getProfileId()));
         application.setAdvert(advertService.findAdvert(advertId));
+        application.setApplicant(applicantService.findApplicant(linkedIn.profileOperations().getProfileId()));
         application.setStatus(0);
+        application.setCoverletter(coverletter);
         applicationService.saveApplication(application);
         return "redirect:/advert/" + advertId + "?sent";
     }
@@ -112,7 +152,7 @@ public class ApplicantController {
     }
 
     @RequestMapping("/applicant/")
-    public String findAllApplications(Model model) {
+    public String findAllApplications(HttpSession session, Model model) {
         if (connectionRepository.findPrimaryConnection(LinkedIn.class) == null) {
             model.addAttribute("linkedin", false);
         }
@@ -121,11 +161,12 @@ public class ApplicantController {
             model.addAttribute("linkedin", true);
             model.addAttribute("applications", applicantService.findApplicant(linkedIn.profileOperations().getProfileId()).getApplications());
         }
+        session.setAttribute("advert", 0);
         return "/applicant/applications";
     }
 
     @RequestMapping("/applicant/application/{applicationId}")
-    public String findApplication(@PathVariable Integer applicationId, Model model) {
+    public String findApplication(@PathVariable int applicationId, Model model) {
         model.addAttribute("application_", applicationService.findApplication(applicationId));
         return "/applicant/application";
     }
@@ -145,6 +186,7 @@ public class ApplicantController {
             applicant = new Applicant();
             applicant.setId(profileFull.getId());
         }
+        applicant.setPhoto(profileFull.getProfilePictureUrl());
         applicant.setFirstname(profileFull.getFirstName());
         applicant.setLastname(profileFull.getLastName());
         applicant.setIndustry(profileFull.getIndustry());
