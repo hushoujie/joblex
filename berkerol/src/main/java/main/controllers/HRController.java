@@ -2,6 +2,8 @@ package main.controllers;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -9,6 +11,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 import main.components.Email;
+import main.dandelion.Similarity;
 import main.entities.Advert;
 import main.entities.Applicant;
 import main.entities.Application;
@@ -27,6 +30,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 
 @Controller
 @RequestMapping("/hr")
@@ -168,7 +172,14 @@ public class HRController {
 
     @RequestMapping("/applications/{advertId}")
     public String findAllApplications(@PathVariable int advertId, Model model) {
-        model.addAttribute("applications", advertService.findAdvert(advertId).getApplications());
+        List<Application> applications = advertService.findAdvert(advertId).getApplications();
+        Collections.sort(applications, new Comparator<Application>() {
+            @Override
+            public int compare(Application a1, Application a2) {
+                return -Double.compare(calcDandelion(a1), calcDandelion(a2));
+            }
+        });
+        model.addAttribute("applications", applications);
         return "/hr/applications";
     }
 
@@ -222,6 +233,17 @@ public class HRController {
         }
         model.addAttribute("hitMap", hitMap);
         return "/hr/search";
+    }
+
+    private double calcDandelion(Application application) {
+        Advert advert = application.getAdvert();
+        Applicant applicant = application.getApplicant();
+        String url = "https://api.dandelion.eu/datatxt/sim/v1?text1=" + advert.getUrl()
+                + "&text2=" + applicant.getUrl()
+                + "&token=a397094f43f840a1ba7f20b875baf5ae&lang=en&bow=always";
+        RestTemplate restTemplate = new RestTemplate();
+        Similarity s = restTemplate.getForObject(url, Similarity.class);
+        return s.getSimilarity();
     }
 
     private LinkedList<Applicant> findAllApplicantsByAdvert(int advertId) {

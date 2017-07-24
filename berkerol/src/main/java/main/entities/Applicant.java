@@ -1,7 +1,11 @@
 package main.entities;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -192,6 +196,15 @@ public class Applicant implements Serializable {
 
     public void setExperiences(List<Experience> experiences) {
         this.experiences = experiences;
+    }
+
+    public String getUrl() {
+        try {
+            return URLEncoder.encode(this.getIndustry() + " " + this.getLocation() + " " + this.getSkills(), "UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(Applicant.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
     }
 
 }

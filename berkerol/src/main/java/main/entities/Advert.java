@@ -1,8 +1,12 @@
 package main.entities;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -110,6 +114,15 @@ public class Advert implements Serializable {
 
     public void setApplications(List<Application> applications) {
         this.applications = applications;
+    }
+
+    public String getUrl() {
+        try {
+            return URLEncoder.encode(this.getTitle() + " " + this.getDescription(), "UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(Advert.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
     }
 
 }
