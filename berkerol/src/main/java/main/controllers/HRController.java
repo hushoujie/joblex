@@ -2,8 +2,12 @@ package main.controllers;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 import main.components.Email;
 import main.entities.Advert;
 import main.entities.Applicant;
@@ -11,7 +15,7 @@ import main.entities.Application;
 import main.services.AdvertService;
 import main.services.ApplicantService;
 import main.services.ApplicationService;
-import main.solr.Item;
+import main.solr.Heading;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -182,11 +186,7 @@ public class HRController {
 
     @RequestMapping("/applicants/{advertId}")
     public String findAllApplicants(@PathVariable int advertId, Model model) {
-        LinkedList<Applicant> applicants = new LinkedList<>();
-        for (Application application : advertService.findAdvert(advertId).getApplications()) {
-            applicants.add(application.getApplicant());
-        }
-        model.addAttribute("applicants", applicants);
+        model.addAttribute("applicants", findAllApplicantsByAdvert(advertId));
         return "/hr/applicants";
     }
 
@@ -197,23 +197,58 @@ public class HRController {
     }
 
     @RequestMapping("/search")
-    public String search() {
+    public String searchApplicants(@RequestParam(required = false) String text, Model model) throws SolrServerException, IOException {
+        model.addAttribute("address", "/hr/search");
+        if (text == null) {
+            return "/hr/search";
+        }
+        model.addAttribute("hitMap", search(text));
         return "/hr/search";
     }
 
-    @RequestMapping("/search/{text}")
-    public String search(@RequestParam String text, Model model) throws SolrServerException, IOException {
-        SolrClient solrClient = new HttpSolrClient.Builder("http://localhost:8983/solr/applicants").build();
-        SolrQuery query = new SolrQuery();
-        query.setQuery("*" + text + "*");
-        query.setHighlight(true);
-        query.addHighlightField("category");
-        query.setHighlightSimplePre("<strong>");
-        query.setHighlightSimplePost("</strong>");
-        QueryResponse response = solrClient.query(query);
-        List<Item> items = response.getBeans(Item.class);
-        model.addAttribute("items", items);
+    @RequestMapping("/search/{advertId}")
+    public String searchApplicants(@PathVariable int advertId, @RequestParam(required = false) String text, Model model) throws SolrServerException, IOException {
+        model.addAttribute("address", "/hr/search/" + advertId);
+        if (text == null) {
+            return "/hr/search";
+        }
+        LinkedList<Applicant> applicants = findAllApplicantsByAdvert(advertId);
+        Map<Heading, Map<String, List<String>>> hitMap = search(text);
+        Iterator<Entry<Heading, Map<String, List<String>>>> iterator = hitMap.entrySet().iterator();
+        while (iterator.hasNext()) {
+            if (!applicants.contains(applicantService.findApplicant(iterator.next().getKey().getId()))) {
+                iterator.remove();
+            }
+        }
+        model.addAttribute("hitMap", hitMap);
         return "/hr/search";
+    }
+
+    private LinkedList<Applicant> findAllApplicantsByAdvert(int advertId) {
+        LinkedList<Applicant> applicants = new LinkedList<>();
+        for (Application application : advertService.findAdvert(advertId).getApplications()) {
+            applicants.add(application.getApplicant());
+        }
+        return applicants;
+    }
+
+    private Map<Heading, Map<String, List<String>>> search(String text) throws SolrServerException, IOException {
+        SolrClient solrClient = new HttpSolrClient.Builder("http://localhost:8983/solr/applicants").build();
+        SolrQuery query = new SolrQuery(text);
+        if (text.contains(":")) {
+            query.setHighlightRequireFieldMatch(true);
+        }
+        query.setHighlight(true);
+        query.addHighlightField("*");
+        query.setHighlightSimplePost("</strong>");
+        query.setHighlightSimplePre("<strong>");
+        QueryResponse response = solrClient.query(query);
+        Map<Heading, Map<String, List<String>>> hitMap = new TreeMap<>();
+        for (Entry<String, Map<String, List<String>>> entry : response.getHighlighting().entrySet()) {
+            Applicant applicant = applicantService.findApplicant(entry.getKey());
+            hitMap.put(new Heading(applicant.getFirstname() + ' ' + applicant.getLastname(), entry.getKey()), entry.getValue());
+        }
+        return hitMap;
     }
 
 }

@@ -9,67 +9,67 @@
     <body>
         <div th:include="hr/menu"></div>
         <div class="container">
-            <form th:action="@{/hr/search}" method="post">
-                <div class="row form-group">
+            <form th:action="@{${address}}" method="post">
+                <div class="row">
                     <div class="col-md-6">
-                        <input type="text" name="text" class="form-control" />
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+                        <div class="input-group">
+                            <input type="text" name="text" class="form-control" autofocus="autofocus" />
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                            </span>
+                        </div>
                     </div>
+                    <a class="btn btn-info" data-toggle="popover" data-trigger="hover" data-placement="auto right" data-title="Search Options" data-html="true"
+                       data-content="
+                       &lt;li&gt;? matches a character&lt;/li&gt;
+                       &lt;li&gt;* matches any number of characters&lt;/li&gt;
+                       &lt;li&gt;Negative queries: NOT query, -query&lt;/li&gt;
+                       &lt;li&gt;Multiple queries: query1 AND (query2 OR query3)&lt;/li&gt;
+                       &lt;li&gt;Phrase search with double quotes&lt;/li&gt;
+                       &lt;li&gt;Proximity search: query~distance&lt;/li&gt;
+                       &lt;li&gt;Range queries inclusive: [lower TO upper]&lt;/li&gt;
+                       &lt;li&gt;Range queries exclusive: {lower TO upper}&lt;/li&gt;
+                       &lt;li&gt;Search in a specific field: field_name:search_content&lt;/li&gt;
+                       &lt;br&gt;All general fields:
+                       &lt;li&gt;photo, firstname, lastname, industry, location, email, id, country, headline, summary, skills, honors, interests, blacklist, blreason&lt;/li&gt;
+                       &lt;br&gt;All education fields:
+                       &lt;li&gt;education_id, education_school, education_field, education_degree, education_startdate, education_enddate, education_summary&lt;/li&gt;
+                       &lt;br&gt;All experience fields:
+                       &lt;li&gt;experience_id, experience_linkedinid, experience_company, experience_position, experience_startdate, experience_enddate, experience_summary&lt;/li&gt;
+                       ">Search Options</a>
+                    <script>
+                        $(document).ready(function () {
+                            $('[data-toggle="popover"]').popover({
+                                template: '<div class="popover" role="tooltip" style="width: 400px; max-width: 400px;"><div class="arrow"></div>\n\
+                                           <h3 class="popover-title"></h3><div class="popover-content"><div class="data-content"></div></div></div>'
+                            });
+                        });
+                    </script>
                 </div>
-                <button class="btn btn-danger" type="submit">Add to Blacklist</button>
             </form>
-            <div th:if="${#lists.isEmpty(items)}">No applicant.</div>
-            <table class="table table-bordered table-hover" th:if="${not #lists.isEmpty(items)}">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Educations</th>
-                        <th>Experiences</th>
-                        <th>Industry</th>
-                        <th>Location</th>
-                        <th>Blacklist</th>
-                        <th>Details</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th>Name</th>
-                        <th>Educations</th>
-                        <th>Experiences</th>
-                        <th>Industry</th>
-                        <th>Location</th>
-                        <th>Blacklist</th>
-                        <th>Details</th>
-                    </tr>
-                    <tr>
-                        <th colspan="7" class="ts-pager form-inline">
-                            <div th:include="table/pager"></div>
-                        </th>
-                    </tr>
-                </tfoot>
-                <tbody>
-                    <tr th:each="item : ${items}">
-                        <td th:text="${item.firstname + ' ' + item.lastname}"></td>
-                        <td>
-                            <table th:each="education : ${item.educations}">
-                                <tr>
-                                    <td th:text="${education.school + ' - ' + education.field + ' - ' + education.degree}"></td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td>
-                            <table th:each="experience : ${item.experiences}">
-                                <tr>
-                                    <td th:text="${experience.company + ' - ' + experience.position}"></td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td th:text="${item.industry}"></td>
-                        <td th:text="${item.location}"></td>
-                        <td  th:text="${item.blacklist}? 'Yes' : 'No'"></td>
-                        <td><a class="btn btn-primary" th:href="${'/hr/applicant/' + item.id}">Details</a></td>
-                    </tr>
-                </tbody>
+            <div style="margin-top: 20px;"></div>
+            <table th:each="hitMapEntry : ${hitMap}">
+                <tr>
+                    <td>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <a class="btn btn-primary" th:href="${'/hr/applicant/' + hitMapEntry.key.id}" ><h3 class="panel-title" th:text="${hitMapEntry.key.name}"></h3></a>
+                            </div>
+                            <div class="panel-body">
+                                <dl th:each="fieldMapEntry : ${hitMapEntry.value}">
+                                    <dt th:text="${fieldMapEntry.key}"></dt>
+                                    <dd>
+                                        <table th:each="highlight : ${fieldMapEntry.value}">
+                                            <tr>
+                                                <td th:utext="${highlight}"></td>
+                                            </tr>
+                                        </table>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
             </table>
         </div>
     </body>
