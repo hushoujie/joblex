@@ -8,6 +8,8 @@
     </head>
     <body>
         <div th:include="hr/menu"></div>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-te/1.4.0/jquery-te.min.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-te/1.4.0/jquery-te.min.js"></script>
         <div class="jumbotron container">
             <dl class="dl-horizontal">
                 <dt>Photo</dt>
@@ -79,7 +81,7 @@
                 <dd th:text="${applicant.blacklist}? 'Yes' : 'No'"></dd>
                 <div th:if="${applicant.blacklist}">
                     <dt>Blacklist Reason</dt>
-                    <dd th:text="${applicant.blreason}"></dd>
+                    <dd th:utext="${applicant.blreason}"></dd>
                 </div>
             </dl>
             <div>
@@ -88,9 +90,9 @@
                    th:href="${'/hr/adverts/' + applicant.id}">Adverts of all applications&nbsp;<span class="badge" th:text="${#object}"></span></a>
             </div>
             <div style="margin-top: 20px;"></div>
-            <div th:if="${not applicant.blacklist}" id="blacklist" class="collapse row col-xs-4">
+            <div th:if="${not applicant.blacklist}" id="blacklist" class="collapse row col-md-7">
                 <form id="blacklist_add" th:action="@{'/hr/blacklist/add/' + ${applicant.id}}" method="post">
-                    <textarea name="blreason" form="blacklist_add" class="form-control" rows="3" placeholder="Reason of blacklist goes here..."></textarea>
+                    <textarea name="blreason" form="blacklist_add" class="form-control" rows="3"></textarea>
                     <br />
                     <button class="btn btn-danger" type="submit">Add to Blacklist</button>
                 </form>
@@ -100,6 +102,11 @@
                     <button class="btn btn-success" type="submit">Remove From Blacklist</button>
                 </form>
             </div>
+            <script>
+                $(function () {
+                    $("textarea").jqte();
+                });
+            </script>
         </div>
     </body>
 </html>

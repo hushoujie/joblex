@@ -21,6 +21,10 @@
     </head>
     <body>
         <div th:include="hr/menu"></div>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-te/1.4.0/jquery-te.min.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-te/1.4.0/jquery-te.min.js"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
         <div class="container">
             <form id="save-advert" th:object="${advert}" th:action="@{/hr/advert/save}" method="post" >
                 <h2 class="form-heading">Save Advert</h2>
@@ -50,13 +54,13 @@
                 <div class="row form-group">
                     <label class="control-label col-sm-2" for="description">Description</label>
                     <div class="col-md-8">
-                        <textarea id="description" form="save-advert" th:field="*{description}" class="form-control" rows="7" placeholder="Description" required="required"></textarea>
+                        <textarea id="description" form="save-advert" th:field="*{description}" class="form-control" rows="7" required="required"></textarea>
                     </div>
                 </div>
                 <div class="row form-group">
-                    <label class="control-label col-sm-2" for="properties">Qualifications</label>
+                    <label class="control-label col-sm-2" for="qualifications">Qualifications</label>
                     <div class="col-md-8">
-                        <textarea id="properties" form="save-advert" th:field="*{qualifications}" class="form-control" rows="10" placeholder="Qualifications" required="required"></textarea>
+                        <textarea id="qualifications" form="save-advert" th:field="*{qualifications}" class="form-control" rows="10" required="required"></textarea>
                     </div>
                 </div>
                 <div class="row form-group">

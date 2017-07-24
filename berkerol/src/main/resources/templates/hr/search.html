@@ -8,12 +8,14 @@
     </head>
     <body>
         <div th:include="hr/menu"></div>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
         <div class="container">
             <form th:action="@{${address}}" method="post">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="input-group">
-                            <input type="text" name="text" class="form-control" autofocus="autofocus" />
+                            <input type="text" id="search" name="text" class="form-control" autofocus="autofocus" />
                             <span class="input-group-btn">
                                 <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search"></span></button>
                             </span>
@@ -39,6 +41,9 @@
                        ">Search Options</a>
                     <script>
                         $(document).ready(function () {
+                            $("#search").autocomplete({
+                                source: ["c++", "java", "php", "coldfusion", "javascript", "asp", "ruby"]
+                            });
                             $('[data-toggle="popover"]').popover({
                                 template: '<div class="popover" role="tooltip" style="width: 400px; max-width: 400px;"><div class="arrow"></div>\n\
                                            <h3 class="popover-title"></h3><div class="popover-content"><div class="data-content"></div></div></div>'
