@@ -4,7 +4,29 @@ import java.util.Date;
 import java.util.List;
 import org.apache.solr.client.solrj.beans.Field;
 
-public class Item {
+public class Profile {
+
+    public Profile(String photo, String firstname, String lastname, String industry, String location, String email, String id, String country, String headline, String summary,
+            String skills, String honors, String interests, boolean blacklist, String blreason) {
+        this.photo = photo;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.industry = industry;
+        this.location = location;
+        this.email = email;
+        this.id = id;
+        this.country = country;
+        this.headline = headline;
+        this.summary = summary;
+        this.skills = skills;
+        this.honors = honors;
+        this.interests = interests;
+        this.blacklist = blacklist;
+        this.blreason = blreason;
+    }
+
+    @Field
+    private String photo;
 
     @Field
     private String firstname;
@@ -89,6 +111,14 @@ public class Item {
 
     @Field
     private List<String> experience_summary;
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
 
     public String getFirstname() {
         return firstname;

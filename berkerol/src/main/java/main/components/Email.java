@@ -43,10 +43,10 @@ public class Email {
         try {
             message.setFrom(new InternetAddress("obss.ik.1@gmail.com"));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-            message.setSubject("Information about your application for the advert " + advert);
+            message.setSubject("Application for " + advert, "utf-8");
             message.setText("Dear " + applicant + ",\n"
                     + "Your application for the advert " + advert + " is " + getStatus(status) + ".\n"
-                    + "Thank you for your interest.");
+                    + "Thank you for your interest.", "utf-8");
             Transport.send(message);
         } catch (AddressException ex) {
             ex.printStackTrace();
