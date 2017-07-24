@@ -25,7 +25,6 @@
                         <th data-priority="1" class="filter-select filter-exact filter-onlyAvail mark-ignore">Application Status</th>
                         <th data-priority="1">ID</th>
                         <th data-priority="2">HR</th>
-                        <th data-priority="1" class="filter-select filter-exact filter-onlyAvail mark-ignore">Status</th>
                         <th data-priority="1">Title</th>
                         <th data-priority="3" class="columnSelector-false">Description</th>
                         <th data-priority="3" class="columnSelector-false">Qualifications</th>
@@ -39,7 +38,6 @@
                         <th>Application Status</th>
                         <th>ID</th>
                         <th>HR</th>
-                        <th>Status</th>
                         <th>Title</th>
                         <th>Description</th>
                         <th>Qualifications</th>
@@ -48,7 +46,7 @@
                         <th>Details</th>
                     </tr>
                     <tr>
-                        <th colspan="10" class="ts-pager form-inline">
+                        <th colspan="9" class="ts-pager form-inline">
                             <div th:include="table/pager"></div>
                         </th>
                     </tr>
@@ -58,7 +56,6 @@
                         <td th:text="${application.status == 0}? 'Waiting' : (${application.status == 1}? 'Processing' : (${application.status == 2}? 'Accepted' : 'Rejected'))"></td>
                         <td th:text="${application.advert.id}"></td>
                         <td th:text="${application.advert.hr}"></td>
-                        <td th:text="${application.advert.status}? 'Active' : 'Passive'"></td>
                         <td th:text="${application.advert.title}"></td>
                         <td style="white-space: pre-wrap" th:text="${application.advert.description}"></td>
                         <td style="white-space: pre-wrap" th:text="${application.advert.qualifications}"></td>

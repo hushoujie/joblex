@@ -1,5 +1,6 @@
 package main.services;
 
+import java.util.LinkedList;
 import main.entities.Advert;
 import main.repositories.AdvertRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,12 @@ public class AdvertService {
         this.advertRepository = advertRepository;
     }
 
-    public Iterable<Advert> findAllAdverts() {
+    public LinkedList<Advert> findAllAdverts() {
         return advertRepository.findAll();
+    }
+
+    public LinkedList<Advert> findAllAdverts(boolean status) {
+        return advertRepository.findAllByStatus(status);
     }
 
     public Advert findAdvert(int id) {

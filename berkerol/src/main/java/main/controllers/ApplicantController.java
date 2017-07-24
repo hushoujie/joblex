@@ -79,16 +79,13 @@ public class ApplicantController {
 
     @RequestMapping("/adverts")
     public String findAllAdverts(Model model) {
-        model.addAttribute("adverts", advertService.findAllAdverts());
+        model.addAttribute("adverts", advertService.findAllAdverts(true));
         return "/applicant/adverts";
     }
 
     @RequestMapping("/adverts/top")
     public String findTopAdverts(Model model) {
-        LinkedList<Advert> adverts = new LinkedList<>();
-        for (Advert advert : advertService.findAllAdverts()) {
-            adverts.add(advert);
-        }
+        LinkedList<Advert> adverts = advertService.findAllAdverts(true);
         Collections.sort(adverts, new Comparator<Advert>() {
             @Override
             public int compare(Advert a1, Advert a2) {
@@ -101,10 +98,7 @@ public class ApplicantController {
 
     @RequestMapping("/adverts/new")
     public String findNewAdverts(Model model) {
-        LinkedList<Advert> adverts = new LinkedList<>();
-        for (Advert advert : advertService.findAllAdverts()) {
-            adverts.add(advert);
-        }
+        LinkedList<Advert> adverts = advertService.findAllAdverts(true);
         Collections.sort(adverts, new Comparator<Advert>() {
             @Override
             public int compare(Advert a1, Advert a2) {
@@ -136,18 +130,22 @@ public class ApplicantController {
 
     @RequestMapping("/apply/{advertId}")
     public String apply(@PathVariable int advertId, @RequestParam String coverletter, Model model) {
-        Application application = new Application();
-        application.setAdvert(advertService.findAdvert(advertId));
-        application.setApplicant(applicantService.findApplicant(linkedIn.profileOperations().getProfileId()));
-        application.setStatus(0);
-        application.setCoverletter(coverletter);
-        applicationService.saveApplication(application);
+        if (connectionRepository.findPrimaryConnection(LinkedIn.class) != null) {
+            Application application = new Application();
+            application.setAdvert(advertService.findAdvert(advertId));
+            application.setApplicant(applicantService.findApplicant(linkedIn.profileOperations().getProfileId()));
+            application.setStatus(0);
+            application.setCoverletter(coverletter);
+            applicationService.saveApplication(application);
+        }
         return "redirect:/advert/" + advertId + "?sent";
     }
 
     @RequestMapping("/application/cancel/{applicationId}")
     public String cancelApplication(@PathVariable int applicationId, Model model) {
-        applicationService.deleteApplication(applicationId);
+        if (connectionRepository.findPrimaryConnection(LinkedIn.class) != null) {
+            applicationService.deleteApplication(applicationId);
+        }
         return "redirect:/applicant/";
     }
 
@@ -167,7 +165,9 @@ public class ApplicantController {
 
     @RequestMapping("/applicant/application/{applicationId}")
     public String findApplication(@PathVariable int applicationId, Model model) {
-        model.addAttribute("application_", applicationService.findApplication(applicationId));
+        if (connectionRepository.findPrimaryConnection(LinkedIn.class) != null) {
+            model.addAttribute("application_", applicationService.findApplication(applicationId));
+        }
         return "/applicant/application";
     }
 
