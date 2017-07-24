@@ -19,9 +19,9 @@
                 <dt>Title</dt>
                 <dd th:text="${advert.title}"></dd>
                 <dt>Description</dt>
-                <dd style="white-space: pre-wrap" th:text="${advert.description}"></dd>
+                <dd style="white-space: pre-wrap" th:utext="${advert.description}"></dd>
                 <dt>Qualifications</dt>
-                <dd style="white-space: pre-wrap" th:text="${advert.qualifications}"></dd>
+                <dd style="white-space: pre-wrap" th:utext="${advert.qualifications}"></dd>
                 <dt>Activation</dt>
                 <dd th:text="${#dates.format(advert.activation,'dd/MM/yyyy HH:mm')}"></dd>
                 <dt>Deactivation</dt>

@@ -49,8 +49,8 @@
                         <td th:text="${advert.hr}"></td>
                         <td th:text="${advert.status}? 'Active' : 'Passive'"></td>
                         <td th:text="${advert.title}"></td>
-                        <td style="white-space: pre-wrap" th:text="${advert.description}"></td>
-                        <td style="white-space: pre-wrap" th:text="${advert.qualifications}"></td>
+                        <td style="white-space: pre-wrap" th:utext="${advert.description}"></td>
+                        <td style="white-space: pre-wrap" th:utext="${advert.qualifications}"></td>
                         <td th:text="${#dates.format(advert.activation,'dd/MM/yyyy HH:mm')}"></td>
                         <td th:text="${#dates.format(advert.deactivation,'dd/MM/yyyy HH:mm')}"></td>
                         <td><a class="btn btn-primary" th:href="${'/advert/' + advert.id}">Details</a></td>
