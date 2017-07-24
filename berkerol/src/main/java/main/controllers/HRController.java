@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
+import java.util.function.Consumer;
 import main.components.Email;
 import main.dandelion.Similarity;
 import main.entities.Advert;
@@ -173,10 +174,16 @@ public class HRController {
     @RequestMapping("/applications/{advertId}")
     public String findAllApplications(@PathVariable int advertId, Model model) {
         List<Application> applications = advertService.findAdvert(advertId).getApplications();
+        applications.forEach(new Consumer<Application>() {
+            @Override
+            public void accept(Application a) {
+                a.calcSimilarity();
+            }
+        });
         Collections.sort(applications, new Comparator<Application>() {
             @Override
             public int compare(Application a1, Application a2) {
-                return -Double.compare(calcDandelion(a1), calcDandelion(a2));
+                return -Double.compare(a1.getSimilarity(), a2.getSimilarity());
             }
         });
         model.addAttribute("applications", applications);
@@ -233,17 +240,6 @@ public class HRController {
         }
         model.addAttribute("hitMap", hitMap);
         return "/hr/search";
-    }
-
-    private double calcDandelion(Application application) {
-        Advert advert = application.getAdvert();
-        Applicant applicant = application.getApplicant();
-        String url = "https://api.dandelion.eu/datatxt/sim/v1?text1=" + advert.getUrl()
-                + "&text2=" + applicant.getUrl()
-                + "&token=a397094f43f840a1ba7f20b875baf5ae&lang=en&bow=always";
-        RestTemplate restTemplate = new RestTemplate();
-        Similarity s = restTemplate.getForObject(url, Similarity.class);
-        return s.getSimilarity();
     }
 
     private LinkedList<Applicant> findAllApplicantsByAdvert(int advertId) {
