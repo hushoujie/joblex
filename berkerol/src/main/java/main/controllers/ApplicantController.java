@@ -69,6 +69,7 @@ public class ApplicantController {
 
     @RequestMapping("/")
     public String home(Model model) {
+        model.addAttribute("logout", connectionRepository.findPrimaryConnection(LinkedIn.class));
         return "/applicant/home";
     }
 
@@ -77,14 +78,24 @@ public class ApplicantController {
         return "/hr/login";
     }
 
+    @RequestMapping("/logout")
+    public String logout() {
+        if (connectionRepository.findPrimaryConnection(LinkedIn.class) != null) {
+            connectionRepository.removeConnections("linkedin");
+        }
+        return "redirect:/";
+    }
+
     @RequestMapping("/adverts")
     public String findAllAdverts(Model model) {
+        model.addAttribute("logout", connectionRepository.findPrimaryConnection(LinkedIn.class));
         model.addAttribute("adverts", advertService.findAllAdverts(true));
         return "/applicant/adverts";
     }
 
     @RequestMapping("/adverts/top")
     public String findTopAdverts(Model model) {
+        model.addAttribute("logout", connectionRepository.findPrimaryConnection(LinkedIn.class));
         LinkedList<Advert> adverts = advertService.findAllAdverts(true);
         Collections.sort(adverts, new Comparator<Advert>() {
             @Override
@@ -98,6 +109,7 @@ public class ApplicantController {
 
     @RequestMapping("/adverts/new")
     public String findNewAdverts(Model model) {
+        model.addAttribute("logout", connectionRepository.findPrimaryConnection(LinkedIn.class));
         LinkedList<Advert> adverts = advertService.findAllAdverts(true);
         Collections.sort(adverts, new Comparator<Advert>() {
             @Override
@@ -111,6 +123,7 @@ public class ApplicantController {
 
     @RequestMapping("/advert/{advertId}")
     public String findAdvert(@PathVariable int advertId, HttpSession session, Model model) {
+        model.addAttribute("logout", connectionRepository.findPrimaryConnection(LinkedIn.class));
         if (connectionRepository.findPrimaryConnection(LinkedIn.class) != null) {
             saveLinkedIn(linkedIn.profileOperations().getUserProfileFull());
             Applicant applicant = applicantService.findApplicant(linkedIn.profileOperations().getProfileId());
@@ -151,13 +164,14 @@ public class ApplicantController {
 
     @RequestMapping("/applicant/")
     public String findAllApplications(HttpSession session, Model model) {
-        if (connectionRepository.findPrimaryConnection(LinkedIn.class) == null) {
-            model.addAttribute("linkedin", false);
-        }
-        else {
+        model.addAttribute("logout", connectionRepository.findPrimaryConnection(LinkedIn.class));
+        if (connectionRepository.findPrimaryConnection(LinkedIn.class) != null) {
             saveLinkedIn(linkedIn.profileOperations().getUserProfileFull());
             model.addAttribute("linkedin", true);
             model.addAttribute("applications", applicantService.findApplicant(linkedIn.profileOperations().getProfileId()).getApplications());
+        }
+        else {
+            model.addAttribute("linkedin", false);
         }
         session.setAttribute("advert", 0);
         return "/applicant/applications";
@@ -165,6 +179,7 @@ public class ApplicantController {
 
     @RequestMapping("/applicant/application/{applicationId}")
     public String findApplication(@PathVariable int applicationId, Model model) {
+        model.addAttribute("logout", connectionRepository.findPrimaryConnection(LinkedIn.class));
         if (connectionRepository.findPrimaryConnection(LinkedIn.class) != null) {
             model.addAttribute("application_", applicationService.findApplication(applicationId));
         }

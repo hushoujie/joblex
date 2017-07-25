@@ -45,7 +45,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><p class="navbar-text" th:text="${'Logged in as ' + #authentication.name}"></p></li>
                     <li>
-                        <form th:action="@{/logout}" method="post">
+                        <form th:action="@{/hr/logout}" method="post">
                             <button class="btn btn-warning navbar-btn" type="submit">Log out</button>
                         </form>
                     </li>

@@ -41,6 +41,11 @@
                     <li><a href="/applicant/">Applicant Home</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    <li th:if="${logout != null}">
+                        <form th:action="@{/logout}" method="post">
+                            <button class="btn btn-warning navbar-btn" type="submit">Log out</button>
+                        </form>
+                    </li>
                     <li><a href="/hr/adverts">HR Home</a></li>
                 </ul>
             </div>

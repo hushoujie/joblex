@@ -17,7 +17,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/hr/**").fullyAuthenticated().and()
                 .authorizeRequests().anyRequest().permitAll().and()
                 .formLogin().loginPage("/login").defaultSuccessUrl("/hr/adverts").failureUrl("/login?error").and()
-                .logout().logoutUrl("/logout").logoutSuccessUrl("/login?logout");
+                .logout().logoutUrl("/hr/logout").logoutSuccessUrl("/login?logout");
     }
 
     @Override
