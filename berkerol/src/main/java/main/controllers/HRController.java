@@ -56,11 +56,6 @@ public class HRController {
         this.applicationService = applicationService;
     }
 
-    @RequestMapping("/")
-    public String home() {
-        return "/hr/home";
-    }
-
     @RequestMapping("/advert/add")
     public String addAdvert(Model model) {
         model.addAttribute("advert", new Advert());
