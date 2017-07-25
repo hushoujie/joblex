@@ -165,6 +165,19 @@ public class HRController {
 
     @RequestMapping("/applications/{advertId}")
     public String findAllApplications(@PathVariable int advertId, Model model) {
+        List<Application> applications = advertService.findAdvert(advertId).getApplications();
+        Collections.sort(applications, new Comparator<Application>() {
+            @Override
+            public int compare(Application a1, Application a2) {
+                return -Double.compare(a1.getSimilarity(), a2.getSimilarity());
+            }
+        });
+        model.addAttribute("applications", applications);
+        return "/hr/applications";
+    }
+
+    @RequestMapping("/applications/update/{advertId}")
+    public String updateApplicationsSimilarities(@PathVariable int advertId) {
         Advert advert = advertService.findAdvert(advertId);
         advert.extractKeywords();
         advertService.saveAdvert(advert);
@@ -175,15 +188,7 @@ public class HRController {
             application.calcSimilarity();
             applicationService.saveApplication(application);
         }
-        List<Application> applications = advert.getApplications();
-        Collections.sort(applications, new Comparator<Application>() {
-            @Override
-            public int compare(Application a1, Application a2) {
-                return -Double.compare(a1.getSimilarity(), a2.getSimilarity());
-            }
-        });
-        model.addAttribute("applications", applications);
-        return "/hr/applications";
+        return "redirect:/hr/applications/" + advertId;
     }
 
     @RequestMapping("/application/{applicationId}")

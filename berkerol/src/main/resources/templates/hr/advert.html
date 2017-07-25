@@ -36,6 +36,9 @@
             <a class="btn btn-lg btn-info" th:object="${#lists.size(applicants)}" 
                th:href="${'/hr/applicants/' + advert.id}">Applicants&nbsp;<span class="badge" th:text="${#object}"></span></a>
             <a class="btn btn-lg btn-primary" th:href="${'/hr/search/' + advert.id}">Search Applicants</a>
+            <div style="margin-top: 20px;"></div>
+            <a class="btn btn-default" th:href="${'/hr/applications/update/' + advert.id}">Update Applications' Similarities</a>
+            Note: This might take a while.
         </div>
     </body>
 </html>
