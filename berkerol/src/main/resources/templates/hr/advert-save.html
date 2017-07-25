@@ -47,20 +47,20 @@
                 </div>
                 <div class="row form-group">
                     <label class="control-label col-sm-2" for="title">Title</label>
-                    <div class="col-md-6">
-                        <input type="text" id="title" th:field="*{title}" class="form-control" placeholder="Title" required="required" autofocus="autofocus" />
+                    <div class="col-md-8">
+                        <textarea id="title" form="save-advert" th:field="*{title}" class="form-control" required="required" autofocus="autofocus"></textarea>
                     </div>
                 </div>
                 <div class="row form-group">
                     <label class="control-label col-sm-2" for="description">Description</label>
                     <div class="col-md-8">
-                        <textarea id="description" form="save-advert" th:field="*{description}" class="form-control" rows="7" required="required"></textarea>
+                        <textarea id="description" form="save-advert" th:field="*{description}" class="form-control" required="required"></textarea>
                     </div>
                 </div>
                 <div class="row form-group">
                     <label class="control-label col-sm-2" for="qualifications">Qualifications</label>
                     <div class="col-md-8">
-                        <textarea id="qualifications" form="save-advert" th:field="*{qualifications}" class="form-control" rows="10" required="required"></textarea>
+                        <textarea id="qualifications" form="save-advert" th:field="*{qualifications}" class="form-control" required="required"></textarea>
                     </div>
                 </div>
                 <div class="row form-group">

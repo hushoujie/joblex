@@ -17,7 +17,7 @@
                 <dt>Status</dt>
                 <dd th:text="${advert.status}? 'Active' : 'Passive'"></dd>
                 <dt>Title</dt>
-                <dd th:text="${advert.title}"></dd>
+                <dd th:utext="${advert.title}"></dd>
                 <dt>Description</dt>
                 <dd style="white-space: pre-wrap" th:utext="${advert.description}"></dd>
                 <dt>Qualifications</dt>

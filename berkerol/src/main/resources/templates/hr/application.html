@@ -19,7 +19,7 @@
                 <dt>Advert Status</dt>
                 <dd th:text="${application_.advert.status}? 'Active' : 'Passive'"></dd>
                 <dt>Advert Title</dt>
-                <dd th:text="${application_.advert.title}"></dd>
+                <dd th:utext="${application_.advert.title}"></dd>
                 <dt>Name</dt>
                 <dd th:text="${application_.applicant.firstname + ' ' + application_.applicant.lastname}"></dd>
                 <dt>Educations</dt>

@@ -56,7 +56,7 @@
                         <td th:text="${application.status == 0}? 'Waiting' : (${application.status == 1}? 'Processing' : (${application.status == 2}? 'Accepted' : 'Rejected'))"></td>
                         <td th:text="${application.advert.id}"></td>
                         <td th:text="${application.advert.hr}"></td>
-                        <td th:text="${application.advert.title}"></td>
+                        <td th:utext="${application.advert.title}"></td>
                         <td style="white-space: pre-wrap" th:utext="${application.advert.description}"></td>
                         <td style="white-space: pre-wrap" th:utext="${application.advert.qualifications}"></td>
                         <td th:if="${application.advert.activation == null}"></td>

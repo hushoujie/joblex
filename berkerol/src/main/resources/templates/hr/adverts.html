@@ -48,7 +48,7 @@
                         <td th:text="${advert.id}"></td>
                         <td th:text="${advert.hr}"></td>
                         <td th:text="${advert.status}? 'Active' : 'Passive'"></td>
-                        <td th:text="${advert.title}"></td>
+                        <td th:utext="${advert.title}"></td>
                         <td style="white-space: pre-wrap" th:utext="${advert.description}"></td>
                         <td style="white-space: pre-wrap" th:utext="${advert.qualifications}"></td>
                         <td th:if="${advert.activation == null}"></td>

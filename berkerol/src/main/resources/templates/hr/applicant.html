@@ -96,7 +96,7 @@
             <div style="margin-top: 20px;"></div>
             <div th:if="${not applicant.blacklist}" id="blacklist" class="collapse row col-md-7">
                 <form id="blacklist_add" th:action="@{'/hr/blacklist/add/' + ${applicant.id}}" method="post">
-                    <textarea name="blreason" form="blacklist_add" class="form-control" rows="3"></textarea>
+                    <textarea name="blreason" form="blacklist_add" class="form-control"></textarea>
                     <br />
                     <button class="btn btn-danger" type="submit">Add to Blacklist</button>
                 </form>

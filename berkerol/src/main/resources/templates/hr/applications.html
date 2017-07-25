@@ -53,7 +53,7 @@
                         <td th:text="${application.advert.id}"></td>
                         <td th:text="${application.advert.hr}"></td>
                         <td th:text="${application.advert.status}? 'Active' : 'Passive'"></td>
-                        <td th:text="${application.advert.title}"></td>
+                        <td th:utext="${application.advert.title}"></td>
                         <td th:text="${application.applicant.firstname + ' ' + application.applicant.lastname}"></td>
                         <td>
                             <table th:each="education : ${application.applicant.educations}">
