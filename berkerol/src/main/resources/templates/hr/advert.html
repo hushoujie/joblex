@@ -23,9 +23,11 @@
                 <dt>Qualifications</dt>
                 <dd style="white-space: pre-wrap" th:utext="${advert.qualifications}"></dd>
                 <dt>Activation</dt>
-                <dd th:text="${#dates.format(advert.activation,'dd/MM/yyyy HH:mm')}"></dd>
+                <dd th:if="${advert.activation == null}"></dd>
+                <dd th:if="${advert.activation != null}" th:text="${#dates.format(advert.activation,'dd/MM/yyyy HH:mm')}"></dd>
                 <dt>Deactivation</dt>
-                <dd th:text="${#dates.format(advert.deactivation,'dd/MM/yyyy HH:mm')}"></dd>
+                <dd th:if="${advert.deactivation == null}"></dd>
+                <dd th:if="${advert.deactivation != null}" th:text="${#dates.format(advert.deactivation,'dd/MM/yyyy HH:mm')}"></dd>
             </dl>
             <a class="btn btn-lg btn-warning" th:href="${'/hr/advert/edit/' + advert.id}">Edit</a>
             <a class="btn btn-lg btn-danger" th:href="${'/hr/advert/delete/' + advert.id}">Delete</a>

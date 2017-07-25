@@ -42,14 +42,16 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                    <tr th:each="advert : ${adverts}" th:class="${advert.status}? info : warning">
+                    <tr th:each="advert : ${adverts}">
                         <td th:text="${advert.id}"></td>
                         <td th:text="${advert.hr}"></td>
                         <td th:text="${advert.title}"></td>
                         <td style="white-space: pre-wrap" th:utext="${advert.description}"></td>
                         <td style="white-space: pre-wrap" th:utext="${advert.qualifications}"></td>
-                        <td th:text="${#dates.format(advert.activation,'dd/MM/yyyy HH:mm')}"></td>
-                        <td th:text="${#dates.format(advert.deactivation,'dd/MM/yyyy HH:mm')}"></td>
+                        <td th:if="${advert.activation == null}"></td>
+                        <td th:if="${advert.activation != null}" th:text="${#dates.format(advert.activation,'dd/MM/yyyy HH:mm')}"></td>
+                        <td th:if="${advert.deactivation == null}"></td>
+                        <td th:if="${advert.deactivation != null}" th:text="${#dates.format(advert.deactivation,'dd/MM/yyyy HH:mm')}"></td>
                         <td><a class="btn btn-primary" th:href="${'/advert/' + advert.id}">Details</a></td>
                     </tr>
                 </tbody>

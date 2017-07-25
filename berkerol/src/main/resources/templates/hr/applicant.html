@@ -32,8 +32,10 @@
                             <td th:text="${education.school}"></td>
                             <td th:text="${education.field}"></td>
                             <td th:text="${education.degree}"></td>
-                            <td th:text="${#dates.format(education.startdate,'dd/MM/yyyy')}"></td>
-                            <td th:text="${#dates.format(education.enddate,'dd/MM/yyyy')}"></td>
+                            <td th:if="${education.startdate == null}"></td>
+                            <td th:if="${education.startdate != null}" th:text="${#dates.format(education.startdate,'dd/MM/yyyy')}"></td>
+                            <td th:if="${education.enddate == null}"></td>
+                            <td th:if="${education.enddate != null}" th:text="${#dates.format(education.enddate,'dd/MM/yyyy')}"></td>
                             <td th:text="${education.summary}"></td>
                         </tr>
                     </table>
@@ -51,8 +53,10 @@
                         <tr th:each="experience : ${applicant.experiences}">
                             <td th:text="${experience.company}"></td>
                             <td th:text="${experience.position}"></td>
-                            <td th:text="${#dates.format(experience.startdate,'dd/MM/yyyy')}"></td>
-                            <td th:text="${#dates.format(experience.enddate,'dd/MM/yyyy')}"></td>
+                            <td th:if="${experience.startdate == null}"></td>
+                            <td th:if="${experience.startdate != null}" th:text="${#dates.format(experience.startdate,'dd/MM/yyyy')}"></td>
+                            <td th:if="${experience.enddate == null}"></td>
+                            <td th:if="${experience.enddate != null}" th:text="${#dates.format(experience.enddate,'dd/MM/yyyy')}"></td>
                             <td th:text="${experience.summary}"></td>
                         </tr>
                     </table>

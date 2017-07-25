@@ -41,11 +41,11 @@ public class Scheduler {
         Date date = new Date();
         for (Advert advert : advertService.findAllAdverts()) {
             boolean change = false;
-            if (advert.getActivation().before(date)) {
+            if (advert.getActivation() != null && advert.getActivation().before(date)) {
                 advert.setStatus(true);
                 change = true;
             }
-            if (advert.getDeactivation().before(date)) {
+            if (advert.getDeactivation() != null && advert.getDeactivation().before(date)) {
                 advert.setStatus(false);
                 change = true;
             }

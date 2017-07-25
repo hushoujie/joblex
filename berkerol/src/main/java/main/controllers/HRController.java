@@ -12,7 +12,6 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.function.Consumer;
 import main.components.Email;
-import main.dandelion.Similarity;
 import main.entities.Advert;
 import main.entities.Applicant;
 import main.entities.Application;
@@ -31,7 +30,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.client.RestTemplate;
 
 @Controller
 @RequestMapping("/hr")

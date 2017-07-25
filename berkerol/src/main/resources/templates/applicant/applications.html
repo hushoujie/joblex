@@ -57,10 +57,12 @@
                         <td th:text="${application.advert.id}"></td>
                         <td th:text="${application.advert.hr}"></td>
                         <td th:text="${application.advert.title}"></td>
-                        <td style="white-space: pre-wrap" th:text="${application.advert.description}"></td>
-                        <td style="white-space: pre-wrap" th:text="${application.advert.qualifications}"></td>
-                        <td th:text="${#dates.format(application.advert.activation,'dd/MM/yyyy HH:mm')}"></td>
-                        <td th:text="${#dates.format(application.advert.deactivation,'dd/MM/yyyy HH:mm')}"></td>
+                        <td style="white-space: pre-wrap" th:utext="${application.advert.description}"></td>
+                        <td style="white-space: pre-wrap" th:utext="${application.advert.qualifications}"></td>
+                        <td th:if="${application.advert.activation == null}"></td>
+                        <td th:if="${application.advert.activation != null}" th:text="${#dates.format(application.advert.activation,'dd/MM/yyyy HH:mm')}"></td>
+                        <td th:if="${application.advert.deactivation == null}"></td>
+                        <td th:if="${application.advert.deactivation != null}" th:text="${#dates.format(application.advert.deactivation,'dd/MM/yyyy HH:mm')}"></td>
                         <td><a class="btn btn-primary" th:href="${'/applicant/application/' + application.id}">Details</a></td>
                     </tr>
                 </tbody>
