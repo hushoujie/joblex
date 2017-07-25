@@ -4,64 +4,67 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title th:text="${advert.title}"></title>
+        <title th:utext="${advert.title}"></title>
     </head>
     <body>
         <div th:include="applicant/menu"></div>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-te/1.4.0/jquery-te.min.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-te/1.4.0/jquery-te.min.js"></script>
-        <div class="jumbotron container">
-            <dl class="dl-horizontal">
-                <dt>ID</dt>
-                <dd th:text="${advert.id}"></dd>
-                <dt>HR</dt>
-                <dd th:text="${advert.hr}"></dd>
-                <dt>Title</dt>
-                <dd th:utext="${advert.title}"></dd>
-                <dt>Description</dt>
-                <dd style="white-space: pre-wrap" th:utext="${advert.description}"></dd>
-                <dt>Qualifications</dt>
-                <dd style="white-space: pre-wrap" th:utext="${advert.qualifications}"></dd>
-                <dt>Activation</dt>
-                <dd th:if="${advert.activation == null}"></dd>
-                <dd th:if="${advert.activation != null}" th:text="${#dates.format(advert.activation,'dd/MM/yyyy HH:mm')}"></dd>
-                <dt>Deactivation</dt>
-                <dd th:if="${advert.deactivation == null}"></dd>
-                <dd th:if="${advert.deactivation != null}" th:text="${#dates.format(advert.deactivation,'dd/MM/yyyy HH:mm')}"></dd>
-            </dl>
-            <div th:if="${blacklist}" class="alert alert-danger" role="alert">
-                You are in blacklist.
+        <div class="container">
+            <div class="page-header">
+                <h1 th:utext="${advert.title}"></h1>
             </div>
-            <div th:if="${param.sent != null and not blacklist}" class="alert alert-success" role="alert">
-                Your application is sent.
-            </div>
-            <div th:if="${already and param.sent == null and not blacklist}" class="alert alert-info" role="alert">
-                You have already applied.
-            </div>
-            <div th:if="${connect and param.sent == null and not blacklist}">
-                <div class="alert alert-warning" role="alert">
-                    You should be connected with LinkedIn to apply jobs.
+            <div class="jumbotron">
+                <dl class="dl-horizontal">
+                    <dt>ID</dt>
+                    <dd th:text="${advert.id}"></dd>
+                    <dt>HR</dt>
+                    <dd th:text="${advert.hr}"></dd>
+                    <dt>Description</dt>
+                    <dd style="white-space: pre-wrap" th:utext="${advert.description}"></dd>
+                    <dt>Qualifications</dt>
+                    <dd style="white-space: pre-wrap" th:utext="${advert.qualifications}"></dd>
+                    <dt>Activation</dt>
+                    <dd th:if="${advert.activation == null}"></dd>
+                    <dd th:if="${advert.activation != null}" th:text="${#dates.format(advert.activation,'dd/MM/yyyy HH:mm')}"></dd>
+                    <dt>Deactivation</dt>
+                    <dd th:if="${advert.deactivation == null}"></dd>
+                    <dd th:if="${advert.deactivation != null}" th:text="${#dates.format(advert.deactivation,'dd/MM/yyyy HH:mm')}"></dd>
+                </dl>
+                <div th:if="${blacklist}" class="alert alert-danger" role="alert">
+                    You are in blacklist.
                 </div>
-                <form th:action="@{/connect/linkedin}" method="post">
-                    <button class="btn btn-lg btn-primary" type="submit">Connect with LinkedIn</button>
-                </form>
-            </div>
-            <div th:if="${apply and param.sent == null and not blacklist}">
-                <button class="btn btn-lg btn-primary" data-toggle="collapse" data-target="#apply">Apply to this Job</button>
-                <div style="margin-top: 20px;"></div>
-                <div id="apply" class="collapse row col-md-7">
-                    <form id="letter" th:action="@{'/apply/' + ${advert.id}}" method="post">
-                        <textarea name="coverletter" form="letter" class="form-control"></textarea>
-                        <br />
-                        <button class="btn btn-lg btn-primary" type="submit">Apply with LinkedIn</button>
+                <div th:if="${param.sent != null and not blacklist}" class="alert alert-success" role="alert">
+                    Your application is sent.
+                </div>
+                <div th:if="${already and param.sent == null and not blacklist}" class="alert alert-info" role="alert">
+                    You have already applied.
+                </div>
+                <div th:if="${connect and param.sent == null and not blacklist}">
+                    <div class="alert alert-warning" role="alert">
+                        You should be connected with LinkedIn to apply jobs.
+                    </div>
+                    <form th:action="@{/connect/linkedin}" method="post">
+                        <button class="btn btn-lg btn-primary" type="submit">Connect with LinkedIn</button>
                     </form>
                 </div>
+                <div th:if="${apply and param.sent == null and not blacklist}">
+                    <button class="btn btn-lg btn-primary" data-toggle="collapse" data-target="#apply">Apply to this Job</button>
+                    <div style="margin-top: 20px;"></div>
+                    <div id="apply" class="collapse row col-md-7">
+                        <form id="letter" th:action="@{'/apply/' + ${advert.id}}" method="post">
+                            <textarea name="coverletter" form="letter" class="form-control"></textarea>
+                            <br />
+                            <button class="btn btn-lg btn-primary" type="submit">Apply with LinkedIn</button>
+                        </form>
+                    </div>
+                </div>
+                <script>
+                    $(function () {
+                        $("textarea").jqte();
+                    });
+                </script>
             </div>
-            <script>
-                $(function () {
-                    $("textarea").jqte();
-                });
-            </script>
         </div>
         <div th:include="common/footer"></div>
     </body>

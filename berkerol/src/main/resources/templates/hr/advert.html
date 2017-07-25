@@ -4,41 +4,44 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title th:text="${advert.title}"></title>
+        <title th:utext="${advert.title}"></title>
     </head>
     <body>
         <div th:include="hr/menu"></div>
-        <div class="jumbotron container">
-            <dl class="dl-horizontal">
-                <dt>ID</dt>
-                <dd th:text="${advert.id}"></dd>
-                <dt>HR</dt>
-                <dd th:text="${advert.hr}"></dd>
-                <dt>Status</dt>
-                <dd th:text="${advert.status}? 'Active' : 'Passive'"></dd>
-                <dt>Title</dt>
-                <dd th:utext="${advert.title}"></dd>
-                <dt>Description</dt>
-                <dd style="white-space: pre-wrap" th:utext="${advert.description}"></dd>
-                <dt>Qualifications</dt>
-                <dd style="white-space: pre-wrap" th:utext="${advert.qualifications}"></dd>
-                <dt>Activation</dt>
-                <dd th:if="${advert.activation == null}"></dd>
-                <dd th:if="${advert.activation != null}" th:text="${#dates.format(advert.activation,'dd/MM/yyyy HH:mm')}"></dd>
-                <dt>Deactivation</dt>
-                <dd th:if="${advert.deactivation == null}"></dd>
-                <dd th:if="${advert.deactivation != null}" th:text="${#dates.format(advert.deactivation,'dd/MM/yyyy HH:mm')}"></dd>
-            </dl>
-            <a class="btn btn-lg btn-warning" th:href="${'/hr/advert/edit/' + advert.id}">Edit</a>
-            <a class="btn btn-lg btn-danger" th:href="${'/hr/advert/delete/' + advert.id}">Delete</a>
-            <a class="btn btn-lg btn-success" th:object="${#lists.size(advert.applications)}" 
-               th:href="${'/hr/applications/' + advert.id}">Applications&nbsp;<span class="badge" th:text="${#object}"></span></a>
-            <a class="btn btn-lg btn-info" th:object="${#lists.size(applicants)}" 
-               th:href="${'/hr/applicants/' + advert.id}">Applicants&nbsp;<span class="badge" th:text="${#object}"></span></a>
-            <a class="btn btn-lg btn-primary" th:href="${'/hr/search/' + advert.id}">Search Applicants</a>
-            <div style="margin-top: 20px;"></div>
-            <a class="btn btn-default" th:href="${'/hr/applications/update/' + advert.id}">Update Applications' Similarities</a>
-            Note: This might take a while.
+        <div class="container">
+            <div class="page-header">
+                <h1 th:utext="${advert.title}"></h1>
+            </div>
+            <div class="jumbotron">
+                <dl class="dl-horizontal">
+                    <dt>ID</dt>
+                    <dd th:text="${advert.id}"></dd>
+                    <dt>HR</dt>
+                    <dd th:text="${advert.hr}"></dd>
+                    <dt>Status</dt>
+                    <dd th:text="${advert.status}? 'Active' : 'Passive'"></dd>
+                    <dt>Description</dt>
+                    <dd style="white-space: pre-wrap" th:utext="${advert.description}"></dd>
+                    <dt>Qualifications</dt>
+                    <dd style="white-space: pre-wrap" th:utext="${advert.qualifications}"></dd>
+                    <dt>Activation</dt>
+                    <dd th:if="${advert.activation == null}"></dd>
+                    <dd th:if="${advert.activation != null}" th:text="${#dates.format(advert.activation,'dd/MM/yyyy HH:mm')}"></dd>
+                    <dt>Deactivation</dt>
+                    <dd th:if="${advert.deactivation == null}"></dd>
+                    <dd th:if="${advert.deactivation != null}" th:text="${#dates.format(advert.deactivation,'dd/MM/yyyy HH:mm')}"></dd>
+                </dl>
+                <a class="btn btn-lg btn-warning" th:href="${'/hr/advert/edit/' + advert.id}">Edit</a>
+                <a class="btn btn-lg btn-danger" th:href="${'/hr/advert/delete/' + advert.id}">Delete</a>
+                <a class="btn btn-lg btn-success" th:object="${#lists.size(advert.applications)}" 
+                   th:href="${'/hr/applications/' + advert.id}">Applications&nbsp;<span class="badge" th:text="${#object}"></span></a>
+                <a class="btn btn-lg btn-info" th:object="${#lists.size(applicants)}" 
+                   th:href="${'/hr/applicants/' + advert.id}">Applicants&nbsp;<span class="badge" th:text="${#object}"></span></a>
+                <a class="btn btn-lg btn-primary" th:href="${'/hr/search/' + advert.id}">Search Applicants</a>
+                <div style="margin-top: 20px;"></div>
+                <a class="btn btn-default" th:href="${'/hr/applications/update/' + advert.id}">Update Applications' Similarities</a>
+                Note: This might take a while.
+            </div>
         </div>
         <div th:include="common/footer"></div>
     </body>
