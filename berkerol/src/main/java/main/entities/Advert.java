@@ -1,12 +1,8 @@
 package main.entities;
 
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
+import main.components.Dandelion;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -41,8 +38,14 @@ public class Advert implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date deactivation;
 
+    private String keywords;
+
     @OneToMany(mappedBy = "advert", cascade = CascadeType.ALL)
     private List<Application> applications;
+
+    public void extractKeywords() {
+        keywords = Dandelion.extractKeywords(title) + Dandelion.extractKeywords(description) + Dandelion.extractKeywords(qualifications);
+    }
 
     public int getId() {
         return id;
@@ -108,21 +111,20 @@ public class Advert implements Serializable {
         this.deactivation = deactivation;
     }
 
+    public String getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
+    }
+
     public List<Application> getApplications() {
         return applications;
     }
 
     public void setApplications(List<Application> applications) {
         this.applications = applications;
-    }
-
-    public String getUrl() {
-        try {
-            return URLEncoder.encode(this.getTitle() + " " + this.getDescription(), "UTF-8");
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(Advert.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return "";
     }
 
 }

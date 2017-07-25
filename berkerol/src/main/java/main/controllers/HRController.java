@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
-import java.util.function.Consumer;
 import main.components.Email;
 import main.entities.Advert;
 import main.entities.Applicant;
@@ -166,13 +165,17 @@ public class HRController {
 
     @RequestMapping("/applications/{advertId}")
     public String findAllApplications(@PathVariable int advertId, Model model) {
-        List<Application> applications = advertService.findAdvert(advertId).getApplications();
-        applications.forEach(new Consumer<Application>() {
-            @Override
-            public void accept(Application a) {
-                a.calcSimilarity();
-            }
-        });
+        Advert advert = advertService.findAdvert(advertId);
+        advert.extractKeywords();
+        advertService.saveAdvert(advert);
+        for (Application application : advert.getApplications()) {
+            Applicant applicant = application.getApplicant();
+            applicant.extractKeywords();
+            applicantService.saveApplicant(applicant);
+            application.calcSimilarity();
+            applicationService.saveApplication(application);
+        }
+        List<Application> applications = advert.getApplications();
         Collections.sort(applications, new Comparator<Application>() {
             @Override
             public int compare(Application a1, Application a2) {

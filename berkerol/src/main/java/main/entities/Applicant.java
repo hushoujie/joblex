@@ -1,15 +1,12 @@
 package main.entities;
 
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import main.components.Dandelion;
 
 @Entity
 public class Applicant implements Serializable {
@@ -45,6 +42,8 @@ public class Applicant implements Serializable {
 
     private String blreason;
 
+    private String keywords;
+
     @OneToMany(mappedBy = "applicant", cascade = CascadeType.ALL)
     private List<Application> applications;
 
@@ -53,6 +52,17 @@ public class Applicant implements Serializable {
 
     @OneToMany(mappedBy = "applicant", cascade = CascadeType.ALL)
     private List<Experience> experiences;
+
+    public void extractKeywords() {
+        keywords = Dandelion.extractKeywords(industry) + Dandelion.extractKeywords(location) + Dandelion.extractKeywords(headline)
+                + Dandelion.extractKeywords(summary) + Dandelion.extractKeywords(skills);
+        for (Education education : educations) {
+            keywords += Dandelion.extractKeywords(education.getField()) + Dandelion.extractKeywords(education.getDegree()) + Dandelion.extractKeywords(education.getSummary());
+        }
+        for (Experience experience : experiences) {
+            keywords += Dandelion.extractKeywords(experience.getPosition()) + Dandelion.extractKeywords(experience.getSummary());
+        }
+    }
 
     public String getPhoto() {
         return photo;
@@ -174,6 +184,14 @@ public class Applicant implements Serializable {
         this.blreason = blreason;
     }
 
+    public String getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
+    }
+
     public List<Application> getApplications() {
         return applications;
     }
@@ -196,15 +214,6 @@ public class Applicant implements Serializable {
 
     public void setExperiences(List<Experience> experiences) {
         this.experiences = experiences;
-    }
-
-    public String getUrl() {
-        try {
-            return URLEncoder.encode(this.getIndustry() + " " + this.getLocation() + " " + this.getSkills(), "UTF-8");
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(Applicant.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return "";
     }
 
 }

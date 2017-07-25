@@ -7,8 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import main.dandelion.Similarity;
-import org.springframework.web.client.RestTemplate;
+import main.components.Dandelion;
 
 @Entity
 public class Application implements Serializable {
@@ -32,11 +31,7 @@ public class Application implements Serializable {
     private double similarity;
 
     public void calcSimilarity() {
-        String url = "https://api.dandelion.eu/datatxt/sim/v1?text1=" + advert.getUrl()
-                + "&text2=" + applicant.getUrl()
-                + "&token=a397094f43f840a1ba7f20b875baf5ae&lang=en&bow=always";
-        RestTemplate restTemplate = new RestTemplate();
-        similarity = restTemplate.getForObject(url, Similarity.class).getSimilarity();
+        similarity = Dandelion.calcSimilarity(advert.getKeywords(), applicant.getKeywords());
     }
 
     public int getId() {
