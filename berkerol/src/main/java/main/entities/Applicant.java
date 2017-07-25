@@ -54,14 +54,14 @@ public class Applicant implements Serializable {
     private List<Experience> experiences;
 
     public void extractKeywords() {
-        keywords = Dandelion.extractKeywords(industry) + Dandelion.extractKeywords(location) + Dandelion.extractKeywords(headline)
-                + Dandelion.extractKeywords(summary) + Dandelion.extractKeywords(skills);
+        String all = industry + " " + location + " " + headline + " " + summary + " " + skills + " ", edu = "", ex = "";
         for (Education education : educations) {
-            keywords += Dandelion.extractKeywords(education.getField()) + Dandelion.extractKeywords(education.getDegree()) + Dandelion.extractKeywords(education.getSummary());
+            edu += education.getField() + " " + education.getDegree() + " " + education.getSummary() + " ";
         }
         for (Experience experience : experiences) {
-            keywords += Dandelion.extractKeywords(experience.getPosition()) + Dandelion.extractKeywords(experience.getSummary());
+            ex += experience.getPosition() + " " + experience.getSummary() + " ";
         }
+        keywords = Dandelion.extractKeywords(all) + Dandelion.extractKeywords(edu) + Dandelion.extractKeywords(ex);
     }
 
     public String getPhoto() {

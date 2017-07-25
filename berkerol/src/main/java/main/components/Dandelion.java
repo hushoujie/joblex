@@ -27,7 +27,7 @@ public class Dandelion {
             HttpPost httpPost = new HttpPost("https://api.dandelion.eu/datatxt/nex/v1");
             List<NameValuePair> params = new ArrayList<>(4);
             params.add(new BasicNameValuePair("lang", "en"));
-            params.add(new BasicNameValuePair("min_confidence", "0.6"));
+            params.add(new BasicNameValuePair("min_confidence", "0.7"));
             params.add(new BasicNameValuePair("token", "a397094f43f840a1ba7f20b875baf5ae"));
             try {
                 params.add(new BasicNameValuePair("text", URLEncoder.encode(Jsoup.parse(content).text(), "UTF-8")));
@@ -42,7 +42,7 @@ public class Dandelion {
                 Logger.getLogger(Dandelion.class.getName()).log(Level.SEVERE, null, ex);
             }
             for (Object annotation : annotations) {
-                labels += ((JSONObject) annotation).get("label") + "+";
+                labels += ((JSONObject) annotation).get("spot") + "+";
             }
         }
         return labels;
@@ -54,7 +54,7 @@ public class Dandelion {
         params.add(new BasicNameValuePair("text1", advert));
         params.add(new BasicNameValuePair("text2", applicant));
         params.add(new BasicNameValuePair("lang", "en"));
-        params.add(new BasicNameValuePair("bow", "always"));
+        params.add(new BasicNameValuePair("bow", "never"));
         params.add(new BasicNameValuePair("token", "a397094f43f840a1ba7f20b875baf5ae"));
         try {
             httpPost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
