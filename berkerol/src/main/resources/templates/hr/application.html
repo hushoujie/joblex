@@ -61,5 +61,6 @@
             <a class="btn btn-lg btn-warning" th:object="${#lists.size(application_.applicant.applications) - 1}"
                th:href="${'/hr/others/' + application_.id}">Adverts of other applications&nbsp;<span class="badge" th:text="${#object}"></span></a>
         </div>
+        <div th:include="common/footer"></div>
     </body>
 </html>

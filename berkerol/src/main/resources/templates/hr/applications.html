@@ -9,7 +9,7 @@
     <body>
         <div th:include="hr/menu"></div>
         <div class="container">
-            <div th:include="table/form"></div>
+            <div th:include="common/form"></div>
             <div th:if="${#lists.isEmpty(applications)}">No application.</div>
             <table class="table table-bordered table-hover" th:if="${not #lists.isEmpty(applications)}">
                 <thead>
@@ -43,7 +43,7 @@
                     </tr>
                     <tr>
                         <th colspan="11" class="ts-pager form-inline">
-                            <div th:include="table/pager"></div>
+                            <div th:include="common/pager"></div>
                         </th>
                     </tr>
                 </tfoot>
@@ -76,5 +76,6 @@
                 </tbody>
             </table>
         </div>
+        <div th:include="common/footer"></div>
     </body>
 </html>
