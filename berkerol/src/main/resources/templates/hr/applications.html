@@ -9,8 +9,8 @@
     <body>
         <div th:include="hr/menu"></div>
         <div class="container">
-            <div th:include="common/form"></div>
-            <div th:if="${#lists.isEmpty(applications)}">No application.</div>
+            <div th:if="${#lists.isEmpty(applications)}" class="alert alert-warning" role="alert">No application.</div>
+            <div th:if="${not #lists.isEmpty(applications)}" th:include="common/form"></div>
             <table class="table table-bordered table-hover" th:if="${not #lists.isEmpty(applications)}">
                 <thead>
                     <tr>
