@@ -43,7 +43,8 @@
                 </tfoot>
                 <tbody>
                     <tr th:each="applicant : ${applicants}">
-                        <td><img th:src="${applicant.photo}" alt="profile picture" width="80" height="80" /></td>
+                        <td th:if="${applicant.photo == null}"><img src="/static/images/profile.jpg" alt="profile picture" width="80" height="80" /></td>
+                        <td th:if="${applicant.photo != null}"><img th:src="${applicant.photo}" alt="profile picture" width="80" height="80" /></td>
                         <td th:text="${applicant.firstname + ' ' + applicant.lastname}"></td>
                         <td>
                             <table th:each="education : ${applicant.educations}">

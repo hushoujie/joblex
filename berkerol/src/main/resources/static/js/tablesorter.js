@@ -16,7 +16,6 @@ $(function () {
         }
     })
             .tablesorterPager({
-                size: 5,
                 container: $(".ts-pager"),
                 // possible variables: {page}, {totalPages}, {filteredPages}, {startRow}, {endRow}, {filteredRows} and {totalRows}
                 output: '{startRow} - {endRow} / {filteredRows} ({totalRows})'

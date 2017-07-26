@@ -30,11 +30,11 @@ public class Advert implements Serializable {
 
     private String qualifications;
 
-    @DateTimeFormat(pattern = "MM/dd/yyyy HH:mm")
+    @DateTimeFormat(pattern = "MM/dd/yyyy hh:mm a")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date activation;
 
-    @DateTimeFormat(pattern = "MM/dd/yyyy HH:mm")
+    @DateTimeFormat(pattern = "MM/dd/yyyy hh:mm a")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date deactivation;
 

@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title th:utext="${application_.advert.title}"></title>
+        <title th:text="${T(org.jsoup.Jsoup).parse(application_.advert.title).text()}"></title>
     </head>
     <body>
         <div th:include="applicant/menu"></div>
@@ -13,9 +13,11 @@
                 <h1 th:utext="${application_.advert.title}"></h1>
             </div>
             <div class="jumbotron">
+                <div th:if="${application_.status == 0}" class="alert alert-info" role="alert"><b>Waiting</b></div>
+                <div th:if="${application_.status == 1}" class="alert alert-warning" role="alert"><b>Processing</b></div>
+                <div th:if="${application_.status == 2}" class="alert alert-success" role="alert"><b>Accepted</b></div>
+                <div th:if="${application_.status == 3}" class="alert alert-danger" role="alert"><b>Rejected</b></div>
                 <dl class="dl-horizontal">
-                    <dt>Application Status</dt>
-                    <dd th:text="${application_.status == 0}? 'Waiting' : (${application_.status == 1}? 'Processing' : (${application_.status == 2}? 'Accepted' : 'Rejected'))"></dd>
                     <dt>ID</dt>
                     <dd th:text="${application_.advert.id}"></dd>
                     <dt>HR</dt>

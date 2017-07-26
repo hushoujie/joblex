@@ -28,12 +28,7 @@
         <div class="container">
             <form id="save-advert" th:object="${advert}" th:action="@{/hr/advert/save}" method="post" >
                 <h2 class="form-heading">Save Advert</h2>
-                <div class="row form-group">
-                    <label class="control-label col-sm-2" for="id">ID</label>
-                    <div class="col-md-2">
-                        <input type="number" id="id" th:field="*{id}" class="form-control" readonly="readonly" />
-                    </div>
-                </div>
+                <input type="hidden" th:field="*{id}" />
                 <div class="row form-group">
                     <label class="control-label col-sm-2" for="status">Status</label>
                     <div class="checkbox">

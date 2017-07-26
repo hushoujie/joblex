@@ -8,13 +8,15 @@
     </head>
     <body>
         <div th:include="applicant/menu"></div>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+        <link href="/static/css/bootstrap-social.css" rel="stylesheet" />
         <div class="container">
             <div th:if="${not linkedin}">
                 <div class="alert alert-warning" role="alert">
                     You should be connected with LinkedIn to view your applications.
                 </div>
                 <form th:action="@{/connect/linkedin}" method="post">
-                    <button class="btn btn-lg btn-primary" type="submit">Connect with LinkedIn</button>
+                    <button class="btn btn-lg btn-social btn-linkedin" type="submit"><span class="fa fa-linkedin"></span> Connect with LinkedIn</button>
                 </form>
             </div>
             <div th:if="${linkedin and #lists.isEmpty(applications)}" class="alert alert-warning" role="alert">No application.</div>
