@@ -177,10 +177,12 @@ public class ApplicantController {
         if (connectionRepository.findPrimaryConnection(LinkedIn.class) != null) {
             saveLinkedIn(linkedIn.profileOperations().getUserProfileFull());
             Applicant applicant = applicantService.findApplicant(linkedIn.profileOperations().getProfileId());
-            for (Application application : applicant.getApplications()) {
-                if (application.getAdvert().getId() == advertId) {
-                    model = setApplicationOptions(advertId, true, false, false, applicant.isBlacklist(), model);
-                    return "/applicant/advert";
+            if (applicant.getApplications() != null) {
+                for (Application application : applicant.getApplications()) {
+                    if (application.getAdvert().getId() == advertId) {
+                        model = setApplicationOptions(advertId, true, false, false, applicant.isBlacklist(), model);
+                        return "/applicant/advert";
+                    }
                 }
             }
             model = setApplicationOptions(advertId, false, true, false, applicant.isBlacklist(), model);
