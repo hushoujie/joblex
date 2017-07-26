@@ -26,6 +26,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * Handles all mappings outside HR.
+ *
+ * @author Berk Erol
+ */
 @Controller
 public class ApplicantController {
 
@@ -67,17 +72,33 @@ public class ApplicantController {
         this.experienceService = experienceService;
     }
 
+    /**
+     * Handles mappings for home page.
+     *
+     * @param model model of this page to be transported
+     * @return path of HTML file
+     */
     @RequestMapping("/")
     public String home(Model model) {
         model.addAttribute("logout", connectionRepository.findPrimaryConnection(LinkedIn.class));
         return "/applicant/home";
     }
 
+    /**
+     * Handles mappings for HR login attempts.
+     *
+     * @return path of HTML file
+     */
     @RequestMapping("/login")
     public String login() {
         return "/hr/login";
     }
 
+    /**
+     * Handles mappings for LinkedIn logout attempts.
+     *
+     * @return redirection to home page
+     */
     @RequestMapping("/logout")
     public String logout() {
         if (connectionRepository.findPrimaryConnection(LinkedIn.class) != null) {
@@ -86,6 +107,12 @@ public class ApplicantController {
         return "redirect:/";
     }
 
+    /**
+     * Handles mappings for listing all adverts.
+     *
+     * @param model model of this page to be transported
+     * @return path of HTML file
+     */
     @RequestMapping("/adverts")
     public String findAllAdverts(Model model) {
         model.addAttribute("logout", connectionRepository.findPrimaryConnection(LinkedIn.class));
@@ -93,6 +120,13 @@ public class ApplicantController {
         return "/applicant/adverts";
     }
 
+    /**
+     * Handles mappings for listing most applied adverts. Finds all adverts then sorts them according to their number of
+     * applications.
+     *
+     * @param model model of this page to be transported
+     * @return path of HTML file
+     */
     @RequestMapping("/adverts/top")
     public String findTopAdverts(Model model) {
         model.addAttribute("logout", connectionRepository.findPrimaryConnection(LinkedIn.class));
@@ -107,6 +141,12 @@ public class ApplicantController {
         return "/applicant/adverts";
     }
 
+    /**
+     * Handles mappings for listing newly added adverts. Finds all adverts then sorts them according to their IDs.
+     *
+     * @param model model of this page to be transported
+     * @return path of HTML file
+     */
     @RequestMapping("/adverts/new")
     public String findNewAdverts(Model model) {
         model.addAttribute("logout", connectionRepository.findPrimaryConnection(LinkedIn.class));
@@ -121,6 +161,16 @@ public class ApplicantController {
         return "/applicant/adverts";
     }
 
+    /**
+     * Handles mappings for viewing advert. Generates different buttons for already applied, connected, disconnected,
+     * blacklisted situations.
+     *
+     * @param advertId ID of the advert to be viewed
+     * @param session current session for redirecting after LinkedIn login
+     * @param model model of this page to be transported
+     * @return path of HTML file
+     * @see setApplicationOptions
+     */
     @RequestMapping("/advert/{advertId}")
     public String findAdvert(@PathVariable int advertId, HttpSession session, Model model) {
         model.addAttribute("logout", connectionRepository.findPrimaryConnection(LinkedIn.class));
@@ -141,27 +191,50 @@ public class ApplicantController {
         return "/applicant/advert";
     }
 
+    /**
+     * Handles mappings for advert applying attempts. Fetches advert ID and cover letter then generates and saves an
+     * application for the advert.
+     *
+     * @param advertId ID of the advert to be applied
+     * @param coverletter cover letter of the applicant
+     * @return redirection to advert viewing page with sent information
+     */
     @RequestMapping("/apply/{advertId}")
-    public String apply(@PathVariable int advertId, @RequestParam String coverletter, Model model) {
+    public String apply(@PathVariable int advertId, @RequestParam String coverletter) {
         if (connectionRepository.findPrimaryConnection(LinkedIn.class) != null) {
             Application application = new Application();
             application.setAdvert(advertService.findAdvert(advertId));
             application.setApplicant(applicantService.findApplicant(linkedIn.profileOperations().getProfileId()));
             application.setStatus(0);
             application.setCoverletter(coverletter);
+            application.setSimilarity(0.0);
             applicationService.saveApplication(application);
         }
         return "redirect:/advert/" + advertId + "?sent";
     }
 
+    /**
+     * Handles mappings for application canceling attempts.
+     *
+     * @param applicationId ID of the application to be canceled
+     * @return redirection to applicant home page
+     */
     @RequestMapping("/application/cancel/{applicationId}")
-    public String cancelApplication(@PathVariable int applicationId, Model model) {
+    public String cancelApplication(@PathVariable int applicationId) {
         if (connectionRepository.findPrimaryConnection(LinkedIn.class) != null) {
             applicationService.deleteApplication(applicationId);
         }
         return "redirect:/applicant/";
     }
 
+    /**
+     * Handles mappings for applicant home page for listing applications. Generates different buttons for connected and
+     * disconnected situations.
+     *
+     * @param session current session for redirecting after LinkedIn login
+     * @param model model of this page to be transported
+     * @return path of HTML file
+     */
     @RequestMapping("/applicant/")
     public String findAllApplications(HttpSession session, Model model) {
         model.addAttribute("logout", connectionRepository.findPrimaryConnection(LinkedIn.class));
@@ -177,6 +250,13 @@ public class ApplicantController {
         return "/applicant/applications";
     }
 
+    /**
+     * Handles mappings for viewing application.
+     *
+     * @param applicationId ID of the application to be viewed
+     * @param model model of this page to be transported
+     * @return path of HTML file
+     */
     @RequestMapping("/applicant/application/{applicationId}")
     public String findApplication(@PathVariable int applicationId, Model model) {
         model.addAttribute("logout", connectionRepository.findPrimaryConnection(LinkedIn.class));
@@ -186,6 +266,17 @@ public class ApplicantController {
         return "/applicant/application";
     }
 
+    /**
+     * Configures model for different user situations.
+     *
+     * @param id ID of the advert to be viewed
+     * @param already true if applicant has already applied to the advert
+     * @param apply true if applicant is connected but has not applied yet
+     * @param connect true if applicant is not connected
+     * @param blacklist true if applicant is blacklisted
+     * @param model model of this page to be transported
+     * @return model of this page to be transported
+     */
     private Model setApplicationOptions(int id, boolean already, boolean apply, boolean connect, boolean blacklist, Model model) {
         model.addAttribute("advert", advertService.findAdvert(id));
         model.addAttribute("already", already);
@@ -195,6 +286,11 @@ public class ApplicantController {
         return model;
     }
 
+    /**
+     * Fetches LinkedIn profile details and saves to MySQL server for later use in Solr server
+     *
+     * @param profileFull LinkedIn profile object of the connected applicant
+     */
     private void saveLinkedIn(LinkedInProfileFull profileFull) {
         Applicant applicant = applicantService.findApplicant(profileFull.getId());
         if (applicant == null) {

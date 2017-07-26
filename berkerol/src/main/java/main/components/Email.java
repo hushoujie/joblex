@@ -10,8 +10,19 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+/**
+ * Handles email sending process.
+ *
+ * @author Berk Erol
+ */
 public class Email {
 
+    /**
+     * Finds status text to be embedded to the email body.
+     *
+     * @param status status code
+     * @return status text
+     */
     private static String getStatus(int status) {
         switch (status) {
             case 0:
@@ -26,6 +37,14 @@ public class Email {
         return "";
     }
 
+    /**
+     * Constructs and sends an email to the applicant for application status changes.
+     *
+     * @param to address of applicant
+     * @param advert name of advert
+     * @param applicant name of applicant
+     * @param status status code of application
+     */
     public static void send(String to, String advert, String applicant, int status) {
         Properties properties = System.getProperties();
         properties.setProperty("mail.smtp.starttls.enable", "true");

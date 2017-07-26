@@ -19,8 +19,19 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.jsoup.Jsoup;
 
+/**
+ * Handles Dandelion API requests.
+ *
+ * @author Berk Erol
+ */
 public class Dandelion {
 
+    /**
+     * Constructs and sends a post request to the API, fetches and parses JSON objects to extract the keywords.
+     *
+     * @param content text to be extracted
+     * @return all keywords joined by +
+     */
     public static String extractKeywords(String content) {
         String labels = "";
         if (content != null) {
@@ -48,6 +59,13 @@ public class Dandelion {
         return labels;
     }
 
+    /**
+     * Constructs and sends a post request to the API, fetches and parses JSON objects to get similarity score.
+     *
+     * @param advert keywords of advert
+     * @param applicant keywords of applicant
+     * @return similarity score
+     */
     public static double calcSimilarity(String advert, String applicant) {
         HttpPost httpPost = new HttpPost("https://api.dandelion.eu/datatxt/sim/v1");
         List<NameValuePair> params = new ArrayList<>(5);

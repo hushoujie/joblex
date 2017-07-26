@@ -18,6 +18,11 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Handles automated processes.
+ *
+ * @author Berk Erol
+ */
 @Component
 @Transactional
 public class Scheduler {
@@ -36,6 +41,10 @@ public class Scheduler {
         this.applicantService = applicantService;
     }
 
+    /**
+     * Checks all adverts' activation and deactivation dates and changes their statuses if necessary. Runs at every
+     * minute.
+     */
     @Scheduled(cron = "0 * * * * *")
     public void setAdvertStatuses() {
         Date date = new Date();
@@ -55,6 +64,12 @@ public class Scheduler {
         }
     }
 
+    /**
+     * Updates and indexes Solr server based on the values in MySQL server. Runs at every hour.
+     *
+     * @throws SolrServerException when a communication or parsing issue is arised
+     * @throws IOException when the input does not match Solr server
+     */
     @Scheduled(cron = "0 0 * * * *")
     public void updateSolr() throws SolrServerException, IOException {
         SolrClient solrClient = new HttpSolrClient.Builder("http://localhost:8983/solr/applicants").build();
