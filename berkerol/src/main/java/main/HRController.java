@@ -2,7 +2,6 @@ package main;
 
 import java.security.Principal;
 import java.util.LinkedList;
-import java.util.List;
 import main.entities.Advert;
 import main.entities.Applicant;
 import main.entities.Application;
@@ -152,57 +151,21 @@ public class HRController {
     }
 
     @RequestMapping("/applications")
-    public String findAllApplications(@RequestParam(required = false, defaultValue = "false") boolean waiting,
-            @RequestParam(required = false, defaultValue = "false") boolean processing, @RequestParam(required = false, defaultValue = "false") boolean accepted,
-            @RequestParam(required = false, defaultValue = "false") boolean rejected, Model model, Principal principal) {
+    public String findAllApplications(Model model, Principal principal) {
         model.addAttribute("hrname", principal.getName());
         LinkedList<Application> applications = new LinkedList<>();
         for (Advert advert : advertService.findAllAdverts()) {
             applications.addAll(advert.getApplications());
         }
-        model = filterApplications(waiting, processing, accepted, rejected, applications, model);
-        model.addAttribute("address", "/hr/applications");
+        model.addAttribute("applications", applications);
         return "/hr/applications";
     }
 
     @RequestMapping("/applications/{advertId}")
-    public String findAllApplications(@PathVariable int advertId, @RequestParam(required = false, defaultValue = "false") boolean waiting,
-            @RequestParam(required = false, defaultValue = "false") boolean processing, @RequestParam(required = false, defaultValue = "false") boolean accepted,
-            @RequestParam(required = false, defaultValue = "false") boolean rejected, Model model, Principal principal) {
+    public String findAllApplications(@PathVariable int advertId, Model model, Principal principal) {
         model.addAttribute("hrname", principal.getName());
-        model = filterApplications(waiting, processing, accepted, rejected, advertService.findAdvert(advertId).getApplications(), model);
-        model.addAttribute("address", "/hr/applications/" + advertId);
+        model.addAttribute("applications", advertService.findAdvert(advertId).getApplications());
         return "/hr/applications";
-    }
-
-    private Model filterApplications(boolean waiting, boolean processing, boolean accepted, boolean rejected, List<Application> allApplications, Model model) {
-        if (!waiting && !processing && !accepted && !rejected) {
-            waiting = true;
-            processing = true;
-            accepted = true;
-            rejected = true;
-        }
-        LinkedList<Application> applications = new LinkedList<>();
-        for (Application application : allApplications) {
-            if (waiting && application.getStatus() == 0) {
-                applications.add(application);
-            }
-            if (processing && application.getStatus() == 1) {
-                applications.add(application);
-            }
-            if (accepted && application.getStatus() == 2) {
-                applications.add(application);
-            }
-            if (rejected && application.getStatus() == 3) {
-                applications.add(application);
-            }
-        }
-        model.addAttribute("waiting", waiting);
-        model.addAttribute("processing", processing);
-        model.addAttribute("accepted", accepted);
-        model.addAttribute("rejected", rejected);
-        model.addAttribute("applications", applications);
-        return model;
     }
 
     @RequestMapping("/application/{applicationId}")

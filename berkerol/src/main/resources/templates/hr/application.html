@@ -16,11 +16,19 @@
                 <dd th:text="${application_.advert.title}"></dd>
                 <dt>Name</dt>
                 <dd th:text="${application_.applicant.firstname + ' ' + application_.applicant.lastname}"></dd>
-                <dt>Job</dt>
+                <dt>Educations</dt>
                 <dd>
-                    <table th:each="job : ${application_.applicant.jobs}">
+                    <table th:each="education : ${application_.applicant.educations}">
                         <tr>
-                            <td th:text="${job.company + ' - ' + job.title}"></td>
+                            <td th:text="${education.school + ' - ' + education.field + ' - ' + education.degree}"></td>
+                        </tr>
+                    </table>
+                </dd>
+                <dt>Experiences</dt>
+                <dd>
+                    <table th:each="experience : ${application_.applicant.experiences}">
+                        <tr>
+                            <td th:text="${experience.company + ' - ' + experience.position}"></td>
                         </tr>
                     </table>
                 </dd>

@@ -12,13 +12,13 @@ import javax.persistence.Temporal;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-public class Job implements Serializable {
+public class Experience implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    private String jobid;
+    private String linkedinid;
 
     @ManyToOne
     @JoinColumn(name = "applicant")
@@ -26,13 +26,17 @@ public class Job implements Serializable {
 
     private String company;
 
-    private String title;
-
-    private String summary;
+    private String position;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date startdate;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date enddate;
+
+    private String summary;
 
     public int getId() {
         return id;
@@ -42,12 +46,12 @@ public class Job implements Serializable {
         this.id = id;
     }
 
-    public String getJobid() {
-        return jobid;
+    public String getLinkedinid() {
+        return linkedinid;
     }
 
-    public void setJobid(String jobid) {
-        this.jobid = jobid;
+    public void setLinkedinid(String linkedinid) {
+        this.linkedinid = linkedinid;
     }
 
     public Applicant getApplicant() {
@@ -66,20 +70,12 @@ public class Job implements Serializable {
         this.company = company;
     }
 
-    public String getTitle() {
-        return title;
+    public String getPosition() {
+        return position;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
+    public void setPosition(String position) {
+        this.position = position;
     }
 
     public Date getStartdate() {
@@ -88,6 +84,22 @@ public class Job implements Serializable {
 
     public void setStartdate(Date startdate) {
         this.startdate = startdate;
+    }
+
+    public Date getEnddate() {
+        return enddate;
+    }
+
+    public void setEnddate(Date enddate) {
+        this.enddate = enddate;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 
 }

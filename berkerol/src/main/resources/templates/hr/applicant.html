@@ -12,11 +12,43 @@
             <dl class="dl-horizontal">
                 <dt>Name</dt>
                 <dd th:text="${applicant.firstname + ' ' + applicant.lastname}"></dd>
-                <dt>Job</dt>
+                <dt>Educations</dt>
                 <dd>
-                    <table th:each="job : ${applicant.jobs}">
+                    <table class="table table-condensed">
                         <tr>
-                            <td th:text="${job.company + ' - ' + job.title}"></td>
+                            <th>School</th>
+                            <th>Field</th>
+                            <th>Degree</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Summary</th>
+                        </tr>
+                        <tr th:each="education : ${applicant.educations}">
+                            <td th:text="${education.school}"></td>
+                            <td th:text="${education.field}"></td>
+                            <td th:text="${education.degree}"></td>
+                            <td th:text="${education.startdate}"></td>
+                            <td th:text="${education.enddate}"></td>
+                            <td th:text="${education.summary}"></td>
+                        </tr>
+                    </table>
+                </dd>
+                <dt>Experiences</dt>
+                <dd>
+                    <table class="table table-condensed">
+                        <tr>
+                            <th>Company</th>
+                            <th>Position</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Summary</th>
+                        </tr>
+                        <tr th:each="experience : ${applicant.experiences}">
+                            <td th:text="${experience.company}"></td>
+                            <td th:text="${experience.position}"></td>
+                            <td th:text="${experience.startdate}"></td>
+                            <td th:text="${experience.enddate}"></td>
+                            <td th:text="${experience.summary}"></td>
                         </tr>
                     </table>
                 </dd>
@@ -34,6 +66,12 @@
                 <dd th:text="${applicant.headline}"></dd>
                 <dt>Summary</dt>
                 <dd th:text="${applicant.summary}"></dd>
+                <dt>Skills</dt>
+                <dd th:text="${applicant.skills}"></dd>
+                <dt>Honors</dt>
+                <dd th:text="${applicant.honors}"></dd>
+                <dt>Interests</dt>
+                <dd th:text="${applicant.interests}"></dd>
                 <dt>Blacklist</dt>
                 <dd th:text="${applicant.blacklist}? 'Yes' : 'No'"></dd>
                 <div th:if="${applicant.blacklist}">

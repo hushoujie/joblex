@@ -4,11 +4,11 @@ import java.util.Date;
 import javax.inject.Inject;
 import main.entities.Applicant;
 import main.entities.Application;
-import main.entities.Job;
+import main.entities.Experience;
 import main.services.AdvertService;
 import main.services.ApplicantService;
 import main.services.ApplicationService;
-import main.services.JobService;
+import main.services.ExperienceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.linkedin.api.LinkedIn;
@@ -33,7 +33,7 @@ public class ApplicantController {
 
     private ApplicationService applicationService;
 
-    private JobService jobService;
+    private ExperienceService experienceService;
 
     @Inject
     public ApplicantController(LinkedIn linkedIn, ConnectionRepository connectionRepository) {
@@ -57,8 +57,8 @@ public class ApplicantController {
     }
 
     @Autowired
-    public void setJobService(JobService jobService) {
-        this.jobService = jobService;
+    public void setExperienceService(ExperienceService experienceService) {
+        this.experienceService = experienceService;
     }
 
     @RequestMapping("/")
@@ -156,17 +156,17 @@ public class ApplicantController {
         applicantService.saveApplicant(applicant);
         for (Position position : profileFull.getPositions()) {
             LinkedInDate startdate = position.getStartDate();
-            Job job = jobService.findJob(applicant, position.getId());
-            if (job == null) {
-                job = new Job();
+            Experience experience = experienceService.findExperience(applicant, position.getId());
+            if (experience == null) {
+                experience = new Experience();
             }
-            job.setJobid(position.getId());
-            job.setApplicant(applicantService.findApplicant(profileFull.getId()));
-            job.setCompany(position.getCompany().getName());
-            job.setTitle(position.getTitle());
-            job.setSummary(position.getSummary());
-            job.setStartdate(new Date(startdate.getYear() - 1900, startdate.getMonth() - 1, 1));
-            jobService.saveJob(job);
+            experience.setLinkedinid(position.getId());
+            experience.setApplicant(applicantService.findApplicant(profileFull.getId()));
+            experience.setCompany(position.getCompany().getName());
+            experience.setPosition(position.getTitle());
+            experience.setSummary(position.getSummary());
+            experience.setStartdate(new Date(startdate.getYear() - 1900, startdate.getMonth() - 1, 1));
+            experienceService.saveExperience(experience);
         }
     }
 

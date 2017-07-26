@@ -29,6 +29,12 @@ public class Applicant implements Serializable {
 
     private String summary;
 
+    private String skills;
+
+    private String honors;
+
+    private String interests;
+
     private boolean blacklist;
 
     private String blreason;
@@ -37,7 +43,10 @@ public class Applicant implements Serializable {
     private List<Application> applications;
 
     @OneToMany(mappedBy = "applicant", cascade = CascadeType.ALL)
-    private List<Job> jobs;
+    private List<Education> educations;
+
+    @OneToMany(mappedBy = "applicant", cascade = CascadeType.ALL)
+    private List<Experience> experiences;
 
     public String getFirstname() {
         return firstname;
@@ -111,6 +120,30 @@ public class Applicant implements Serializable {
         this.summary = summary;
     }
 
+    public String getSkills() {
+        return skills;
+    }
+
+    public void setSkills(String skills) {
+        this.skills = skills;
+    }
+
+    public String getHonors() {
+        return honors;
+    }
+
+    public void setHonors(String honors) {
+        this.honors = honors;
+    }
+
+    public String getInterests() {
+        return interests;
+    }
+
+    public void setInterests(String interests) {
+        this.interests = interests;
+    }
+
     public boolean isBlacklist() {
         return blacklist;
     }
@@ -135,12 +168,20 @@ public class Applicant implements Serializable {
         this.applications = applications;
     }
 
-    public List<Job> getJobs() {
-        return jobs;
+    public List<Education> getEducations() {
+        return educations;
     }
 
-    public void setJobs(List<Job> jobs) {
-        this.jobs = jobs;
+    public void setEducations(List<Education> educations) {
+        this.educations = educations;
+    }
+
+    public List<Experience> getExperiences() {
+        return experiences;
+    }
+
+    public void setExperiences(List<Experience> experiences) {
+        this.experiences = experiences;
     }
 
 }

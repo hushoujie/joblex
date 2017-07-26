@@ -15,7 +15,7 @@
                     <tr>
                         <th>ID</th>
                         <th>HR</th>
-                        <th class="filter-select filter-exact">Status</th>
+                        <th class="filter-select filter-exact filter-onlyAvail" data-value="Active">Status</th>
                         <th>Title</th>
                         <th>Description</th>
                         <th>Properties</th>
@@ -50,9 +50,9 @@
                             <select class="form-control input-sm pagesize" title="Select page size">
                                 <option selected="selected" value="5">5</option>
                                 <option value="10">10</option>
-                                <option value="all">All Rows</option>
+                                <option value="all">All Adverts</option>
                             </select>
-                            <select class="form-control input-sm pagenum" title="Select page number"></select>
+                            <select class="form-control input-sm gotoPage" title="Select page number"></select>
                         </th>
                     </tr>
                 </tfoot>

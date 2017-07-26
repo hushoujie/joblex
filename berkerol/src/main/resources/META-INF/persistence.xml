@@ -5,7 +5,8 @@
     <class>main.entities.Advert</class>
     <class>main.entities.Applicant</class>
     <class>main.entities.Application</class>
-    <class>main.entities.Job</class>
+    <class>main.entities.Education</class>
+    <class>main.entities.Experience</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/obss?zeroDateTimeBehavior=convertToNull"/>
