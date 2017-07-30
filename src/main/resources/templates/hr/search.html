@@ -11,7 +11,7 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
         <div class="container">
-            <form th:action="@{${address}}" method="post">
+            <form th:action="@{${address}}" method="get">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="input-group">
@@ -42,6 +42,7 @@
                     <script>
                         $(document).ready(function () {
                             $("#search").autocomplete({
+                                minLength: 2,
                                 source: ["Berk", "Berk Erol", "Samed", "Samed Düzçay", "Elif", "Elif Güler", "Murat", "Murat Buldu", "Emirhan", "Emirhan Saraç",
                                     "Ben", "Ben Williams", "Samuel", "Samuel Sanchez", "John", "John Wick", "Nick", "Nick Benson", "Patrick", "Patrick Burrows",
                                     "Michael", "Michael Scofield", "Brie", "Brie Bella", "Lincoln", "Lincoln Lima", "Selim", "Selim Yılmaz", "Yıldırm", "Yıldırım Durmaz",
