@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${app.job.position + ' | ' + app.user.name}"></title>
+    <div th:replace="common/bootstrap-css"></div>
+</head>
+<body>
+<div class="container">
+    <div th:replace="common/menu"></div>
+    <div class="row mt-3 mb-3">
+        <div class="col">
+            <div th:if="${app.status == 0}" class="alert alert-info">Waiting</div>
+            <div th:if="${app.status == 1}" class="alert alert-primary">Processing</div>
+            <div th:if="${app.status == 2}" class="alert alert-success">Accepted</div>
+            <div th:if="${app.status == 3}" class="alert alert-danger">Rejected</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <h1 th:text="${app.job.position}"></h1>
+                    <h3 th:text="${app.job.company}"></h3>
+                    <h4 th:text="${app.job.location}"></h4>
+                    <h5 th:text="${app.job.status ? 'Active' : 'Passive'}" sec:authorize="hasAuthority('ADMIN')"></h5>
+                    <h6 th:if="${app.job.activation != null}">Activation: <span th:text="${#dates.format(app.job.activation, 'dd/MM/yyyy')}"></span>
+                    </h6>
+                    <h6 th:if="${app.job.deactivation != null}" sec:authorize="hasAuthority('ADMIN')">Deactivation: <span
+                            th:text="${#dates.format(app.job.deactivation, 'dd/MM/yyyy')}"></span></h6>
+                </div>
+                <div class="col">
+                    <img class="ml-auto d-block" th:src="${app.job.logo}" alt="logo" width="200" height="200">
+                </div>
+            </div>
+            <p th:utext="${app.job.description}" style="white-space: pre-wrap"></p>
+        </div>
+        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <h1 th:text="${app.user.name}"></h1>
+                    <h3 th:text="${app.user.headline}"></h3>
+                    <h4 th:text="${app.user.location}"></h4>
+                    <h5 th:text="${app.user.links}"></h5>
+                </div>
+                <div class="col">
+                    <img class="ml-auto d-block" th:src="${app.user.photo}" alt="logo" width="200" height="200">
+                </div>
+            </div>
+            <h4>Summary</h4>
+            <p th:text="${app.user.summary}"></p>
+            <h4>Experiences</h4>
+            <dl class="row" th:each="experience : ${app.user.experiences}">
+                <dt class="col-3">Company</dt>
+                <dd class="col-9" th:text="${experience.company}"></dd>
+                <dt class="col-3">Position</dt>
+                <dd class="col-9" th:text="${experience.position}"></dd>
+                <dt class="col-3">Location</dt>
+                <dd class="col-9" th:text="${experience.location}"></dd>
+                <dt class="col-3">Start Date</dt>
+                <dd class="col-9" th:text="${#dates.format(experience.startDate, 'dd/MM/yyyy')}"></dd>
+                <dt class="col-3">End Date</dt>
+                <dd class="col-9" th:text="${#dates.format(experience.endDate, 'dd/MM/yyyy')}"></dd>
+                <dt class="col-3">Summary</dt>
+                <dd class="col-9" th:text="${experience.summary}"></dd>
+            </dl>
+            <h4>Educations</h4>
+            <dl class="row" th:each="education : ${app.user.educations}">
+                <dt class="col-3">School</dt>
+                <dd class="col-9" th:text="${education.school}"></dd>
+                <dt class="col-3">Field</dt>
+                <dd class="col-9" th:text="${education.field}"></dd>
+                <dt class="col-3">Degree</dt>
+                <dd class="col-9" th:text="${education.degree}"></dd>
+                <dt class="col-3">Location</dt>
+                <dd class="col-9" th:text="${education.location}"></dd>
+                <dt class="col-3">Start Date</dt>
+                <dd class="col-9" th:text="${#dates.format(education.startDate, 'dd/MM/yyyy')}"></dd>
+                <dt class="col-3">End Date</dt>
+                <dd class="col-9" th:text="${#dates.format(education.endDate, 'dd/MM/yyyy')}"></dd>
+                <dt class="col-3">Summary</dt>
+                <dd class="col-9" th:text="${education.summary}"></dd>
+            </dl>
+            <h4>Certifications</h4>
+            <p th:text="${app.user.certifications}"></p>
+            <h4>Skills</h4>
+            <p th:text="${app.user.skills}"></p>
+            <h4>Accomplishments</h4>
+            <p th:text="${app.user.accomplishments}"></p>
+            <h4>Interests</h4>
+            <p th:text="${app.user.interests}"></p>
+            <div sec:authorize="hasAuthority('ADMIN')">
+                <h4>Blacklist</h4>
+                <p th:text="${app.user.blacklist} ? 'Yes' : 'No'"></p>
+                <p th:if="${app.user.blacklist}"><b>Reason: </b><span th:utext="${app.user.blreason}" style="white-space: pre-wrap"></span></p>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3 mb-3">
+        <div class="col">
+            <h3>Cover Letter</h3>
+            <p th:utext="${app.coverLetter}" style="white-space: pre-wrap"></p>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col">
+            <form class="form-inline" th:action="${'/recruiter/application/change/' + app.id}" method="post">
+                <a class="btn btn-primary" th:href="${'/job/' + app.job.id}">Job</a>
+                <a class="btn btn-success ml-2 mr-2" th:href="${'/profile/' + app.user.id}">Profile</a>
+                <div sec:authorize="hasAuthority('USER')">
+                    <a class="btn btn-danger" th:href="${'/candidate/cancel/' + app.id}">Cancel</a>
+                </div>
+                <div class="form-group" sec:authorize="hasAuthority('ADMIN')">
+                    <label for="status">Status</label>
+                    <select class="form-control" id="status" name="status" onchange="this.form.submit()">
+                        <option th:value="0" th:selected="${app.status == 0}">Waiting</option>
+                        <option th:value="1" th:selected="${app.status == 1}">Processing</option>
+                        <option th:value="2" th:selected="${app.status == 2}">Accepted</option>
+                        <option th:value="3" th:selected="${app.status == 3}">Rejected</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

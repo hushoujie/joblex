@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+  db:
+    image: mysql
+    ports:
+      - 3306:3306
+      - 33060:33060
+    environment:
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=joblex
+      - MYSQL_USER=berk
+      - MYSQL_PASSWORD=pass
+  elasticsearch:
+    image: elasticsearch:7.3.1
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      - bootstrap.memory_lock=true
+      - cluster.name=joblex
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+  logstash:
+    image: logstash:7.3.1
+    depends_on:
+      - db
+      - elasticsearch
+    ports:
+      - 5000:5000
+      - 5044:5044
+      - 9600:9600
+    volumes:
+      - ./logstash/pipelines.yml:/usr/share/logstash/config/pipelines.yml:ro
+      - ./logstash/job.conf:/usr/share/logstash/pipeline/job.conf:ro
+      - ./logstash/profile.conf:/usr/share/logstash/pipeline/profile.conf:ro
+      - ./logstash/profile.rb:/usr/share/logstash/profile.rb:ro
+      - ./mysql-connector-java-8.0.17.jar:/usr/share/logstash/logstash-core/lib/jars/mysql-connector-java-8.0.17.jar:ro
+  app:
+    image: maven:3-jdk-8-slim
+    command: mvn clean spring-boot:run
+    working_dir: /app
+    depends_on:
+      - db
+      - elasticsearch
+    ports:
+      - 8080:8080
+    volumes:
+      - ./:/app
+      - ~/.m2:/root/.m2
+    environment:
+      - DATABASE_HOST=localhost
+      - DATABASE_PORT=3306
+      - DATABASE_NAME=joblex
+      - DATABASE_USER=berk
+      - DATABASE_PASSWORD=pass

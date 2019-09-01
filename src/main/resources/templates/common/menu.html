@@ -1,0 +1,27 @@
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #157878">
+    <a class="navbar-brand" href="/">Joblex</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar"
+            aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar">
+        <div class="navbar-nav mr-auto">
+            <a class="nav-item nav-link" href="/jobs">All jobs</a>
+            <a sec:authorize="hasAuthority('USER')" class="nav-item nav-link" href="/profiles">All profiles</a>
+            <a sec:authorize="hasAuthority('USER')" class="nav-item nav-link" href="/candidate/jobs">Saved jobs</a>
+            <a sec:authorize="hasAuthority('USER')" class="nav-item nav-link" href="/candidate/applications">My applications</a>
+            <a sec:authorize="hasAuthority('USER')" class="nav-item nav-link" href="/candidate/profile">My profile</a>
+            <a sec:authorize="hasAuthority('ADMIN')" class="nav-item nav-link" href="/profiles">All profiles</a>
+            <a sec:authorize="hasAuthority('ADMIN')" class="nav-item nav-link" href="/recruiter/jobs">Created jobs</a>
+            <a sec:authorize="hasAuthority('ADMIN')" class="nav-item nav-link" href="/recruiter/applications">My applications</a>
+            <a sec:authorize="hasAuthority('ADMIN')" class="nav-item nav-link" href="/recruiter/search">Search profiles</a>
+        </div>
+        <div sec:authorize="isAuthenticated()" class="navbar-text mr-3">
+            Signed in as <span sec:authentication="name"></span>
+        </div>
+        <form sec:authorize="isAuthenticated()" class="form-inline" action="/signout" method="post">
+            <button type="submit" class="btn btn-outline-warning"><b>Sign out</b></button>
+        </form>
+        <a sec:authorize="!isAuthenticated()" class="btn btn-outline-warning" href="/signin"><b>Sign In</b></a>
+    </div>
+</nav>

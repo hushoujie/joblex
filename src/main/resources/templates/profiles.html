@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Profiles</title>
+    <div th:replace="common/bootstrap-css"></div>
+    <div th:replace="common/tablesorter-css"></div>
+</head>
+<body>
+<div class="container">
+    <div th:replace="common/menu"></div>
+    <div th:if="${search}">
+        <div th:replace="common/search"></div>
+    </div>
+    <div th:if="${not search and #lists.isEmpty(profiles)}" class="alert alert-warning mt-3" role="alert">No profiles.</div>
+    <div th:if="${search or not #lists.isEmpty(profiles)}">
+        <div th:replace="common/tablesorter-form"></div>
+        <div class="row">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th data-priority="2" class="sorter-false filter-false">Photo</th>
+                    <th data-priority="1">Name</th>
+                    <th data-priority="1">Headline</th>
+                    <th data-priority="1">Location</th>
+                    <th data-priority="3" class="columnSelector-false">Links</th>
+                    <th data-priority="3" class="columnSelector-false">Summary</th>
+                    <th data-priority="2">Experience</th>
+                    <th data-priority="2">Education</th>
+                    <th data-priority="3" class="columnSelector-false">Certifications</th>
+                    <th data-priority="3" class="columnSelector-false">Skills</th>
+                    <th data-priority="3" class="columnSelector-false">Accomplishments</th>
+                    <th data-priority="3" class="columnSelector-false">Interests</th>
+                    <th data-priority="3" sec:authorize="hasAuthority('ADMIN')" class="filter-select filter-exact filter-onlyAvail mark-ignore">
+                        Blacklist
+                    </th>
+                    <th data-priority="1" class="sorter-false filter-false">Browse</th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th>Photo</th>
+                    <th>Name</th>
+                    <th>Headline</th>
+                    <th>Location</th>
+                    <th>Links</th>
+                    <th>Summary</th>
+                    <th>Experience</th>
+                    <th>Education</th>
+                    <th>Certifications</th>
+                    <th>Skills</th>
+                    <th>Accomplishments</th>
+                    <th>Interests</th>
+                    <th sec:authorize="hasAuthority('ADMIN')">Blacklist</th>
+                    <th>Browse</th>
+                </tr>
+                <tr>
+                    <th colspan="14">
+                        <div th:replace="common/tablesorter-pager"></div>
+                    </th>
+                </tr>
+                </tfoot>
+                <tbody>
+                <tr th:each="profile : ${profiles}">
+                    <td><img th:src="${profile.photo != null ? profile.photo : '../static/images/photo.jpg'}" alt="photo" width="80" height="80"></td>
+                    <td th:text="${profile.name}"></td>
+                    <td th:text="${profile.headline}"></td>
+                    <td th:text="${profile.location}"></td>
+                    <td th:text="${profile.links}"></td>
+                    <td th:text="${profile.summary}"></td>
+                    <td th:text="${profile.experiences[0].company + ' - ' + profile.experiences[0].position + ' - ' + profile.experiences[0].location}"></td>
+                    <td th:text="${profile.educations[0].school + ' - ' + profile.educations[0].field + ' - ' + profile.educations[0].degree + ' - ' + profile.educations[0].location}"></td>
+                    <td th:text="${profile.certifications}"></td>
+                    <td th:text="${profile.skills}"></td>
+                    <td th:text="${profile.accomplishments}"></td>
+                    <td th:text="${profile.interests}"></td>
+                    <td th:text="${profile.blacklist}? 'Yes' : 'No'" sec:authorize="hasAuthority('ADMIN')"></td>
+                    <td><a class="btn btn-primary" th:href="${'/profile/' + profile.id}"><i class="fas fa-external-link-alt"></i></a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div th:replace="common/bootstrap-js"></div>
+<div th:replace="common/tablesorter-js"></div>
+</body>
+</html>

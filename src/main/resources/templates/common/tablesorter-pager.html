@@ -1,0 +1,28 @@
+<div class="ts-pager form-inline">
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-outline-secondary first" title="Go to first page"><i
+                class="fas fa-step-backward"></i></button>
+        <button type="button" class="btn btn-outline-secondary prev" title="Go to previous page"><i
+                class="fas fa-backward"></i></button>
+    </div>
+    <span class="ml-2 mr-2 pagedisplay"></span>
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-outline-secondary next" title="Go to next page"><i
+                class="fas fa-forward"></i>
+        </button>
+        <button type="button" class="btn btn-outline-secondary last" title="Go to last page"><i
+                class="fas fa-step-forward"></i></button>
+    </div>
+    <span class="ml-2 mr-2">Page size:</span>
+    <select class="form-control pagesize" title="Select page size">
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="all">All Rows</option>
+    </select>
+    <span class="ml-2 mr-2">Page number:</span>
+    <select class="form-control gotoPage" title="Select page number"></select>
+    <button type="button" class="btn btn-success ml-2 print">Print Table</button>
+</div>

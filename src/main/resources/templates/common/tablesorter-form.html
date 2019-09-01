@@ -1,0 +1,21 @@
+<form class="mt-3 mb-3" action="javascript:void(0);">
+    <div class="form-row">
+        <div class="col-4">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                </div>
+                <input type="text" class="form-control search" data-column="any" placeholder="Search table"/>
+            </div>
+        </div>
+        <div class="col-8">
+            <button type="button" class="btn btn-primary reset-filter">Reset Filters</button>
+            <button type="button" class="btn btn-success reset-sort">Reset Sort</button>
+            <button type="button" class="btn btn-info" id="popover">Select Columns</button>
+            <div class="d-none">
+                <div id="popover-target"></div>
+            </div>
+            <a class="btn btn-danger" href="/recruiter/job/create" th:if="${#objects.nullSafe(jobs, '') != ''}" sec:authorize="hasAuthority('ADMIN')">Create Job</a>
+        </div>
+    </div>
+</form>

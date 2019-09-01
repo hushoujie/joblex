@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Jobs</title>
+    <div th:replace="common/bootstrap-css"></div>
+    <div th:replace="common/tablesorter-css"></div>
+</head>
+<body>
+<div class="container">
+    <div th:replace="common/menu"></div>
+    <div th:if="${search}">
+        <div th:replace="common/search"></div>
+    </div>
+    <div th:if="${not search and #lists.isEmpty(jobs)}" class="alert alert-warning mt-3" role="alert">No jobs.</div>
+    <div th:if="${search or not #lists.isEmpty(jobs)}">
+        <div th:replace="common/tablesorter-form"></div>
+        <div class="row">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th data-priority="1" class="filter-select filter-exact filter-onlyAvail mark-ignore" th:if="${recruiter}">
+                        Status
+                    </th>
+                    <th data-priority="2" class="sorter-false filter-false">Logo</th>
+                    <th data-priority="1">Position</th>
+                    <th data-priority="1">Company</th>
+                    <th data-priority="1">Location</th>
+                    <th data-priority="3" class="columnSelector-false">Description</th>
+                    <th data-priority="2">Activation</th>
+                    <th data-priority="2" th:if="${recruiter}">Deactivation</th>
+                    <th data-priority="1" class="sorter-false filter-false">Browse</th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th th:if="${recruiter}">Status</th>
+                    <th>Logo</th>
+                    <th>Position</th>
+                    <th>Company</th>
+                    <th>Location</th>
+                    <th>Description</th>
+                    <th>Activation</th>
+                    <th th:if="${recruiter}">Deactivation</th>
+                    <th>Browse</th>
+                </tr>
+                <tr>
+                    <th colspan="9">
+                        <div th:replace="common/tablesorter-pager"></div>
+                    </th>
+                </tr>
+                </tfoot>
+                <tbody>
+                <tr th:each="job : ${jobs}">
+                    <td th:text="${job.status}? 'Active' : 'Passive'" th:if="${recruiter}"></td>
+                    <td><img th:src="${job.logo != null ? job.logo : '../static/images/logo.png'}" alt="logo" width="80" height="80"/></td>
+                    <td th:text="${job.position}"></td>
+                    <td th:text="${job.company}"></td>
+                    <td th:text="${job.location}"></td>
+                    <td th:utext="${job.description}" style="white-space: pre-wrap"></td>
+                    <td th:text="${job.activation != null ? #dates.format(job.activation, 'dd/MM/yyyy') : ''}"></td>
+                    <td th:text="${job.deactivation != null ? #dates.format(job.deactivation, 'dd/MM/yyyy') : ''}" th:if="${recruiter}"></td>
+                    <td><a class="btn btn-primary" th:href="${'/job/' + job.id}"><i class="fas fa-external-link-alt"></i></a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div th:replace="common/bootstrap-js"></div>
+<div th:replace="common/tablesorter-js"></div>
+</body>
+</html>

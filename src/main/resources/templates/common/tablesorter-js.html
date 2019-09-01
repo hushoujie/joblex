@@ -1,0 +1,52 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"
+        integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js"
+        integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.1/js/jquery.tablesorter.min.js"
+        integrity="sha256-uC1JMW5e1U5D28+mXFxzTz4SSMCywqhxQIodqLECnfU=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.1/js/jquery.tablesorter.widgets.min.js"
+        integrity="sha256-Xx4HRK+CKijuO3GX6Wx7XOV2IVmv904m0HKsjgzvZiY=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.1/js/extras/jquery.tablesorter.pager.min.js"
+        integrity="sha256-t1OsUny1JnHT2Vct43Q4Rg5WRkQkcUgs8iQIFuAnkMw=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.1/js/widgets/widget-mark.min.js"
+        integrity="sha256-DfoIPa9QOOTpU0SbnxRtz885xtnJf3oCa3mEQzLwNRg=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.1/js/widgets/widget-print.min.js"
+        integrity="sha256-rQHI1L5ju3qcr/vvnel2yzoKcvX7TfpEvATa41JdfUM=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.1/js/widgets/widget-columnSelector.min.js"
+        integrity="sha256-h4pbs31FqVOemgEtyBwsB1n4W6zVF/XEXy2gtZtIe2U=" crossorigin="anonymous"></script>
+<script>
+    $(function () {
+        $('table').tablesorter({
+            theme: 'bootstrap',
+            sortReset: true,
+            headerTemplate: '{content} {icon}',
+            widgets: ['uitheme', 'zebra', 'saveSort', 'resizable', 'filter', 'mark', 'print', 'columnSelector', 'stickyHeaders'],
+            widgetOptions: {
+                filter_cssFilter: 'form-control',
+                filter_external: '.search',
+                filter_reset: '.reset-filter',
+                filter_saveFilters: true,
+                print_styleSheet: 'https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.1/css/theme.bootstrap_4.min.css',
+                columnSelector_container: '#popover-target',
+                columnSelector_mediaqueryState: false,
+                stickyHeaders_offset: 56
+            }
+        })
+            .tablesorterPager({
+                container: $('.ts-pager'),
+                output: '{startRow} - {endRow} / {filteredRows} ({totalRows})'
+            });
+        $('#popover').popover({
+            placement: 'right',
+            html: true,
+            content: $('#popover-target')
+        });
+        $('.reset-sort').click(function () {
+            $('table').trigger('saveSortReset').trigger('sortReset');
+            return false;
+        });
+        $('.print').click(function () {
+            $('table').trigger('printTable');
+        });
+    });
+</script>

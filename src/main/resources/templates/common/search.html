@@ -1,0 +1,10 @@
+<form class="mt-3" th:action="@{${#httpServletRequest.requestURI}}" method="get">
+    <div class="form-row">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-search"></i></span>
+            </div>
+            <input type="text" class="form-control" name="q" placeholder="Search" autofocus/>
+        </div>
+    </div>
+</form>

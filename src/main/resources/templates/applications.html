@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Applications</title>
+    <div th:replace="common/bootstrap-css"></div>
+    <div th:replace="common/tablesorter-css"></div>
+</head>
+<body>
+<div class="container">
+    <div th:replace="common/menu"></div>
+    <div th:if="${#lists.isEmpty(applications)}" class="alert alert-warning mt-3" role="alert">No applications.</div>
+    <div th:if="${not #lists.isEmpty(applications)}">
+        <div th:replace="common/tablesorter-form"></div>
+        <div class="row">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th data-priority="1" class="filter-select filter-exact filter-onlyAvail mark-ignore">Status</th>
+                    <th data-priority="2" class="sorter-false filter-false">Job Logo</th>
+                    <th data-priority="1">Job Position</th>
+                    <th data-priority="1">Job Company</th>
+                    <th data-priority="2">Job Location</th>
+                    <th data-priority="3" class="columnSelector-false">Description</th>
+                    <th data-priority="2" class="sorter-false filter-false">Profile Photo</th>
+                    <th data-priority="1">Profile Name</th>
+                    <th data-priority="1">Profile Headline</th>
+                    <th data-priority="2">Profile Location</th>
+                    <th data-priority="3" class="columnSelector-false">Experience</th>
+                    <th data-priority="3" class="columnSelector-false">Education</th>
+                    <th data-priority="1" class="sorter-false filter-false">Browse</th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th>Status</th>
+                    <th>Job Logo</th>
+                    <th>Job Position</th>
+                    <th>Job Company</th>
+                    <th>Job Location</th>
+                    <th>Description</th>
+                    <th>Profile Photo</th>
+                    <th>Profile Name</th>
+                    <th>Profile Headline</th>
+                    <th>Profile Location</th>
+                    <th>Experience</th>
+                    <th>Education</th>
+                    <th>Browse</th>
+                </tr>
+                <tr>
+                    <th colspan="13">
+                        <div th:replace="common/tablesorter-pager"></div>
+                    </th>
+                </tr>
+                </tfoot>
+                <tbody>
+                <tr th:each="app : ${applications}">
+                    <td th:text="${app.status == 0}? 'Waiting' : (${app.status == 1}? 'Processing' : (${app.status == 2}? 'Accepted' : 'Rejected'))"></td>
+                    <td><img th:src="${app.job.logo != null ? app.job.logo : '../static/images/logo.png'}" alt="logo" width="80" height="80"/></td>
+                    <td th:text="${app.job.position}"></td>
+                    <td th:text="${app.job.company}"></td>
+                    <td th:text="${app.job.location}"></td>
+                    <td th:utext="${app.job.description}" style="white-space: pre-wrap"></td>
+                    <td><img th:src="${app.user.photo != null ? app.user.photo : '../static/images/photo.jpg'}" alt="photo" width="80" height="80">
+                    </td>
+                    <td th:text="${app.user.name}"></td>
+                    <td th:text="${app.user.headline}"></td>
+                    <td th:text="${app.user.location}"></td>
+                    <td th:text="${app.user.experiences[0].company + ' - ' + app.user.experiences[0].position + ' - ' + app.user.experiences[0].location}"></td>
+                    <td th:text="${app.user.educations[0].school + ' - ' + app.user.educations[0].field + ' - ' + app.user.educations[0].degree + ' - ' + app.user.educations[0].location}"></td>
+                    <td><a class="btn btn-primary" th:href="${'/application/' + app.id}"><i class="fas fa-external-link-alt"></i></a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div th:replace="common/bootstrap-js"></div>
+<div th:replace="common/tablesorter-js"></div>
+</body>
+</html>

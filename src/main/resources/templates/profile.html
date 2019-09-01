@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${profile.name}"></title>
+    <div th:replace="common/bootstrap-css"></div>
+    <div th:replace="common/summernote-css"></div>
+</head>
+<body>
+<div class="container">
+    <div th:replace="common/menu"></div>
+    <div class="row">
+        <div class="col">
+            <div class="row mt-3 mb-3">
+                <div class="col">
+                    <h1 th:text="${profile.name}"></h1>
+                    <h3 th:text="${profile.headline}"></h3>
+                    <h4 th:text="${profile.location}"></h4>
+                    <h5 th:text="${profile.links}"></h5>
+                </div>
+                <div class="col">
+                    <img class="ml-auto d-block" th:src="${profile.photo}" alt="logo" width="200" height="200">
+                </div>
+            </div>
+            <h4>Summary</h4>
+            <p th:text="${profile.summary}"></p>
+            <h4>Experiences</h4>
+            <dl class="row" th:each="experience : ${profile.experiences}">
+                <dt class="col-3">Company</dt>
+                <dd class="col-9" th:text="${experience.company}"></dd>
+                <dt class="col-3">Position</dt>
+                <dd class="col-9" th:text="${experience.position}"></dd>
+                <dt class="col-3">Location</dt>
+                <dd class="col-9" th:text="${experience.location}"></dd>
+                <dt class="col-3">Start Date</dt>
+                <dd class="col-9" th:text="${#dates.format(experience.startDate, 'dd/MM/yyyy')}"></dd>
+                <dt class="col-3">End Date</dt>
+                <dd class="col-9" th:text="${#dates.format(experience.endDate, 'dd/MM/yyyy')}"></dd>
+                <dt class="col-3">Summary</dt>
+                <dd class="col-9" th:text="${experience.summary}"></dd>
+            </dl>
+            <h4>Educations</h4>
+            <dl class="row" th:each="education : ${profile.educations}">
+                <dt class="col-3">School</dt>
+                <dd class="col-9" th:text="${education.school}"></dd>
+                <dt class="col-3">Field</dt>
+                <dd class="col-9" th:text="${education.field}"></dd>
+                <dt class="col-3">Degree</dt>
+                <dd class="col-9" th:text="${education.degree}"></dd>
+                <dt class="col-3">Location</dt>
+                <dd class="col-9" th:text="${education.location}"></dd>
+                <dt class="col-3">Start Date</dt>
+                <dd class="col-9" th:text="${#dates.format(education.startDate, 'dd/MM/yyyy')}"></dd>
+                <dt class="col-3">End Date</dt>
+                <dd class="col-9" th:text="${#dates.format(education.endDate, 'dd/MM/yyyy')}"></dd>
+                <dt class="col-3">Summary</dt>
+                <dd class="col-9" th:text="${education.summary}"></dd>
+            </dl>
+            <h4>Certifications</h4>
+            <p th:text="${profile.certifications}"></p>
+            <h4>Skills</h4>
+            <p th:text="${profile.skills}"></p>
+            <h4>Accomplishments</h4>
+            <p th:text="${profile.accomplishments}"></p>
+            <h4>Interests</h4>
+            <p th:text="${profile.interests}"></p>
+            <div class="mb-4">
+                <div th:if="${candidate}">
+                    <a class="btn btn-warning" href="/candidate/profile/edit">Edit</a>
+                </div>
+                <div sec:authorize="hasAuthority('ADMIN')">
+                    <h4>Blacklist</h4>
+                    <p th:text="${profile.blacklist} ? 'Yes' : 'No'"></p>
+                    <div th:if="${profile.blacklist}">
+                        <p><b>Reason: </b><span th:utext="${profile.blreason}" style="white-space: pre-wrap"></span></p>
+                        <a class="btn btn-success" th:href="${'/recruiter/whitelist/' + profile.id}">Whitelist</a>
+                    </div>
+                    <form th:action="@{'/recruiter/blacklist/' + ${profile.id}}" method="post" th:if="${not profile.blacklist}">
+                        <div class="form-group">
+                            <label for="blacklist_reason">Reason</label>
+                            <textarea class="form-control" id="blacklist_reason" name="reason"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-block btn-primary"><b>Blacklist</b></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="common/bootstrap-js"></div>
+<div th:replace="common/summernote-js"></div>
+<script>
+    $(document).ready(function () {
+        $('#blacklist_reason').summernote({
+            height: 200
+        });
+    });
+</script>
+</body>
+</html>
