@@ -23,7 +23,7 @@ services:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - discovery.type=single-node
   logstash:
-    image: logstash:7.3.1
+    image: logstash:7.3.2
     depends_on:
       - db
       - elasticsearch
