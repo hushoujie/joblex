@@ -13,7 +13,7 @@ services:
       - MYSQL_USER=berk
       - MYSQL_PASSWORD=pass
   elasticsearch:
-    image: elasticsearch:7.6.0
+    image: elasticsearch:7.7.0
     ports:
       - 9200:9200
       - 9300:9300
